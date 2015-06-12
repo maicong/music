@@ -1,0 +1,387 @@
+/**
+ * 
+ * 音乐搜索器 - CSS 文件
+ * 
+ * @author     MaiCong <i@maicong.me>
+ * @date  2015-06-12 15:06:37
+ * @version    1.0.2
+ *
+ */
+
+html, body {
+    font-family:"Noto Sans", "Helvetica Neue", Helvetica, Arial, "Microsoft YaHei UI", "Microsoft YaHei", "Hiragino Sans GB", "Hiragino Sans GB W3", "WenQuanYi Micro Hei", sans-serif;
+    height:100%;
+    margin:0
+}
+a {
+    -webkit-transition:all .3s;
+    -moz-transition:all .3s;
+    -ms-transition:all .3s;
+    -o-transition:all .3s;
+    transition:all .3s
+}
+.about {
+    background:#fff;
+    color:#7f8c8d;
+    height:100%;
+    min-height:500px
+}
+.about-color {
+    color:#34495e
+}
+.about-title {
+    font-size:180%;
+    text-align:center
+}
+.main {
+    margin:60px 0
+}
+.am-alert {
+    display:none
+}
+.music-tabs>li>a {
+    padding: 0.5em 1em;
+    cursor:pointer
+}
+.music-tips {
+    line-height:1.5
+}
+.music-tips p span {
+    display: inline-block;
+    min-width: 50px;
+}
+.music-tips p b {
+    font-weight:500;
+    color:#c7254e
+}
+.music-main {
+    display:none
+}
+.music-main input:focus, .music-main input:hover {
+    background:#eee;
+    border-color:#ccc;
+    color:#222
+}
+.music-type .am-radio-inline, .music-type label {
+    color: #7f8c8d;
+}
+.music-type .am-icon-unchecked, .music-type .am-icon-checked {
+    color: #0e90d2;
+}
+.mejs-container {
+    min-width:100%
+}
+.am-popup-bd {
+    height:100%
+}
+.footer {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+.footer p {
+    color:#7f8c8d;
+    margin:0;
+    padding:15px 0;
+    text-align:center;
+    background:#2d3e50
+}
+.footer p a {
+    color:#7f8c8d
+}
+.footer p a:hover {
+    color:#bbb
+}
+.audio-player {
+    position: relative;
+    width: 100%;
+    background-color: #333;
+    background-image: -ms-linear-gradient(top, #444444 0%, #111111 100%);
+    background-image: -moz-linear-gradient(top, #444444 0%, #111111 100%);
+    background-image: -o-linear-gradient(top, #444444 0%, #111111 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #444444), color-stop(1, #111111));
+    background-image: -webkit-linear-gradient(top, #444444 0%, #111111 100%);
+    background-image: linear-gradient(to bottom, #444444 0%, #111111 100%);
+    border: 1px solid #222;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 3px rgba(0, 0, 0, 0.5);
+}
+.audio-player .amazingaudioplayer-audios {
+    display: none;
+}
+.audio-player .amazingaudioplayer-image {
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    margin: 4px;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    box-shadow: 0 8px 6px -6px black;
+    border-radius: 4px;
+}
+.audio-player .amazingaudioplayer-image img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+.audio-player .amazingaudioplayer-text {
+    display: block;
+    position: relative;
+    top: 12px;
+    left: 136px;
+    width: 100%;
+    overflow: hidden;
+}
+.audio-player .amazingaudioplayer-title {
+    display: block;
+    color: #fff;
+    font-size: 15px;
+    min-height: 24px;
+}
+.audio-player .amazingaudioplayer-info {
+    display: block;
+    color: #ddd;
+    font-size: 12px;
+    min-height: 20px;
+}
+.audio-player .amazingaudioplayer-bar {
+    position: relative;
+    height: 135px;
+}
+.audio-player .amazingaudioplayer-bar .display-block {
+    color: #999;
+}
+.audio-player .amazingaudioplayer-icon {
+    display: block;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 13px;
+    color: #252525;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(250, 250, 250, 0.1);
+    background-color: #53575D;
+    border-radius: 50%;
+    box-shadow: 0 3px 0 0 #222, 0 7px 10px 0 #111, inset 0 1px 1px 0 rgba(250, 250, 250, 0.2), inset 0 -12px 35px 0 rgba(0, 0, 0, 0.5);
+    transition: all .2s;
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+.audio-player .amazingaudioplayer-icon:before {
+    display: block;
+    position: absolute;
+    content:"";
+    z-index: -2;
+    left: -5px;
+    top: -2px;
+    width: 42px;
+    height: 42px;
+    background-color: #1A1B1D;
+    border-radius: 50%;
+    box-shadow: 0 1px 0 0 rgba(250, 250, 250, 0.1), inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.audio-player .amazingaudioplayer-icon:hover {
+    color: #A5A5A5;
+}
+.audio-player .amazingaudioplayer-icon:active {
+    height: 33px;
+    background-color: #53575D;
+    box-shadow: 0 0 0 0 #222, 0 3px 7px 0 #111, inset 0 1px 1px 0 rgba(250, 250, 250, 0.2), inset 0 -10px 35px 5px rgba(0, 0, 0, 0.5);
+}
+.audio-player .amazingaudioplayer-icon:active:before {
+    top: -5px;
+    background-color: #1A1B1D;
+    box-shadow: 0 1px 0 0 rgba(250, 250, 250, 0.1), inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.audio-player .amazingaudioplayer-playpause {
+    position: absolute;
+    left: 175px;
+    top: 32px;
+}
+.audio-player .amazingaudioplayer-play {
+    position: relative;
+}
+.audio-player .amazingaudioplayer-pause {
+    position: relative;
+}
+.audio-player .amazingaudioplayer-prev {
+    position: absolute;
+    left: 135px;
+    top: 32px;
+}
+.audio-player .amazingaudioplayer-next {
+    position: absolute;
+    left: 215px;
+    top: 32px;
+}
+.audio-player .amazingaudioplayer-loop {
+    position: absolute;
+    top: 32px;
+    right: 12px;
+}
+.audio-player .amazingaudioplayer-volume {
+    position: absolute;
+    top: 32px;
+    right: 53px;
+}
+.audio-player .amazingaudioplayer-volume:hover .amazingaudioplayer-icon {
+    color: #A5A5A5;
+}
+.audio-player .amazingaudioplayer-progress {
+    display: block;
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    top: 100px;
+    height: 8px;
+    margin: 8px 4px;
+    background-color: #222;
+    box-shadow: -1px -1px 0 rgba(0, 0, 0, 0.5), 1px 1px 0 rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+}
+.audio-player .amazingaudioplayer-progress-loaded {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: #444;
+    border-radius: 4px;
+}
+.audio-player .amazingaudioplayer-progress-played {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 4px;
+    background-color: #fcc500;
+    background-image: -ms-linear-gradient(top, #fede00 0%, #fcc500 100%);
+    background-image: -moz-linear-gradient(top, #fede00 0%, #fcc500 100%);
+    background-image: -o-linear-gradient(top, #fede00 0%, #fcc500 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fede00), color-stop(1, #fcc500));
+    background-image: -webkit-linear-gradient(top, #fede00 0%, #fcc500 100%);
+    background-image: linear-gradient(to bottom, #fede00 0%, #fcc500 100%);
+}
+.audio-player .amazingaudioplayer-time {
+    position: relative;
+    top: 80px;
+    left: 12px;
+    color: #a0a0a0;
+    font-size: 12px;
+    text-shadow:3px 5px 10px #000;
+    line-height: 24px;
+    margin: 0 4px;
+}
+.audio-player .amazingaudioplayer-volume-bar {
+    display: none;
+    position: absolute;
+    left: 3px;
+    bottom: 100%;
+    width: 8px;
+    height: 45px;
+    padding: 8px;
+    background-color: #333;
+    border: 1px solid #222;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 3px rgba(0, 0, 0, 0.5);
+    background-image: -ms-linear-gradient(top, #444444 0%, #111111 100%);
+    background-image: -moz-linear-gradient(top, #444444 0%, #111111 100%);
+    background-image: -o-linear-gradient(top, #444444 0%, #111111 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #444444), color-stop(1, #111111));
+    background-image: -webkit-linear-gradient(top, #444444 0%, #111111 100%);
+    background-image: linear-gradient(to bottom, #444444 0%, #111111 100%);
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+.audio-player .amazingaudioplayer-volume-bar-adjust {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background-color: #222;
+    box-shadow: -1px -1px 0 rgba(0, 0, 0, 0.5), 1px 1px 0 rgba(255, 255, 255, 0.1);
+}
+.audio-player .amazingaudioplayer-volume-bar-adjust-active {
+    position: absolute;
+    display: block;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 60%;
+    background-color: #fcc500;
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.5);
+}
+.audio-player .amazingaudioplayer-tracklist {
+    display: block;
+    width: 100%;
+}
+.audio-player .amazingaudioplayer-tracklist-container {
+    display: block;
+    position: relative;
+    padding: 12px;
+    background-color: #333;
+    background-image: -ms-linear-gradient(top, #444444 0%, #111111 100%);
+    background-image: -moz-linear-gradient(top, #444444 0%, #111111 100%);
+    background-image: -o-linear-gradient(top, #444444 0%, #111111 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #444444), color-stop(1, #111111));
+    background-image: -webkit-linear-gradient(top, #444444 0%, #111111 100%);
+    background-image: linear-gradient(to bottom, #444444 0%, #111111 100%);
+    border: 1px solid #222;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 3px rgba(0, 0, 0, 0.5);
+}
+.audio-player .amazingaudioplayer-tracks-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+.audio-player .amazingaudioplayer-tracks {
+    display: block;
+    position: relative;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.audio-player .amazingaudioplayer-track-item {
+    position: relative;
+    cursor: pointer;
+    white-space: nowrap;
+    color: #999;
+    font-size: 12px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+    line-height: 20px;
+}
+.audio-player .amazingaudioplayer-track-item span {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.audio-player .amazingaudioplayer-track-item-active {
+    cursor: pointer;
+    color: #fff;
+}
+.audio-player .amazingaudioplayer-track-item-duration {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.audio-player .display-none {
+    display: none;
+}
+.audio-player .display-block {
+    display: block;
+}
