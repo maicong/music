@@ -70,15 +70,15 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>音乐搜索器|网易一听百度酷狗酷我QQ虾米5sing音乐搜索|音乐在线试听 - by 麦田一根葱</title>
+    <title>音乐搜索器|网易一听百度酷狗酷我QQ虾米5sing天天动听咪咕音乐搜索|音乐在线试听 - by 麦田一根葱</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="author" content="Maicong.me">
-    <meta name="keywords" content="音乐搜索,网易云音乐,一听音乐,百度音乐,酷狗音乐网页版,酷我音乐盒,QQ音乐网页版,虾米音乐,5sing原创音乐,音乐在线试听">
-    <meta name="description" content="麦葱特制网易一听百度酷狗酷我QQ虾米5sing音乐搜索解决方案。">
+    <meta name="keywords" content="音乐搜索,网易云音乐,一听音乐,百度音乐,酷狗音乐网页版,酷我音乐盒,QQ音乐网页版,虾米音乐,5sing原创音乐,天天动听,咪咕音乐,音乐在线试听">
+    <meta name="description" content="麦葱特制网易一听百度酷狗酷我QQ虾米5sing天天动听咪咕音乐搜索解决方案。">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="音乐搜索器">
