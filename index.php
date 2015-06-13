@@ -4,8 +4,8 @@
  * 音乐搜索器 - 入口
  * 
  * @author     MaiCong <i@maicong.me>
- * @date  2015-06-12 15:06:37
- * @version    1.0.2
+ * @date  2015-06-13 23:28:19
+ * @version    1.0.3
  *
  */
 
@@ -17,7 +17,7 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
     $music_input = ajax_post('music_input');
     $music_filter = ajax_post('music_filter');
     $music_type = ajax_post('music_type');
-    $music_type_allow = array('163', '1ting', 'baidu', 'kugou', 'kuwo', 'qq', 'xiami', '5sing');
+    $music_type_allow = array('163', '1ting', 'baidu', 'kugou', 'kuwo', 'qq', 'xiami', '5sing', 'ttpod', 'migu');
     $music_name = null;
     $music_id = null;
     $music_url = null;
@@ -153,6 +153,12 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
                             <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="5sing" data-am-ucheck> 5sing
                             </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" name="music_type" value="ttpod" data-am-ucheck> 天天动听
+                            </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" name="music_type" value="migu" data-am-ucheck> 咪咕
+                            </label>
                         </div>
                         <button type="submit" id="submit" class="am-btn am-btn-primary am-btn-lg am-btn-block am-radius" data-am-loading="{spinner: 'cog', loadingText: '正在搜索相关音乐...', resetText: 'Get &#x221A;'}">Get &#x221A;</button>
                     </div>
@@ -190,6 +196,8 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
                     <p><span>ＱＱ：</span><u>http://y.qq.com/#type=song&amp;mid=<b>002B2EAA3brD5b</b>&amp;play=0</u></p>
                     <p><span>虾米：</span><u>http://www.xiami.com/song/<b>2113248</b></u></p>
                     <p><span>5sing：</span><u>http://5sing.kugou.com/<b>fc/2277364</b>.html</u></p>
+                    <p><span>天天动听：</span><u>http://m.ttpod.com/#a=gqxq&amp;from=ss&amp;neid=<b>1029409</b>&amp;singerid=...</u></p>
+                    <p><span>咪咕：</span><u>http://music.migu.cn/#/song/<b>477803</b>/P7Z1Y1L1N1/1/001002C</u></p>
                 </div>
             </div>
         </div>
@@ -202,6 +210,7 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
             </div>
             <div class="am-popup-bd">
                 <ul>
+                    <li>2015.06.13 <code>v1.0.3</code> 增加对 天天动听、咪咕 的支持</li>
                     <li>2015.06.12 <code>v1.0.2</code> 增加对 5sing 的支持</li>
                     <li>2015.06.12 <code>v1.0.1</code> 代码优化 + BUG修复</li>
                     <li>2015.06.10 <code>v1.0.0</code> 音乐搜索器上线</li>
@@ -224,7 +233,7 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
         </div>
     </section>
     <footer class="footer am-topbar-fixed-bottom">
-        <p class="am-text-sm">如果获取失败，请 <a href="http://www.yuxiaoxi.com/guestbook#respond" target="_blank" rel="author">@麦葱</a> © 2013-2015 <a href="javascript:;" data-am-modal="{target: '#update-info'}">更新日志</a> <a href="javascript:;" data-am-modal="{target: '#copr-info'}">版权声明</a></p>
+        <p class="am-text-sm">如果获取失败，请 <a href="http://www.yuxiaoxi.com/guestbook#respond" target="_blank" rel="author">@麦葱</a> © 2013-2015 <a href="javascript:;" data-am-modal="{target: '#update-info'}">更新日志</a> <a href="javascript:;" data-am-modal="{target: '#copr-info'}">版权声明</a> <a href="https://github.com/maicong/music" target="_blank">Github 开源共享</a></p>
     </footer>
     <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://cdn.amazeui.org/amazeui/2.3.0/js/amazeui.min.js"></script>

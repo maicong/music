@@ -4,8 +4,8 @@
  * 音乐搜索器 - 函数声明
  * 
  * @author     MaiCong <i@maicong.me>
- * @date  2015-06-12 15:06:37
- * @version    1.0.2
+ * @date  2015-06-13 23:28:19
+ * @version    1.0.3
  *
  */
 
@@ -184,6 +184,24 @@ function maicong_song_urls($value, $type = 'query', $site = '163'){
             'body' => array(
                 'keyword' => $query
             )
+        ),
+        'ttpod' => array(
+            'method' => 'GET',
+            'url' => 'http://so.ard.iyyin.com/v2/songs/search',
+            'referer' => 'http://m.ttpod.com/',
+            'body' => array(
+                'q' => $query,
+                'page' => '1',
+                'size' => '5'
+            )
+        ),
+        'migu' => array(
+            'method' => 'GET',
+            'url' => 'http://music.migu.cn/webfront/search/sug.do',
+            'referer' => 'http://music.migu.cn/184_11.html',
+            'body' => array(
+                'keyword' => $query
+            )
         )
     );
     $radio_song_urls = array(
@@ -252,6 +270,24 @@ function maicong_song_urls($value, $type = 'query', $site = '163'){
             'method' => 'GET',
             'url' => 'http://5sing.kugou.com/'.$songid.'.html',
             'referer' => 'http://5sing.kugou.com/'.$songid.'.html'
+        ),
+        'ttpod' => array(
+            'method' => 'GET',
+            'url' => 'http://ting.hotchanson.com/website/ting',
+            'referer' => 'http://m.ttpod.com/',
+            'body' => array(
+                'song_id' => $songid,
+                'code' => ttpod_crc32($songid)
+            )
+        ),
+        'migu' => array(
+            'method' => 'GET',
+            'url' => 'http://music.migu.cn/webfront/player/findsong.do',
+            'referer' => 'http://music.migu.cn/',
+            'body' => array(
+                'itemid' => $songid,
+                'type' => 'song'
+            )
         )
     );
     if ($type === 'query') {
@@ -322,6 +358,18 @@ function maicong_get_song_by_name($query, $site = '163') {
             foreach ($radio_data['songs'] as $key => $val) {
                 if ($key>4) break;
                 $radio_songid[] = $val['type'].'/'.$val['songId'];
+            }
+            break;
+        case 'ttpod':
+            $radio_data = json_decode($radio_result, true);
+            foreach ($radio_data['data'] as $key => $val) {
+                $radio_songid[] = $val['song_id'];
+            }
+            break;
+        case 'migu':
+            $radio_data = json_decode($radio_result, true);
+            foreach ($radio_data['song'] as $key => $val) {
+                $radio_songid[] = $val['id'];
             }
             break;
         case '163':
@@ -493,6 +541,52 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false){
                 }
             }
             break;
+        case 'ttpod':
+            foreach ($radio_result as $key => $val) {
+                $radio_data = json_decode($val, true);
+                $radio_detail = $radio_data['data'][0];
+                if (!empty($radio_detail)) {
+                    if (!empty($radio_detail['url_list'][1]['url'])) {
+                        $radio_music = $radio_detail['url_list'][1]['url'];
+                    }
+                    $radio_img = array(
+                        'url' => 'http://lp.music.ttpod.com/pic/down',
+                        'referer' => 'http://m.ttpod.com/',
+                        'body' => array(
+                            'artist' => $radio_detail['singer_name']
+                        )
+                    );
+                    $radio_imginfo = json_decode(maicong_curl($radio_img), true);
+                    if (!empty($radio_imginfo['data']['singerPic'])) {
+                        $radio_pic = $radio_imginfo['data']['singerPic'];
+                    }
+                    $radio_songs[] = array(
+                        'type' => 'ttpod',
+                        'songid' => $radio_detail['song_id'],
+                        'name' => $radio_detail['song_name'],
+                        'author' => $radio_detail['singer_name'],
+                        'music' => $radio_music,
+                        'pic' => $radio_pic
+                    );
+                }
+            }
+            break;
+        case 'migu':
+            foreach ($radio_result as $key => $val) {
+                $radio_data = json_decode($val, true);
+                $radio_detail = $radio_data['msg'];
+                if (!empty($radio_detail)) {
+                    $radio_songs[] = array(
+                        'type' => 'migu',
+                        'songid' => $radio_detail[0]['songId'],
+                        'name' => $radio_detail[0]['songName'],
+                        'author' => $radio_detail[0]['singerName'],
+                        'music' => $radio_detail[0]['mp3'],
+                        'pic' => $radio_detail[0]['poster']
+                    );
+                }
+            }
+            break;
         case '163':
         default:
             foreach ($radio_result as $key => $val) {
@@ -525,6 +619,8 @@ function maicong_get_song_by_url($url){
     preg_match('/http(s)?:\/\/(y\.qq\.com\/#type=song&mid=|data\.music\.qq\.com\/playsong\.html\?songmid=)([a-zA-Z0-9]+)/i', $url, $match_qq);
     preg_match('/http(s)?:\/\/(www|m)\.xiami\.com\/song\/(\d+)/i', $url, $match_xiami);
     preg_match('/http(s)?:\/\/5sing\.kugou\.com\/(m\/detail\/|)(\w+)(-|\/)(\d+)(-1|)\.html/i', $url, $match_5sing);
+    preg_match('/http(s)?:\/\/m\.ttpod\.com\/#a=gqxq&from=ss&neid=(\d+)/', $url, $match_ttpod);
+    preg_match('/http(s)?:\/\/music\.migu\.cn\/#\/song\/(\d+)/', $url, $match_migu);
     if (!empty($match_163)) {
         $songid = $match_163[4];
         $songtype = '163';
@@ -549,6 +645,12 @@ function maicong_get_song_by_url($url){
     } elseif (!empty($match_5sing)) {
         $songid = $match_5sing[3].'/'.$match_5sing[5];
         $songtype = '5sing';
+    } elseif (!empty($match_ttpod)) {
+        $songid = $match_ttpod[2];
+        $songtype = 'ttpod';
+    } elseif (!empty($match_migu)) {
+        $songid = $match_migu[2];
+        $songtype = 'migu';
     } else {
         return;
     }
@@ -585,6 +687,19 @@ function maicong_decode_xiami_location($location) {
     $url = urldecode($url);
     $url = str_replace('^', '0', $url);
     return $url;
+}
+
+// ttpod_crc32
+function ttpod_crc32($str){ 
+    $crc = crc32($str);
+    // 64位下返回32位结果
+    if($crc & 0x80000000){ 
+        $crc ^= 0xffffffff; 
+        $crc += 1; 
+        $crc = -$crc; 
+    }
+    $prefix = (!is_numeric(substr($crc, 0, 1))) ? substr($crc, 0, 1) : '';
+    return $prefix.base_convert($crc >> 3, 10, 16);
 }
 
 // Ajax Post
