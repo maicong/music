@@ -1,4 +1,4 @@
-/**
+.*/**
  * 
  * 音乐搜索器 - JS 文件
  * 
@@ -1488,7 +1488,7 @@ $(function() {
             'name':'例如: 不要说话 陈奕迅',
             'id':'例如: 25906124',
             'url':'例如: http://music.163.com/#/song?id=25906124',
-            'pattern-name': '^[\\w\\u4e00-\\u9fa5\\-\\\'\’\\s]+$',
+            'pattern-name': '.*',
             'pattern-id': '^[\\w\\/]+$',
             'pattern-url': '^(http|https|ftp):\\/\\/{1}([\\S]+)$'
         };
