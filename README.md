@@ -26,7 +26,8 @@
 
 方案1：
 ```
-修改 `index.php` 文件里的 `MC_PROXY` 为您的代理地址，然后将 `music.php` 里需要代理的 URL `'proxy' => false` 改为 `'proxy' => true` 。
+修改 `index.php` 文件里的 `MC_PROXY` 为您的代理地址。
+将 `music.php` 里需要代理的 URL `'proxy' => false` 改为 `'proxy' => true` 。
 ```
 方案2：
 ```
