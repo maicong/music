@@ -3,12 +3,12 @@
  * 音乐搜索器 - CSS 文件
  * 
  * @author     MaiCong <i@maicong.me>
- * @date  2015-06-13 23:28:19
- * @version    1.0.3
+ * @date  2015-06-15 18:14:52
+ * @version    1.0.4
  *
  */
-
-html, body {
+ 
+ html, body {
     font-family:"Noto Sans", "Helvetica Neue", Helvetica, Arial, "Microsoft YaHei UI", "Microsoft YaHei", "Hiragino Sans GB", "Hiragino Sans GB W3", "WenQuanYi Micro Hei", sans-serif;
     height:100%;
     margin:0
@@ -44,7 +44,20 @@ a {
     cursor:pointer
 }
 .music-tips {
-    line-height:1.5
+    line-height: 1.5;
+    overflow: hidden;
+}
+.music-tips p:nth-child(5)~p {
+    display: none;
+}
+.music-tips .more {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    background: #eee;
+    cursor: pointer;
 }
 .music-tips p span {
     display: inline-block;
@@ -52,7 +65,7 @@ a {
 }
 .music-tips p b {
     font-weight:500;
-    color:#c7254e
+    color:#c7254e;
 }
 .music-main {
     display:none
@@ -130,8 +143,7 @@ a {
     display: block;
     position: relative;
     top: 12px;
-    left: 136px;
-    width: 100%;
+    padding: 0 12px 0 136px;
     overflow: hidden;
 }
 .audio-player .amazingaudioplayer-title {
@@ -139,12 +151,18 @@ a {
     color: #fff;
     font-size: 15px;
     min-height: 24px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .audio-player .amazingaudioplayer-info {
     display: block;
     color: #ddd;
     font-size: 12px;
     min-height: 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .audio-player .amazingaudioplayer-bar {
     position: relative;
@@ -364,11 +382,17 @@ a {
     font-size: 12px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
     line-height: 20px;
+    padding-right: 35%;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .audio-player .amazingaudioplayer-track-item span {
     position: absolute;
     top: 0;
     right: 0;
+    max-width: 30%;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .audio-player .amazingaudioplayer-track-item-active {
     cursor: pointer;

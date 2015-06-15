@@ -1,56 +1,62 @@
 <?php
 /**
- * 
+ *
  * 音乐搜索器 - 入口
- * 
+ *
  * @author     MaiCong <i@maicong.me>
- * @date  2015-06-13 23:28:19
- * @version    1.0.3
+ * @date  2015-06-15 18:14:52
+ * @version    1.0.4
  *
  */
 
 define('MC_CORE', true);
 
-require_once( dirname( __FILE__ ).'/music.php' );
+// SoundCloud 客户端 ID，如果失效请更改
+define('MC_SC_CLIENT_ID', 'b45b1aa10f1ac2941910a7f0d10f8e28');
+
+// Curl 代理地址，解决翻墙问题。例如：define('MC_PROXY', 'http://10.10.10.10:8123');
+define('MC_PROXY', false);
+
+require_once dirname(__FILE__).'/music.php';
 
 if (ajax_post('music_input') && ajax_post('music_filter')) {
-    $music_input = ajax_post('music_input');
-    $music_filter = ajax_post('music_filter');
-    $music_type = ajax_post('music_type');
-    $music_type_allow = array('163', '1ting', 'baidu', 'kugou', 'kuwo', 'qq', 'xiami', '5sing', 'ttpod', 'migu');
-    $music_name = null;
-    $music_id = null;
-    $music_url = null;
+    $music_input      = ajax_post('music_input');
+    $music_filter     = ajax_post('music_filter');
+    $music_type       = ajax_post('music_type');
+    $music_type_allow = array('163', '1ting', 'baidu', 'kugou', 'kuwo', 'qq', 'xiami', '5sing', 'ttpod', 'migu', 'soundcloud');
+    $music_name       = null;
+    $music_id         = null;
+    $music_url        = null;
     switch ($music_filter) {
         case 'name':
-            $music_valid = preg_match('/^[\w\x{4e00}-\x{9fa5}\-\'\’\s]+$/isu', $music_input);
-            $music_name = $music_input;
-            $music_type_valid = in_array($music_type, $music_type_allow);
+            $music_valid      = preg_match('/^.+?$/isu', $music_input);
+            $music_name       = $music_input;
+            $music_type_valid = in_array($music_type, $music_type_allow, true);
             break;
         case 'id':
-            $music_valid = preg_match('/^[\w\/]+$/is', $music_input);
-            $music_type_valid = in_array($music_type, $music_type_allow);
-            $music_id = $music_input;
+            $music_valid      = preg_match('/^[\w\/]+$/is', $music_input);
+            $music_type_valid = in_array($music_type, $music_type_allow, true);
+            $music_id         = $music_input;
             break;
         case 'url':
-            $music_valid = preg_match('/^(http|https|ftp):\/\/{1}([\S]+)$/is', $music_input);
+            $music_valid      = preg_match('/^(http|https|ftp):\/\/{1}([\S]+)$/is', $music_input);
             $music_type_valid = true;
-            $music_url = $music_input;
+            $music_url        = $music_input;
             break;
         default:
             $music_valid = false;
             break;
     }
     if ($music_valid && $music_type_valid) {
-        if ($music_name !== null) {
-            $music_name = htmlspecialchars($music_name, ENT_QUOTES, 'UTF-8');
+        if (null !== $music_name) {
+            $music_name     = htmlspecialchars($music_name, ENT_QUOTES, 'UTF-8');
             $music_response = maicong_get_song_by_name($music_name, $music_type);
         }
-        if ($music_id !== null) {
-            $music_id = htmlspecialchars($music_id, ENT_QUOTES, 'UTF-8');
+        if (null !== $music_id) {
+            $music_id       = htmlspecialchars($music_id, ENT_QUOTES, 'UTF-8');
             $music_response = maicong_get_song_by_id($music_id, $music_type);
         }
-        if ($music_url !== null) {
+        if (null !== $music_url) {
             $music_response = maicong_get_song_by_url($music_url);
         }
         if (!empty($music_response)) {
@@ -70,15 +76,15 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>音乐搜索器|网易一听百度酷狗酷我QQ虾米5sing天天动听咪咕音乐搜索|音乐在线试听 - by 麦田一根葱</title>
+    <title>音乐搜索器|音乐在线试听 - by 麦田一根葱</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="author" content="Maicong.me">
-    <meta name="keywords" content="音乐搜索,网易云音乐,一听音乐,百度音乐,酷狗音乐网页版,酷我音乐盒,QQ音乐网页版,虾米音乐,5sing原创音乐,天天动听,咪咕音乐,音乐在线试听">
-    <meta name="description" content="麦葱特制网易一听百度酷狗酷我QQ虾米5sing天天动听咪咕音乐搜索解决方案。">
+    <meta name="keywords" content="音乐,音乐搜索,音乐试听,音乐在线听">
+    <meta name="description" content="麦葱(麦田一根葱)特制音乐搜索解决方案，可搜索试听网易云音乐、一听音乐、百度音乐、酷狗音乐、酷我音乐、QQ音乐、虾米音乐、5sing原创音乐、天天动听、咪咕音乐、SoundCloud。">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="音乐搜索器">
@@ -113,7 +119,7 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
         <div class="am-container am-margin-vertical-xl">
             <header class="am-padding-vertical">
                 <h2 class="about-title about-color">音乐搜索器</h2>
-                <p class="am-text-center">麦葱特制音乐搜索解决方案</p>
+                <p class="am-text-center">麦葱特制网易一听百度酷狗酷我QQ虾米5sing天天动听咪咕SoundCloud音乐搜索解决方案</p>
             </header>
             <hr>
             <div class="am-u-lg-12 am-padding-vertical">
@@ -125,7 +131,7 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
                             <li data-filter="url"><a>音乐地址</a></li>
                         </ul>
                         <div class="am-form-group">
-                            <input type="text" id="music_input" data-filter="name" class="am-form-field am-input-lg am-text-center am-radius" minlength="1" placeholder="例如: 不要说话 陈奕迅" data-am-loading="{loadingText: ' '}" pattern="^[\w\u4e00-\u9fa5\s\-\'\’]+$" required>
+                            <input type="text" id="music_input" data-filter="name" class="am-form-field am-input-lg am-text-center am-radius" minlength="1" placeholder="例如: 不要说话 陈奕迅" data-am-loading="{loadingText: ' '}" pattern="^.+?$" required>
                             <div class="am-alert am-alert-danger am-animation-shake"></div>
                         </div>
                         <div class="am-form-group am-text-center music-type">
@@ -158,6 +164,9 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
                             </label>
                             <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="migu" data-am-ucheck> 咪咕
+                            </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" name="music_type" value="soundcloud" data-am-ucheck> SoundCloud
                             </label>
                         </div>
                         <button type="submit" id="submit" class="am-btn am-btn-primary am-btn-lg am-btn-block am-radius" data-am-loading="{spinner: 'cog', loadingText: '正在搜索相关音乐...', resetText: 'Get &#x221A;'}">Get &#x221A;</button>
@@ -198,6 +207,9 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
                     <p><span>5sing：</span><u>http://5sing.kugou.com/<b>fc/2277364</b>.html</u></p>
                     <p><span>天天动听：</span><u>http://m.ttpod.com/#a=gqxq&amp;from=ss&amp;neid=<b>1029409</b>&amp;singerid=...</u></p>
                     <p><span>咪咕：</span><u>http://music.migu.cn/#/song/<b>477803</b>/P7Z1Y1L1N1/1/001002C</u></p>
+                    <p><span>SoundCloud (ID)：</span><u>soundcloud://sounds:<b>197401418</b></u> (请查看源码)</p>
+                    <p><span>SoundCloud (地址)：</span><u>https://soundcloud.com/user2953945/tr-n-d-ch-t-n-eason-chan-kh-ng</u></p>
+                    <div class="more">查看更多</div>
                 </div>
             </div>
         </div>
@@ -210,6 +222,7 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
             </div>
             <div class="am-popup-bd">
                 <ul>
+                    <li>2015.06.15 <code>v1.0.4</code> 增加对 SoundCloud 的支持，增加代理支持，修复音乐名称识别问题，优化代码</li>
                     <li>2015.06.13 <code>v1.0.3</code> 增加对 天天动听、咪咕 的支持</li>
                     <li>2015.06.12 <code>v1.0.2</code> 增加对 5sing 的支持</li>
                     <li>2015.06.12 <code>v1.0.1</code> 代码优化 + BUG修复</li>
@@ -233,7 +246,7 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
         </div>
     </section>
     <footer class="footer am-topbar-fixed-bottom">
-        <p class="am-text-sm">如果获取失败，请 <a href="http://www.yuxiaoxi.com/guestbook#respond" target="_blank" rel="author">@麦葱</a> © 2013-2015 <a href="javascript:;" data-am-modal="{target: '#update-info'}">更新日志</a> <a href="javascript:;" data-am-modal="{target: '#copr-info'}">版权声明</a> <a href="https://github.com/maicong/music" target="_blank">Github 开源共享</a></p>
+        <p class="am-text-sm">如果获取失败，请 <a href="http://www.yuxiaoxi.com/guestbook#respond" target="_blank" rel="author">@麦葱</a> © 2013-2015 <a href="javascript:;" data-am-modal="{target: '#update-info'}">更新日志</a> <a href="javascript:;" data-am-modal="{target: '#copr-info'}">版权声明</a> <a href="https://github.com/maicong/music" target="_blank">开源共享</a></p>
     </footer>
     <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://cdn.amazeui.org/amazeui/2.3.0/js/amazeui.min.js"></script>

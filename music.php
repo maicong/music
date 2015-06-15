@@ -1,80 +1,88 @@
 <?php
 /**
- * 
+ *
  * 音乐搜索器 - 函数声明
- * 
+ *
  * @author     MaiCong <i@maicong.me>
- * @date  2015-06-13 23:28:19
- * @version    1.0.3
+ * @date  2015-06-15 18:14:52
+ * @version    1.0.4
  *
  */
 
-if ( ! defined( 'MC_CORE' ) ) exit; 
+if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
+    header("Location: /");
+    exit();
+}
 
+// 关闭错误信息，如果要调试请注释掉
 error_reporting(0);
 
 // 引入 curl
 require dirname(__FILE__).'/Curlclass/Curl.php';
-require dirname(__FILE__).'/Curlclass/MultiCurl.php';
 use Curlclass\Curl;
-use Curlclass\MultiCurl;
 
 // 参数处理
 function stripslashes_deep($value) {
-    if ( is_array($value) ) {
+    if (is_array($value)) {
         $value = array_map('stripslashes_deep', $value);
-    } elseif ( is_object($value) ) {
-        $vars = get_object_vars( $value );
-        foreach ($vars as $key=>$data) {
-            $value->{$key} = stripslashes_deep( $data );
+    } elseif (is_object($value)) {
+        $vars = get_object_vars($value);
+        foreach ($vars as $key => $data) {
+            $value->{$key}
+            = stripslashes_deep($data);
         }
-    } elseif ( is_string( $value ) ) {
+    } elseif (is_string($value)) {
         $value = stripslashes($value);
     }
-
     return $value;
 }
-function maicong_parse_str( $string, &$array ) {
-    parse_str( $string, $array );
-    if ( get_magic_quotes_gpc() ) {
-        $array = stripslashes_deep( $array );
+function maicong_parse_str($string, &$array) {
+    parse_str($string, $array);
+    if (get_magic_quotes_gpc()) {
+        $array = stripslashes_deep($array);
     }
 }
-function maicong_parse_args( $args, $defaults = array() ) {
-    if ( is_object( $args ) ) {
-        $r = get_object_vars( $args );
-    } elseif ( is_array( $args ) ) {
-        $r =& $args;
-    }else {
-        maicong_parse_str( $args, $r );
+function maicong_parse_args($args, $defaults = array()) {
+    if (is_object($args)) {
+        $r = get_object_vars($args);
+    } elseif (is_array($args)) {
+        $r = &$args;
+    } else {
+        maicong_parse_str($args, $r);
     }
-    if ( is_array( $defaults ) ) {
-        return array_merge( $defaults, $r );
+    if (is_array($defaults)) {
+        return array_merge($defaults, $r);
     }
     return $r;
 }
 
 // Curl 内容获取
-function maicong_curl($args = array() ) {
+function maicong_curl($args = array()) {
     $default = array(
-        'method' => 'GET',
+        'method'     => 'GET',
         'user-agent' => 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.4 Safari/537.36',
-        'url' => null,
-        'referer' => 'https://www.google.co.uk',
-        'headers' => null,
-        'body' => null,
-        'sslverify' => false
+        'url'        => null,
+        'referer'    => 'https://www.google.co.uk',
+        'headers'    => null,
+        'body'       => null,
+        'sslverify'  => false,
+        'proxy'      => false
     );
-    $args = maicong_parse_args($args, $default);
-    $method = mb_strtolower($args['method']);
+    $args         = maicong_parse_args($args, $default);
+    $method       = mb_strtolower($args['method']);
     $method_allow = array('get', 'post', 'put', 'patch', 'delete', 'head', 'options');
-    if ( is_null($args['url']) || !in_array($method, $method_allow)) return;
+    if (null === $args['url'] || !in_array($method, $method_allow, true)) {
+        return;
+    }
     $curl = new Curl();
     $curl->setOpt(CURLOPT_SSL_VERIFYPEER, $args['sslverify']);
     $curl->setUserAgent($args['user-agent']);
     $curl->setReferrer($args['referer']);
-    $curl->setTimeout(15);
+    $curl->setTimeout(20);
     $curl->setHeader('X-Requested-With', 'XMLHttpRequest');
+    if ($args['proxy'] && define('MC_PROXY') && MC_PROXY) {
+        $curl->setOpt(CURLOPT_PROXY, MC_PROXY);
+    }
     if (!empty($args['headers'])) {
         foreach ($args['headers'] as $key => $val) {
             $curl->setHeader($key, $val);
@@ -90,210 +98,254 @@ function maicong_curl($args = array() ) {
 }
 
 // 音频数据接口地址
-function maicong_song_urls($value, $type = 'query', $site = '163'){
-    if ( !$value ) return;
-    $query = ($type === 'query') ? $value : '';
-    $songid = ($type === 'songid') ? $value : '';
+function maicong_song_urls($value, $type = 'query', $site = '163') {
+    if (!$value) {
+        return;
+    }
+    $query             = ('query' === $type) ? $value : '';
+    $songid            = ('songid' === $type) ? $value : '';
     $radio_search_urls = array(
-        '163' => array(
-            'method' => 'POST',
-            'url' => 'http://music.163.com/api/search/suggest/web',
+        '163'        => array(
+            'method'  => 'POST',
+            'url'     => 'http://music.163.com/api/search/suggest/web',
             'referer' => 'http://music.163.com/',
-            'body' => array(
+            'proxy'   => false,
+            'body'    => array(
                 'csrf_token' => '',
-                'limit' => '5',
-                's' => $query
+                'limit'      => '5',
+                's'          => $query
             )
         ),
-        '1ting' => array(
-            'method' => 'GET',
-            'url' => 'http://so.1ting.com/song/json',
+        '1ting'      => array(
+            'method'  => 'GET',
+            'url'     => 'http://so.1ting.com/song/json',
             'referer' => 'http://m.1ting.com/',
-            'body' => array(
+            'proxy'   => false,
+            'body'    => array(
                 'page' => '1',
                 'size' => '5',
-                'q' => $query
+                'q'    => $query
             )
         ),
-        'baidu' => array(
-            'method' => 'GET',
-            'url' => 'http://sug.music.baidu.com/info/suggestion',
-            'referer' => 'http://music.baidu.com/search?key=' . $query,
-            'body' => array(
-                'format' => 'json',
+        'baidu'      => array(
+            'method'  => 'GET',
+            'url'     => 'http://sug.music.baidu.com/info/suggestion',
+            'referer' => 'http://music.baidu.com/search?key='.$query,
+            'proxy'   => false,
+            'body'    => array(
+                'format'  => 'json',
                 'version' => '2',
-                'from' => '0',
-                'word' => $query
+                'from'    => '0',
+                'word'    => $query
             )
         ),
-        'kugou' => array(
-            'method' => 'GET',
-            'url' => 'http://mobilecdn.kugou.com/api/v3/search/song',
-            'referer' => 'http://m.kugou.com/v2/static/html/search.html',
-            'body' => array(
-                'format' => 'json',
-                'page' => '1',
+        'kugou'      => array(
+            'method'     => 'GET',
+            'url'        => 'http://mobilecdn.kugou.com/api/v3/search/song',
+            'referer'    => 'http://m.kugou.com/v2/static/html/search.html',
+            'proxy'      => false,
+            'body'       => array(
+                'format'   => 'json',
+                'page'     => '1',
                 'pagesize' => '5',
-                'keyword' => $query
+                'keyword'  => $query
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
         ),
-        'kuwo' => array(
-            'method' => 'GET',
-            'url' => 'http://search.kuwo.cn/r.s',
+        'kuwo'       => array(
+            'method'  => 'GET',
+            'url'     => 'http://search.kuwo.cn/r.s',
             'referer' => 'http://player.kuwo.cn/webmusic/play',
-            'body' => array(
-                'ft' => 'music',
-                'itemset' => 'web_2013',
-                'pn' => '0',
-                'rn' => '5',
-                'rformat' => 'json',
+            'proxy'   => false,
+            'body'    => array(
+                'ft'       => 'music',
+                'itemset'  => 'web_2013',
+                'pn'       => '0',
+                'rn'       => '5',
+                'rformat'  => 'json',
                 'encoding' => 'utf8',
-                'all' => $query
+                'all'      => $query
             )
         ),
-        'qq' => array(
-            'method' => 'GET',
-            'url' => 'http://open.music.qq.com/fcgi-bin/fcg_weixin_music_search.fcg',
-            'referer' => 'http://m.y.qq.com/',
-            'body' => array(
+        'qq'         => array(
+            'method'     => 'GET',
+            'url'        => 'http://open.music.qq.com/fcgi-bin/fcg_weixin_music_search.fcg',
+            'referer'    => 'http://m.y.qq.com/',
+            'proxy'      => false,
+            'body'       => array(
                 'curpage' => '1',
                 'perpage' => '5',
-                'w' => $query
+                'w'       => $query
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
         ),
-        'xiami' => array(
-            'method' => 'GET',
-            'url' => 'http://api.xiami.com/web',
-            'referer' => 'http://m.xiami.com/',
-            'body' => array(
-                'v' => '2.0',
+        'xiami'      => array(
+            'method'     => 'GET',
+            'url'        => 'http://api.xiami.com/web',
+            'referer'    => 'http://m.xiami.com/',
+            'proxy'      => false,
+            'body'       => array(
+                'v'       => '2.0',
                 'app_key' => '1',
-                'r' => 'search/songs',
-                'page' => '1',
-                'limit' => '5',
-                'key' => $query
+                'r'       => 'search/songs',
+                'page'    => '1',
+                'limit'   => '5',
+                'key'     => $query
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
         ),
-        '5sing' => array(
-            'method' => 'GET',
-            'url' => 'http://search.5sing.kugou.com/home/QuickSearch',
+        '5sing'      => array(
+            'method'  => 'GET',
+            'url'     => 'http://search.5sing.kugou.com/home/QuickSearch',
             'referer' => 'http://5sing.kugou.com/',
-            'body' => array(
+            'proxy'   => false,
+            'body'    => array(
                 'keyword' => $query
             )
         ),
-        'ttpod' => array(
-            'method' => 'GET',
-            'url' => 'http://so.ard.iyyin.com/v2/songs/search',
+        'ttpod'      => array(
+            'method'  => 'GET',
+            'url'     => 'http://so.ard.iyyin.com/v2/songs/search',
             'referer' => 'http://m.ttpod.com/',
-            'body' => array(
-                'q' => $query,
+            'proxy'   => false,
+            'body'    => array(
+                'q'    => $query,
                 'page' => '1',
                 'size' => '5'
             )
         ),
-        'migu' => array(
-            'method' => 'GET',
-            'url' => 'http://music.migu.cn/webfront/search/sug.do',
+        'migu'       => array(
+            'method'  => 'GET',
+            'url'     => 'http://music.migu.cn/webfront/search/sug.do',
             'referer' => 'http://music.migu.cn/184_11.html',
-            'body' => array(
+            'proxy'   => false,
+            'body'    => array(
                 'keyword' => $query
+            )
+        ),
+        'soundcloud' => array(
+            'method'  => 'GET',
+            'url'     => 'https://api-v2.soundcloud.com/search/tracks',
+            'referer' => 'https://soundcloud.com/',
+            'proxy'   => false,
+            'body'    => array(
+                'offset'    => '0',
+                'limit'     => '5',
+                'facet'     => 'genre',
+                'client_id' => MC_SC_CLIENT_ID,
+                'q'         => $query
             )
         )
     );
     $radio_song_urls = array(
-        '163' => array(
-            'method' => 'GET',
-            'url' => 'http://music.163.com/api/song/detail/',
+        '163'        => array(
+            'method'  => 'GET',
+            'url'     => 'http://music.163.com/api/song/detail/',
             'referer' => 'http://music.163.com/#/song?id='.$songid,
-            'body' => array(
-                'id' => $songid,
+            'proxy'   => false,
+            'body'    => array(
+                'id'  => $songid,
                 'ids' => '['.$songid.']'
             )
         ),
-        '1ting' => array(
-            'method' => 'GET',
-            'url' => 'http://m.1ting.com/touch/api/song',
+        '1ting'      => array(
+            'method'  => 'GET',
+            'url'     => 'http://m.1ting.com/touch/api/song',
             'referer' => 'http://m.1ting.com/#/song/'.$songid,
-            'body' => array(
+            'proxy'   => false,
+            'body'    => array(
                 'ids' => $songid
             )
         ),
-        'baidu' => array(
-            'method' => 'GET',
-            'url' => 'http://tingapi.ting.baidu.com/v2/restserver/ting',
-            'referer' => 'music.baidu.com/song/' . $songid,
-            'body' => array(
+        'baidu'      => array(
+            'method'  => 'GET',
+            'url'     => 'http://tingapi.ting.baidu.com/v2/restserver/ting',
+            'referer' => 'music.baidu.com/song/'.$songid,
+            'proxy'   => false,
+            'body'    => array(
                 'method' => 'baidu.ting.song.play',
                 'format' => 'json',
                 'songid' => $songid
             )
         ),
-        'kugou' => array(
-            'method' => 'GET',
-            'url' => 'http://m.kugou.com/app/i/getSongInfo.php',
-            'referer' => 'http://m.kugou.com/play/info/'.$songid,
-            'body' => array(
-                'cmd' => 'playInfo',
+        'kugou'      => array(
+            'method'     => 'GET',
+            'url'        => 'http://m.kugou.com/app/i/getSongInfo.php',
+            'referer'    => 'http://m.kugou.com/play/info/'.$songid,
+            'proxy'      => false,
+            'body'       => array(
+                'cmd'  => 'playInfo',
                 'hash' => $songid
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
         ),
-        'kuwo' => array(
-            'method' => 'GET',
-            'url' => 'http://player.kuwo.cn/webmusic/st/getNewMuiseByRid',
+        'kuwo'       => array(
+            'method'  => 'GET',
+            'url'     => 'http://player.kuwo.cn/webmusic/st/getNewMuiseByRid',
             'referer' => 'http://player.kuwo.cn/webmusic/play',
-            'body' => array(
+            'proxy'   => false,
+            'body'    => array(
                 'rid' => 'MUSIC_'.$songid
             )
         ),
-        'qq' => array(
-            'method' => 'GET',
-            'url' => 'http://i.y.qq.com/s.plcloud/fcgi-bin/fcg_list_songinfo_cp.fcg',
-            'referer' => 'http://data.music.qq.com/playsong.html?songmid='.$songid,
-            'body' => array(
-                'url' => '1',
+        'qq'         => array(
+            'method'     => 'GET',
+            'url'        => 'http://i.y.qq.com/s.plcloud/fcgi-bin/fcg_list_songinfo_cp.fcg',
+            'referer'    => 'http://data.music.qq.com/playsong.html?songmid='.$songid,
+            'proxy'      => false,
+            'body'       => array(
+                'url'     => '1',
                 'midlist' => $songid
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
         ),
-        'xiami' => array(
-            'method' => 'GET',
-            'url' => 'http://www.xiami.com/song/playlist/id/'.$songid.'/object_name/default/object_id/0/cat/json',
-            'referer' => 'http://m.xiami.com/song/'.$songid,
+        'xiami'      => array(
+            'method'     => 'GET',
+            'url'        => 'http://www.xiami.com/song/playlist/id/'.$songid.'/object_name/default/object_id/0/cat/json',
+            'referer'    => 'http://m.xiami.com/song/'.$songid,
+            'proxy'      => false,
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
         ),
-        '5sing' => array(
-            'method' => 'GET',
-            'url' => 'http://5sing.kugou.com/'.$songid.'.html',
-            'referer' => 'http://5sing.kugou.com/'.$songid.'.html'
+        '5sing'      => array(
+            'method'  => 'GET',
+            'url'     => 'http://5sing.kugou.com/'.$songid.'.html',
+            'referer' => 'http://5sing.kugou.com/'.$songid.'.html',
+            'proxy'   => false
         ),
-        'ttpod' => array(
-            'method' => 'GET',
-            'url' => 'http://ting.hotchanson.com/website/ting',
+        'ttpod'      => array(
+            'method'  => 'GET',
+            'url'     => 'http://ting.hotchanson.com/website/ting',
             'referer' => 'http://m.ttpod.com/',
-            'body' => array(
+            'proxy'   => false,
+            'body'    => array(
                 'song_id' => $songid,
-                'code' => ttpod_crc32($songid)
+                'code'    => ttpod_crc32($songid)
             )
         ),
-        'migu' => array(
-            'method' => 'GET',
-            'url' => 'http://music.migu.cn/webfront/player/findsong.do',
+        'migu'       => array(
+            'method'  => 'GET',
+            'url'     => 'http://music.migu.cn/webfront/player/findsong.do',
             'referer' => 'http://music.migu.cn/',
-            'body' => array(
+            'proxy'   => false,
+            'body'    => array(
                 'itemid' => $songid,
-                'type' => 'song'
+                'type'   => 'song'
+            )
+        ),
+        'soundcloud' => array(
+            'method'  => 'GET',
+            'url'     => 'https://api.soundcloud.com/tracks/'.$songid.'.json',
+            'referer' => 'https://soundcloud.com/',
+            'proxy'   => false,
+            'body'    => array(
+                'client_id' => MC_SC_CLIENT_ID
             )
         )
     );
-    if ($type === 'query') {
+    if ('query' === $type) {
         return $radio_search_urls[$site];
     }
-    if ($type === 'songid') {
+    if ('songid' === $type) {
         return $radio_song_urls[$site];
     }
     return;
@@ -301,10 +353,10 @@ function maicong_song_urls($value, $type = 'query', $site = '163'){
 
 // 获取音频信息 - 关键词搜索
 function maicong_get_song_by_name($query, $site = '163') {
-    if ( !$query ) return;
-
+    if (!$query) {
+        return;
+    }
     $radio_search_url = maicong_song_urls($query, 'query', $site);
-
     if (empty($query) || empty($radio_search_url)) {
         return;
     }
@@ -323,7 +375,9 @@ function maicong_get_song_by_name($query, $site = '163') {
         case 'baidu':
             $radio_data = json_decode($radio_result, true);
             foreach ($radio_data['data']['song'] as $key => $val) {
-                if ($key>4) break;
+                if ($key > 4) {
+                    break;
+                }
                 $radio_songid[] = $val['songid'];
             }
             break;
@@ -335,7 +389,7 @@ function maicong_get_song_by_name($query, $site = '163') {
             break;
         case 'kuwo':
             $radio_result = str_replace('\'', '"', $radio_result);
-            $radio_data = json_decode($radio_result, true);
+            $radio_data   = json_decode($radio_result, true);
             foreach ($radio_data['abslist'] as $key => $val) {
                 $radio_songid[] = str_replace('MUSIC_', '', $val['MUSICRID']);
             }
@@ -343,7 +397,7 @@ function maicong_get_song_by_name($query, $site = '163') {
         case 'qq':
             $radio_data = json_decode($radio_result, true);
             foreach ($radio_data['list'] as $key => $val) {
-                $radio_hash = explode('|', $val['f']);
+                $radio_hash     = explode('|', $val['f']);
                 $radio_songid[] = $radio_hash[20];
             }
             break;
@@ -354,9 +408,11 @@ function maicong_get_song_by_name($query, $site = '163') {
             }
             break;
         case '5sing':
-            $radio_data = json_decode(substr($radio_result,1,-1), true);
+            $radio_data = json_decode(substr($radio_result, 1, -1), true);
             foreach ($radio_data['songs'] as $key => $val) {
-                if ($key>4) break;
+                if ($key > 4) {
+                    break;
+                }
                 $radio_songid[] = $val['type'].'/'.$val['songId'];
             }
             break;
@@ -372,6 +428,12 @@ function maicong_get_song_by_name($query, $site = '163') {
                 $radio_songid[] = $val['id'];
             }
             break;
+        case 'soundcloud':
+            $radio_data = json_decode($radio_result, true);
+            foreach ($radio_data['collection'] as $key => $val) {
+                $radio_songid[] = $val['id'];
+            }
+            break;
         case '163':
         default:
             $radio_data = json_decode($radio_result, true);
@@ -384,13 +446,15 @@ function maicong_get_song_by_name($query, $site = '163') {
 }
 
 // 获取音频信息 - 歌曲ID
-function maicong_get_song_by_id($songid, $site = '163', $multi = false){
+function maicong_get_song_by_id($songid, $site = '163', $multi = false) {
     if (empty($songid) || empty($site)) {
         return;
     }
     $radio_song_urls = array();
     if ($multi) {
-        if (!is_array($songid)) return;
+        if (!is_array($songid)) {
+            return;
+        }
         foreach ($songid as $key => $val) {
             $radio_song_urls[] = maicong_song_urls($val, 'songid', $site);
         }
@@ -411,48 +475,50 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false){
     switch ($site) {
         case '1ting':
             foreach ($radio_result as $key => $val) {
-                $radio_data = json_decode($val, true);
+                $radio_data   = json_decode($val, true);
                 $radio_detail = $radio_data;
                 if (!empty($radio_detail)) {
-                    $radio_songs[]= array(
-                        'type' => '1ting',
+                    $radio_songs[] = array(
+                        'type'   => '1ting',
                         'songid' => $radio_detail[0]['song_id'],
-                        'name' => $radio_detail[0]['song_name'],
+                        'name'   => $radio_detail[0]['song_name'],
                         'author' => $radio_detail[0]['singer_name'],
-                        'music' => 'http://96.1ting.com'.str_replace('.wma', '.mp3', $radio_detail[0]['song_filepath']),
-                        'pic' => $radio_detail[0]['album_cover']
+                        'music'  => 'http://96.1ting.com'.str_replace('.wma', '.mp3', $radio_detail[0]['song_filepath']),
+                        'pic'    => $radio_detail[0]['album_cover']
                     );
                 }
             }
             break;
         case 'baidu':
             foreach ($radio_result as $key => $val) {
-                $radio_data = json_decode($val, true);
+                $radio_data   = json_decode($val, true);
                 $radio_detail = $radio_data;
                 if (!empty($radio_detail) && !empty($radio_detail['songinfo'])) {
                     // 注： 百度不允许外链 ~ 自信解决吧
                     $radio_songs[] = array(
-                        'type' => 'baidu',
+                        'type'   => 'baidu',
                         'songid' => $radio_detail['songinfo']['song_id'],
-                        'name' => $radio_detail['songinfo']['title'],
+                        'name'   => $radio_detail['songinfo']['title'],
                         'author' => $radio_detail['songinfo']['author'],
-                        'music' => $radio_detail['bitrate']['file_link'],
-                        'pic' => $radio_detail['songinfo']['pic_big']
+                        'music'  => $radio_detail['bitrate']['file_link'],
+                        'pic'    => $radio_detail['songinfo']['pic_big']
                     );
                 }
             }
             break;
         case 'kugou':
             foreach ($radio_result as $key => $val) {
-                $radio_data = json_decode($val, true);
+                $radio_data   = json_decode($val, true);
                 $radio_detail = $radio_data;
                 if (!empty($radio_detail) && $radio_data['status']) {
                     $radio_name = explode(' - ', $radio_detail['fileName']);
-                    $radio_img = array(
-                        'url' => 'http://mobilecdn.kugou.com/new/app/i/yueku.php',
-                        'body' => array(
-                            'cmd' => '104',
-                            'size' => '100',
+                    $radio_img  = array(
+                        'method' => 'GET',
+                        'url'    => 'http://mobilecdn.kugou.com/new/app/i/yueku.php',
+                        'proxy'  => false,
+                        'body'   => array(
+                            'cmd'    => '104',
+                            'size'   => '100',
                             'singer' => $radio_name[0]
                         )
                     );
@@ -461,81 +527,81 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false){
                         $radio_pic = $radio_imginfo['url'];
                     }
                     $radio_songs[] = array(
-                        'type' => 'kugou',
+                        'type'   => 'kugou',
                         'songid' => $radio_detail['hash'],
-                        'name' => $radio_name[1],
+                        'name'   => $radio_name[1],
                         'author' => $radio_name[0],
-                        'music' => $radio_detail['url'],
-                        'pic' => $radio_pic
+                        'music'  => $radio_detail['url'],
+                        'pic'    => $radio_pic
                     );
                 }
             }
             break;
         case 'kuwo':
             foreach ($radio_result as $key => $val) {
-                preg_match_all('/<([\w]+)>(.*?)<\/\\1>/', $val, $radio_data);
+                preg_match_all('/<([\w]+)>(.*?)<\/\\1>/i', $val, $radio_data);
                 if (!empty($radio_data[1]) && !empty($radio_data[2])) {
                     $radio_detail = array();
                     foreach ($radio_data[1] as $key => $val) {
                         $radio_detail[$val] = $radio_data[2][$key];
                     }
                     $radio_songs[] = array(
-                        'type' => 'kuwo',
+                        'type'   => 'kuwo',
                         'songid' => $radio_detail['music_id'],
-                        'name' => $radio_detail['name'],
+                        'name'   => $radio_detail['name'],
                         'author' => $radio_detail['singer'],
-                        'music' => 'http://'.$radio_detail['mp3dl'].'/resource/'.$radio_detail['mp3path'],
-                        'pic' => $radio_detail['artist_pic']
+                        'music'  => 'http://'.$radio_detail['mp3dl'].'/resource/'.$radio_detail['mp3path'],
+                        'pic'    => $radio_detail['artist_pic']
                     );
                 }
             }
             break;
         case 'qq':
             foreach ($radio_result as $key => $val) {
-                $radio_data = json_decode($val, true);
+                $radio_data   = json_decode($val, true);
                 $radio_detail = $radio_data['data'];
                 if (!empty($radio_detail) && $radio_data['url']) {
-                    $radio_pic = substr($radio_detail[0]['albummid'], -2, 1).'/'.substr($radio_detail[0]['albummid'], -1, 1).'/'.$radio_detail[0]['albummid'];
+                    $radio_pic     = substr($radio_detail[0]['albummid'], -2, 1).'/'.substr($radio_detail[0]['albummid'], -1, 1).'/'.$radio_detail[0]['albummid'];
                     $radio_songs[] = array(
-                        'type' => 'qq',
+                        'type'   => 'qq',
                         'songid' => $radio_detail[0]['songmid'],
-                        'name' => $radio_detail[0]['songname'],
+                        'name'   => $radio_detail[0]['songname'],
                         'author' => $radio_detail[0]['singer'][0]['name'],
-                        'music' => $radio_data['url'][$radio_detail[0]['songid']],
-                        'pic' => 'http://imgcache.qq.com/music/photo/mid_album_300/'.$radio_pic.'.jpg'
+                        'music'  => $radio_data['url'][$radio_detail[0]['songid']],
+                        'pic'    => 'http://imgcache.qq.com/music/photo/mid_album_300/'.$radio_pic.'.jpg'
                     );
                 }
             }
             break;
         case 'xiami':
             foreach ($radio_result as $key => $val) {
-                $radio_data = json_decode($val, true);
+                $radio_data   = json_decode($val, true);
                 $radio_detail = $radio_data['data']['trackList'];
                 if (!empty($radio_detail)) {
                     $radio_songs[] = array(
-                        'type' => 'xiami',
+                        'type'   => 'xiami',
                         'songid' => $radio_detail[0]['song_id'],
-                        'name' => $radio_detail[0]['title'],
+                        'name'   => $radio_detail[0]['title'],
                         'author' => $radio_detail[0]['artist'],
-                        'music' => maicong_decode_xiami_location($radio_detail[0]['location']),
-                        'pic' => $radio_detail[0]['album_pic']
+                        'music'  => maicong_decode_xiami_location($radio_detail[0]['location']),
+                        'pic'    => $radio_detail[0]['album_pic']
                     );
                 }
             }
             break;
         case '5sing':
             foreach ($radio_result as $key => $val) {
-                preg_match('/ticket"\: "(.*?)"/is', $val, $radio_match);
-                if (!empty($radio_match[1])){
-                    $radio_detail = json_decode(base64_decode($radio_match[1]), true);
-                    if (!empty($radio_detail)){
+                preg_match('/ticket"\: "(.*?)"/i', $val, $radio_match);
+                if (!empty($radio_match[1])) {
+                    $radio_detail = json_decode(base64_decode($radio_match[1], true), true);
+                    if (!empty($radio_detail)) {
                         $radio_songs[] = array(
-                            'type' => '5sing',
+                            'type'   => '5sing',
                             'songid' => $radio_detail['songID'],
-                            'name' => $radio_detail['songName'],
+                            'name'   => $radio_detail['songName'],
                             'author' => $radio_detail['singer'],
-                            'music' => $radio_detail['file'],
-                            'pic' => $radio_detail['avatar']
+                            'music'  => $radio_detail['file'],
+                            'pic'    => $radio_detail['avatar']
                         );
                     }
                 }
@@ -543,16 +609,18 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false){
             break;
         case 'ttpod':
             foreach ($radio_result as $key => $val) {
-                $radio_data = json_decode($val, true);
+                $radio_data   = json_decode($val, true);
                 $radio_detail = $radio_data['data'][0];
                 if (!empty($radio_detail)) {
                     if (!empty($radio_detail['url_list'][1]['url'])) {
                         $radio_music = $radio_detail['url_list'][1]['url'];
                     }
                     $radio_img = array(
-                        'url' => 'http://lp.music.ttpod.com/pic/down',
+                        'method'  => 'GET',
+                        'url'     => 'http://lp.music.ttpod.com/pic/down',
                         'referer' => 'http://m.ttpod.com/',
-                        'body' => array(
+                        'proxy'   => false,
+                        'body'    => array(
                             'artist' => $radio_detail['singer_name']
                         )
                     );
@@ -561,28 +629,61 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false){
                         $radio_pic = $radio_imginfo['data']['singerPic'];
                     }
                     $radio_songs[] = array(
-                        'type' => 'ttpod',
+                        'type'   => 'ttpod',
                         'songid' => $radio_detail['song_id'],
-                        'name' => $radio_detail['song_name'],
+                        'name'   => $radio_detail['song_name'],
                         'author' => $radio_detail['singer_name'],
-                        'music' => $radio_music,
-                        'pic' => $radio_pic
+                        'music'  => $radio_music,
+                        'pic'    => $radio_pic
                     );
                 }
             }
             break;
         case 'migu':
             foreach ($radio_result as $key => $val) {
-                $radio_data = json_decode($val, true);
+                $radio_data   = json_decode($val, true);
                 $radio_detail = $radio_data['msg'];
                 if (!empty($radio_detail)) {
                     $radio_songs[] = array(
-                        'type' => 'migu',
+                        'type'   => 'migu',
                         'songid' => $radio_detail[0]['songId'],
-                        'name' => $radio_detail[0]['songName'],
+                        'name'   => $radio_detail[0]['songName'],
                         'author' => $radio_detail[0]['singerName'],
-                        'music' => $radio_detail[0]['mp3'],
-                        'pic' => $radio_detail[0]['poster']
+                        'music'  => $radio_detail[0]['mp3'],
+                        'pic'    => $radio_detail[0]['poster']
+                    );
+                }
+            }
+            break;
+        case 'soundcloud':
+            foreach ($radio_result as $key => $val) {
+                $radio_detail = json_decode($val, true);
+                if (!empty($radio_detail)) {
+                    $radio_streams = array(
+                        'method'  => 'GET',
+                        'url'     => 'https://api.soundcloud.com/i1/tracks/'.$radio_detail['id'].'/streams',
+                        'referer' => 'https://soundcloud.com/',
+                        'proxy'   => false,
+                        'body'    => array(
+                            'client_id' => MC_SC_CLIENT_ID
+                        )
+                    );
+                    $radio_streams_info = json_decode(maicong_curl($radio_streams), true);
+                    if (!empty($radio_streams_info)) {
+                        $radio_music_http    = $radio_streams_info['http_mp3_128_url'];
+                        $radio_music_preview = $radio_streams_info['preview_mp3_128_url'];
+                        $radio_music         = ($radio_music_http) ? $radio_music_http : $radio_music_preview;
+                    }
+                    $radio_pic_artwork = $radio_detail['artwork_url'];
+                    $radio_pic_avatar  = $radio_detail['user']['avatar_url'];
+                    $radio_pic         = ($radio_pic_artwork) ? $radio_pic_artwork : $radio_pic_avatar;
+                    $radio_songs[]     = array(
+                        'type'   => 'soundcloud',
+                        'songid' => $radio_detail['id'],
+                        'name'   => $radio_detail['title'],
+                        'author' => $radio_detail['user']['username'],
+                        'music'  => $radio_music,
+                        'pic'    => $radio_pic
                     );
                 }
             }
@@ -590,27 +691,26 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false){
         case '163':
         default:
             foreach ($radio_result as $key => $val) {
-                $radio_data = json_decode($val, true);
+                $radio_data   = json_decode($val, true);
                 $radio_detail = $radio_data['songs'];
                 if (!empty($radio_detail)) {
                     $radio_songs[] = array(
-                        'type' => '163',
+                        'type'   => '163',
                         'songid' => $radio_detail[0]['id'],
-                        'name' => $radio_detail[0]['name'],
+                        'name'   => $radio_detail[0]['name'],
                         'author' => $radio_detail[0]['artists'][0]['name'],
-                        'music' => $radio_detail[0]['mp3Url'],
-                        'pic' => $radio_detail[0]['album']['picUrl'].'?param=100x100'
+                        'music'  => $radio_detail[0]['mp3Url'],
+                        'pic'    => $radio_detail[0]['album']['picUrl'].'?param=100x100'
                     );
                 }
             }
-            
             break;
     }
     return !empty($radio_songs) ? $radio_songs : '';
 }
 
 // 获取音频信息 - url
-function maicong_get_song_by_url($url){
+function maicong_get_song_by_url($url) {
     preg_match('/http(s)?:\/\/music\.163\.com\/(#|m)\/song(\?id=|\/)(\d+)/i', $url, $match_163);
     preg_match('/http(s)?:\/\/(www|m)\.1ting\.com\/(player\/b6\/player_|#\/song\/)(\d+)(\.html|)/i', $url, $match_1ting);
     preg_match('/http(s)?:\/\/music\.baidu\.com\/song\/(\d+)/i', $url, $match_baidu);
@@ -619,43 +719,62 @@ function maicong_get_song_by_url($url){
     preg_match('/http(s)?:\/\/(y\.qq\.com\/#type=song&mid=|data\.music\.qq\.com\/playsong\.html\?songmid=)([a-zA-Z0-9]+)/i', $url, $match_qq);
     preg_match('/http(s)?:\/\/(www|m)\.xiami\.com\/song\/(\d+)/i', $url, $match_xiami);
     preg_match('/http(s)?:\/\/5sing\.kugou\.com\/(m\/detail\/|)(\w+)(-|\/)(\d+)(-1|)\.html/i', $url, $match_5sing);
-    preg_match('/http(s)?:\/\/m\.ttpod\.com\/#a=gqxq&from=ss&neid=(\d+)/', $url, $match_ttpod);
-    preg_match('/http(s)?:\/\/music\.migu\.cn\/#\/song\/(\d+)/', $url, $match_migu);
+    preg_match('/http(s)?:\/\/m\.ttpod\.com\/#a=gqxq&from=ss&neid=(\d+)/i', $url, $match_ttpod);
+    preg_match('/http(s)?:\/\/music\.migu\.cn\/#\/song\/(\d+)/i', $url, $match_migu);
+    preg_match('/http(s)?:\/\/soundcloud\.com\/[\w\-]+\/[\w\-]+/i', $url, $match_soundcloud);
     if (!empty($match_163)) {
-        $songid = $match_163[4];
+        $songid   = $match_163[4];
         $songtype = '163';
     } elseif (!empty($match_1ting)) {
-        $songid = $match_1ting[4];
+        $songid   = $match_1ting[4];
         $songtype = '1ting';
     } elseif (!empty($match_baidu)) {
-        $songid = $match_baidu[2];
+        $songid   = $match_baidu[2];
         $songtype = 'baidu';
     } elseif (!empty($match_kugou)) {
-        $songid = $match_kugou[2];
+        $songid   = $match_kugou[2];
         $songtype = 'kugou';
     } elseif (!empty($match_kuwo)) {
-        $songid = $match_kuwo[3];
+        $songid   = $match_kuwo[3];
         $songtype = 'kuwo';
     } elseif (!empty($match_qq)) {
-        $songid = $match_qq[3];
+        $songid   = $match_qq[3];
         $songtype = 'qq';
     } elseif (!empty($match_xiami)) {
-        $songid = $match_xiami[3];
+        $songid   = $match_xiami[3];
         $songtype = 'xiami';
     } elseif (!empty($match_5sing)) {
-        $songid = $match_5sing[3].'/'.$match_5sing[5];
+        $songid   = $match_5sing[3].'/'.$match_5sing[5];
         $songtype = '5sing';
     } elseif (!empty($match_ttpod)) {
-        $songid = $match_ttpod[2];
+        $songid   = $match_ttpod[2];
         $songtype = 'ttpod';
     } elseif (!empty($match_migu)) {
-        $songid = $match_migu[2];
+        $songid   = $match_migu[2];
         $songtype = 'migu';
+    } elseif (!empty($match_soundcloud)) {
+        $match_resolve = array(
+            'method'  => 'GET',
+            'url'     => 'http://api.soundcloud.com/resolve.json',
+            'referer' => 'https://soundcloud.com/',
+            'proxy'   => false,
+            'body'    => array(
+                'url'       => $match_soundcloud[0],
+                'client_id' => MC_SC_CLIENT_ID
+            )
+        );
+        $match_request = maicong_curl($match_resolve);
+        preg_match('/tracks\/(\d+)\.json/i', $match_request, $match_location);
+        if (!empty($match_location)) {
+            $songid   = $match_location[1];
+            $songtype = 'soundcloud';
+        }
     } else {
         return;
     }
     return maicong_get_song_by_id($songid, $songtype);
 }
+
 // 解密虾米 location
 function maicong_decode_xiami_location($location) {
     $location = trim($location);
@@ -690,19 +809,23 @@ function maicong_decode_xiami_location($location) {
 }
 
 // ttpod_crc32
-function ttpod_crc32($str){ 
+function ttpod_crc32($str) {
     $crc = crc32($str);
     // 64位下返回32位结果
-    if($crc & 0x80000000){ 
-        $crc ^= 0xffffffff; 
-        $crc += 1; 
-        $crc = -$crc; 
+    if ($crc & 0x80000000) {
+        $crc ^= 0xffffffff;
+        $crc += 1;
+        $crc = -$crc;
     }
     $prefix = (!is_numeric(substr($crc, 0, 1))) ? substr($crc, 0, 1) : '';
     return $prefix.base_convert($crc >> 3, 10, 16);
 }
 
 // Ajax Post
-function ajax_post($key){
-    return (!empty($_POST[$key]) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') ? $_POST[$key] : null;
+function ajax_post($key) {
+    return (!empty($_POST[$key]) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') ? $_POST[$key] : null;
+}
+
+function server($key) {
+    return isset($_SERVER[$key]) ? $_SERVER[$key] : null;
 }
