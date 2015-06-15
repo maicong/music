@@ -26,13 +26,13 @@
 
 方案1：
 ```
-修改 `index.php` 文件里的 `MC_PROXY` 为您的代理地址。
-将 `music.php` 里需要代理的 URL `'proxy' => false` 改为 `'proxy' => true` 。
+修改 index.php 文件里的 MC_PROXY 为您的代理地址
+将 music.php 里需要代理的 URL 'proxy' => false 改为 'proxy' => true 
 ```
 方案2：
 ```
-在 `music.php` 里查找 `setTimeout`，将其后面的数值 `20` 改为更大。
-在 `static/music.js` 里查找 `data: post_data`，将其上面的数值 `30000` 改为更大。
+在 music.php 里查找 setTimeout，将其后面的数值 20 改为更大。
+在 static/music.js 里查找 data: post_data，将其上面的数值 30000 改为更大。
 ```
 方案3：
 ```
