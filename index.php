@@ -23,7 +23,7 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
     $music_url = null;
     switch ($music_filter) {
         case 'name':
-            $music_valid = preg_match('/^[\w\x{4e00}-\x{9fa5}\-\'\’\s]+$/isu', $music_input);
+            $music_valid = preg_match('.*', $music_input);
             $music_name = $music_input;
             $music_type_valid = in_array($music_type, $music_type_allow);
             break;
@@ -125,7 +125,7 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
                             <li data-filter="url"><a>音乐地址</a></li>
                         </ul>
                         <div class="am-form-group">
-                            <input type="text" id="music_input" data-filter="name" class="am-form-field am-input-lg am-text-center am-radius" minlength="1" placeholder="例如: 不要说话 陈奕迅" data-am-loading="{loadingText: ' '}" pattern="^[\w\u4e00-\u9fa5\s\-\'\’]+$" required>
+                            <input type="text" id="music_input" data-filter="name" class="am-form-field am-input-lg am-text-center am-radius" minlength="1" placeholder="例如: 不要说话 陈奕迅" data-am-loading="{loadingText: ' '}" pattern=".*" required>
                             <div class="am-alert am-alert-danger am-animation-shake"></div>
                         </div>
                         <div class="am-form-group am-text-center music-type">
