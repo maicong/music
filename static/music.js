@@ -1,10 +1,10 @@
 /**
- * 
+ *
  * 音乐搜索器 - JS 文件
- * 
+ *
  * @author     MaiCong <i@maicong.me>
- * @date  2015-06-15 18:14:52
- * @version    1.0.4
+ * @date       2017-03-23 17:02:39
+ * @version    1.1.0
  *
  */
 
@@ -622,12 +622,12 @@ var AmazingAudioPlatforms = {
                     instance.elemArray.push({
                         id: audioId,
                         source: audioSource,
-                        title: $this.data("title") && $this.data("title").length > 0 ? $this.data("title") : "",
-                        artist: $this.data("artist") && $this.data("artist").length > 0 ? $this.data("artist") : "",
-                        album: $this.data("album") && $this.data("album").length > 0 ? $this.data("album") : "",
-                        info: $this.data("info") && $this.data("info").length > 0 ? $this.data("info") : "",
+                        title: $this.data("title") + "",
+                        artist: $this.data("artist") + "",
+                        album: $this.data("album") + "",
+                        info: $this.data("info") + "",
                         duration: $this.data("duration") ? $this.data("duration") : "",
-                        image: $this.data("image") && $this.data("image").length > 0 ? $this.data("image") : "",
+                        image: $this.data("image") + "",
                         live: $this.data("live") ? true : false
                     });
                 });
@@ -636,7 +636,7 @@ var AmazingAudioPlatforms = {
             init: function(instance) {
                 var i;
                 if (instance.elemLength <= 0){
-                   return; 
+                   return;
                 }
                 if (instance.options.random) {
                     for (i = instance.elemLength - 1; i > 0; i--) {
@@ -668,7 +668,7 @@ var AmazingAudioPlatforms = {
                         instance.options.autoplay = false;
                     }
                 }
-                if (instance.options.autoplay && !AmazingAudioPlatforms.isIOS() && !AmazingAudioPlatforms.isAndroid()){ 
+                if (instance.options.autoplay && !AmazingAudioPlatforms.isIOS() && !AmazingAudioPlatforms.isAndroid()){
                     window.setTimeout(function() {
                         instance.playAudio()
                     },instance.options.autoplaytimeout);
@@ -1490,7 +1490,7 @@ $(function() {
             'url':'例如: http://music.163.com/#/song?id=25906124',
             'pattern-name': '^.+?$',
             'pattern-id': '^[\\w\\/]+$',
-            'pattern-url': '^(http|https|ftp):\\/\\/{1}([\\S]+)$'
+            'pattern-url': '^(http|https):\\/\\/{1}([\\S]+)$'
         };
         var filter = $(this).data('filter');
         $(this).addClass('am-active').siblings('li').removeClass('am-active');
@@ -1527,7 +1527,7 @@ $(function() {
                 var post_data = {
                     music_input:$('#music_input').val(),
                     music_filter:$('#music_input').data('filter'),
-                    music_type:$('input[name="music_type"]:checked').val(),
+                    music_type:$('input[name="music_type"]:checked').val()
                 };
                 if ($('#music_input').data('filter') === 'url') {
                     delete post_data.music_type;
@@ -1548,6 +1548,7 @@ $(function() {
                             var mauthor = result.data[0].author ? result.data[0].author : '暂无';
                             $('#form-vld').slideUp();
                             $('.music-main').slideDown();
+                            $('#music-link').val(result.data[0].link);
                             $('#music-src').val(result.data[0].music);
                             $('#music-name').val(mname);
                             $('#music-author').val(mauthor);
@@ -1556,16 +1557,18 @@ $(function() {
                                 var rname = result.data[i].name ? result.data[i].name : '暂无';
                                 var rauthor = result.data[i].author ? result.data[i].author : '暂无';
                                 var rpic = result.data[i].pic ? result.data[i].pic : location.href+'static/nopic.jpg';
-                                html += '<a data-artist="'+rauthor+'" data-title="'+rname+'" data-album="'+rname+'" data-info="" data-image="'+rpic+'" data-src="'+result.data[i].music+'" data-type="audio/mpeg"></a>';
+                                html += '<a data-artist="'+rauthor+'" data-title="'+rname+'" data-album="'+rname+'" data-info="" data-image="'+rpic+'" data-link="'+result.data[i].link+'" data-src="'+result.data[i].music+'" data-type="audio/mpeg"></a>';
                             }
                             html += '</div>';
                             $('#music-show').html(html);
                             $('#player').amazingaudioplayer();
                             $('.amazingaudioplayer-prev, .amazingaudioplayer-next, .amazingaudioplayer-track-item').on('click', function(){
                                 var index = $('.amazingaudioplayer-track-item-active').index();
+                                var mlink = $('.amazingaudioplayer-audios a').eq(index).data('link');
                                 var mmusic = $('.amazingaudioplayer-audios a').eq(index).data('src');
                                 var mname = $('.amazingaudioplayer-audios a').eq(index).data('title');
                                 var mauthor = $('.amazingaudioplayer-audios a').eq(index).data('artist');
+                                $('#music-link').val(mlink);
                                 $('#music-src').val(mmusic);
                                 $('#music-name').val(mname);
                                 $('#music-author').val(mauthor);
@@ -1575,11 +1578,11 @@ $(function() {
                         }
                     },
                     error: function(e, t){
-                        var err_info = '(°ー°〃) 出了点小问题，请重试';
-                        if (t === "timeout") {
-                            err_info = '(°ー°〃) 请求超时了，可能是您的网络慢';
+                        var errtext = '(°ー°〃) 出了点小问题，请重试';
+                        if (t ==='timeout') {
+                            errtext = '(°ー°〃) 请求超时了，可能是您的网络慢';
                         }
-                        $('#music_input').closest('.am-form-group').find('.am-alert').html(err_info).show();
+                        $('#music_input').closest('.am-form-group').find('.am-alert').html(errtext).show();
                     },
                     complete: function(){
                         $('#music_input').attr('disabled',false);
@@ -1592,15 +1595,15 @@ $(function() {
     $('.music-main input').focus(function(){
         $(this).select();
     });
+    $('.music-tips .more').on('click',function(){
+        $(this).hide();
+        $('.music-tips p').show();
+    });
     $('#getit').on('click',function(){
         $('audio')[0].pause();
         $('#form-vld').slideDown();
         $('.music-main').slideUp();
         $('.music-main input').val('');
         $('#music-show').html('');
-    });
-    $('.music-tips .more').on('click',function(){
-        $(this).hide();
-        $('.music-tips p').show();
     });
 });
