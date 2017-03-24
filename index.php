@@ -12,7 +12,7 @@
 define('MC_CORE', true);
 
 // SoundCloud 客户端 ID，如果失效请更改
-define('MC_SC_CLIENT_ID', 'b45b1aa10f1ac2941910a7f0d10f8e28');
+define('MC_SC_CLIENT_ID', '2t9loNQH90kzJcsFCODdigxfp325aq4z');
 
 // Curl 代理地址，解决翻墙问题。例如：define('MC_PROXY', 'http://10.10.10.10:8123');
 define('MC_PROXY', false);
