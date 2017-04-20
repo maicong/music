@@ -15,7 +15,7 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
 }
 
 // 关闭错误信息，如果要调试请注释掉
-error_reporting(0);
+// error_reporting(0);
 
 // 引入 curl
 require __DIR__.'/Curlclass/Curl.php';
@@ -559,7 +559,7 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false) {
                     $radio_author = implode('/', $radio_authors);
                     $radio_songs[] = array(
                         'type'   => 'qq',
-                        'link'   => 'http://y.qq.com/#type=song&mid='.$radio_song_id,
+                        'link'   => 'https://y.qq.com/n/yqq/song/'.$radio_song_id.'.html',
                         'songid' => $radio_song_id,
                         'name'   => $radio_detail[0]['songname'],
                         'author' => $radio_author,
@@ -702,42 +702,42 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false) {
 
 // 获取音频信息 - url
 function maicong_get_song_by_url($url) {
-    preg_match('/http(s)?:\/\/music\.163\.com\/(#|m)\/song(\?id=|\/)(\d+)/i', $url, $match_163);
-    preg_match('/http(s)?:\/\/(www|m)\.1ting\.com\/(player\/b6\/player_|#\/song\/)(\d+)(\.html|)/i', $url, $match_1ting);
-    preg_match('/http(s)?:\/\/music\.baidu\.com\/song\/(\d+)/i', $url, $match_baidu);
-    preg_match('/http(s)?:\/\/m\.kugou\.com\/play\/info\/([a-z0-9]+)/i', $url, $match_kugou);
-    preg_match('/http(s)?:\/\/www\.kuwo\.cn\/(yinyue|my)\/(\d+)/i', $url, $match_kuwo);
-    preg_match('/http(s)?:\/\/(y\.qq\.com\/#type=song&mid=|data\.music\.qq\.com\/playsong\.html\?songmid=)([a-zA-Z0-9]+)/i', $url, $match_qq);
-    preg_match('/http(s)?:\/\/(www|m)\.xiami\.com\/song\/(\d+)/i', $url, $match_xiami);
-    preg_match('/http(s)?:\/\/5sing\.kugou\.com\/(m\/detail\/|)(\w+)(-|\/)(\d+)(-1|)\.html/i', $url, $match_5sing);
-    preg_match('/http(s)?:\/\/music\.migu\.cn\/#\/song\/(\d+)/i', $url, $match_migu);
-    preg_match('/http(s)?:\/\/soundcloud\.com\/[\w\-]+\/[\w\-]+/i', $url, $match_soundcloud);
+    preg_match('/https?:\/\/music\.(163)\.com\/(#(\/m)?|m)\/song(\?id=|\/)(\d+)/i', $url, $match_163);
+    preg_match('/(www|m)\.(1ting)\.com\/(player\/b6\/player_|#\/song\/)(\d+)/i', $url, $match_1ting);
+    preg_match('/music\.baidu\.com\/song\/(\d+)/i', $url, $match_baidu);
+    preg_match('/m\.kugou\.com\/play\/info\/([a-z0-9]+)/i', $url, $match_kugou);
+    preg_match('/www\.kuwo\.cn\/(yinyue|my)\/(\d+)/i', $url, $match_kuwo);
+    preg_match('/(y\.qq\.com\/n\/yqq\/song\/|data\.music\.qq\.com\/playsong\.html\?songmid=)([a-zA-Z0-9]+)/i', $url, $match_qq);
+    preg_match('/(www|m)\.xiami\.com\/song\/(\d+)/i', $url, $match_xiami);
+    preg_match('/5sing\.kugou\.com\/(m\/detail\/|)([a-z]+)(-|\/)(\d+)/i', $url, $match_5sing);
+    preg_match('/music\.migu\.cn\/#\/song\/(\d+)/i', $url, $match_migu);
+    preg_match('/soundcloud\.com\/[\w\-]+\/[\w\-]+/i', $url, $match_soundcloud);
     if (!empty($match_163)) {
-        $songid   = $match_163[4];
+        $songid   = $match_163[5];
         $songtype = '163';
     } elseif (!empty($match_1ting)) {
         $songid   = $match_1ting[4];
         $songtype = '1ting';
     } elseif (!empty($match_baidu)) {
-        $songid   = $match_baidu[2];
+        $songid   = $match_baidu[1];
         $songtype = 'baidu';
     } elseif (!empty($match_kugou)) {
-        $songid   = $match_kugou[2];
+        $songid   = $match_kugou[1];
         $songtype = 'kugou';
     } elseif (!empty($match_kuwo)) {
-        $songid   = $match_kuwo[3];
+        $songid   = $match_kuwo[2];
         $songtype = 'kuwo';
     } elseif (!empty($match_qq)) {
-        $songid   = $match_qq[3];
+        $songid   = $match_qq[2];
         $songtype = 'qq';
     } elseif (!empty($match_xiami)) {
-        $songid   = $match_xiami[3];
+        $songid   = $match_xiami[2];
         $songtype = 'xiami';
     } elseif (!empty($match_5sing)) {
-        $songid   = $match_5sing[3].'/'.$match_5sing[5];
+        $songid   = $match_5sing[2].'/'.$match_5sing[4];
         $songtype = '5sing';
     } elseif (!empty($match_migu)) {
-        $songid   = $match_migu[2];
+        $songid   = $match_migu[1];
         $songtype = 'migu';
     } elseif (!empty($match_soundcloud)) {
         $match_resolve = array(

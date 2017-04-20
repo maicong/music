@@ -170,13 +170,13 @@
                         <span>酷我：</span><u>http://www.kuwo.cn/yinyue/<b>382425</b>/</u>
                     </p>
                     <p>
-                        <span>ＱＱ：</span><u>http://y.qq.com/#type=song&amp;mid=<b>002B2EAA3brD5b</b>&amp;play=0</u>
+                        <span>ＱＱ：</span><u>http://y.qq.com/n/yqq/song/<b>002B2EAA3brD5b</b>.html</u>
                     </p>
                     <p>
                         <span>虾米：</span><u>http://www.xiami.com/song/<b>2113248</b></u>
                     </p>
                     <p>
-                        <span>5sing：</span><u>http://5sing.kugou.com/<b>fc/2277364</b>.html</u>
+                        <span>5sing：</span><u>http://5sing.kugou.com/<b>yc/1089684</b>.html</u>
                     </p>
                     <p>
                         <span>咪咕：</span><u>http://music.migu.cn/#/song/<b>1002531572</b>/P7Z1Y1L1N1/3/001002C</u>
@@ -198,6 +198,7 @@
                 </div>
                 <div class="am-popup-bd">
                     <ul>
+                        <li>2017.04.20 <code>v1.1.2</code> 更新音乐地址匹配规则</li>
                         <li>2017.03.24 <code>v1.1.1</code> 移除对天天动听的支持，修复无法获取咪咕音乐的问题，更新 SoundCloud client_id</li>
                         <li>2017.03.23 <code>v1.1.0</code> 更新外链资源地址，优化代码</li>
                         <li>2015.06.15 <code>v1.0.4</code> 增加对 SoundCloud 的支持，增加代理支持，修复音乐名称识别问题，优化代码</li>
