@@ -702,7 +702,7 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false) {
 
 // 获取音频信息 - url
 function maicong_get_song_by_url($url) {
-    preg_match('/https?:\/\/music\.(163)\.com\/(#(\/m)?|m)\/song(\?id=|\/)(\d+)/i', $url, $match_163);
+    preg_match('/music\.(163)\.com\/(#(\/m)?|m)\/song(\?id=|\/)(\d+)/i', $url, $match_163);
     preg_match('/(www|m)\.(1ting)\.com\/(player\/b6\/player_|#\/song\/)(\d+)/i', $url, $match_1ting);
     preg_match('/music\.baidu\.com\/song\/(\d+)/i', $url, $match_baidu);
     preg_match('/m\.kugou\.com\/play\/info\/([a-z0-9]+)/i', $url, $match_kugou);
