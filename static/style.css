@@ -121,8 +121,8 @@ a {
 .audio-player {
     position: relative;
     width: 100%;
-    background-color: #f1faff;
-    border: 1px solid #8dcae8;
+    background-color: #eee;
+    border: 1px solid #ccc;
 }
 .audio-player .amazingaudioplayer-audios {
     display: none;
@@ -260,6 +260,7 @@ a {
     top: 0;
     height: 100%;
     background-color: #ccc;
+    border-radius: 4px;
 }
 .audio-player .amazingaudioplayer-progress-played {
     display: block;
@@ -267,8 +268,8 @@ a {
     left: 0;
     top: 0;
     height: 100%;
+    background-color: #999;
     border-radius: 4px;
-    background-color: #0e90d2;
 }
 .audio-player .amazingaudioplayer-time {
     position: relative;
@@ -313,7 +314,7 @@ a {
     bottom: 0;
     width: 100%;
     height: 60%;
-    background-color: #0e90d2;
+    background-color: #555;
 }
 .audio-player .amazingaudioplayer-tracklist {
     display: block;
@@ -323,7 +324,7 @@ a {
     display: block;
     position: relative;
     padding: 12px;
-    border-top: 2px solid #8dcae8;
+    border-top: 1px solid #ccc;
 }
 .audio-player .amazingaudioplayer-tracks-wrapper {
     position: relative;
@@ -356,8 +357,7 @@ a {
     overflow: hidden;
 }
 .audio-player .amazingaudioplayer-track-item-active {
-    cursor: pointer;
-    color: #0e90d2;
+    font-weight: 700;
 }
 .audio-player .amazingaudioplayer-track-item-duration {
     position: absolute;

@@ -15,7 +15,7 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
 }
 
 // 关闭错误信息，如果要调试请注释掉
-// error_reporting(0);
+error_reporting(0);
 
 // 引入 curl
 require __DIR__.'/Curlclass/Curl.php';
@@ -702,8 +702,8 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false) {
 
 // 获取音频信息 - url
 function maicong_get_song_by_url($url) {
-    preg_match('/music\.(163)\.com\/(#(\/m)?|m)\/song(\?id=|\/)(\d+)/i', $url, $match_163);
-    preg_match('/(www|m)\.(1ting)\.com\/(player\/b6\/player_|#\/song\/)(\d+)/i', $url, $match_1ting);
+    preg_match('/music\.163\.com\/(#(\/m)?|m)\/song(\?id=|\/)(\d+)/i', $url, $match_163);
+    preg_match('/(www|m)\.1ting\.com\/(player\/b6\/player_|#\/song\/)(\d+)/i', $url, $match_1ting);
     preg_match('/music\.baidu\.com\/song\/(\d+)/i', $url, $match_baidu);
     preg_match('/m\.kugou\.com\/play\/info\/([a-z0-9]+)/i', $url, $match_kugou);
     preg_match('/www\.kuwo\.cn\/(yinyue|my)\/(\d+)/i', $url, $match_kuwo);
@@ -713,10 +713,10 @@ function maicong_get_song_by_url($url) {
     preg_match('/music\.migu\.cn\/#\/song\/(\d+)/i', $url, $match_migu);
     preg_match('/soundcloud\.com\/[\w\-]+\/[\w\-]+/i', $url, $match_soundcloud);
     if (!empty($match_163)) {
-        $songid   = $match_163[5];
+        $songid   = $match_163[4];
         $songtype = '163';
     } elseif (!empty($match_1ting)) {
-        $songid   = $match_1ting[4];
+        $songid   = $match_1ting[3];
         $songtype = '1ting';
     } elseif (!empty($match_baidu)) {
         $songid   = $match_baidu[1];

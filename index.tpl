@@ -198,6 +198,7 @@
                 </div>
                 <div class="am-popup-bd">
                     <ul>
+                        <li>2017.04.21 <code>v1.1.3</code> 优化代码和播放器视觉</li>
                         <li>2017.04.20 <code>v1.1.2</code> 更新音乐地址匹配规则</li>
                         <li>2017.03.24 <code>v1.1.1</code> 移除对天天动听的支持，修复无法获取咪咕音乐的问题，更新 SoundCloud client_id</li>
                         <li>2017.03.23 <code>v1.1.0</code> 更新外链资源地址，优化代码</li>
