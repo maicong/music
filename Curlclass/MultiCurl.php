@@ -3,9 +3,9 @@
  *
  * 音乐搜索器 - Curl 类 [https://github.com/php-curl-class/php-curl-class]
  *
- * @author     MaiCong <i@maicong.me>
- * @date       2015-06-13 23:28:19
- * @version    1.0.3
+ * @author  MaiCong <i@maicong.me>
+ * @link    https://github.com/maicong/music
+ * @since   1.1.3
  *
  */
 

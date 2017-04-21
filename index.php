@@ -3,9 +3,9 @@
  *
  * 音乐搜索器 - 入口
  *
- * @author     MaiCong <i@maicong.me>
- * @date       2017-03-23 17:02:39
- * @version    1.1.0
+ * @author  MaiCong <i@maicong.me>
+ * @link    https://github.com/maicong/music
+ * @since   1.1.3
  *
  */
 
