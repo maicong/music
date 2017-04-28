@@ -2,15 +2,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>音乐搜索器|音乐在线试听 - by 麦田一根葱</title>
+    <title>音乐搜索器 - 多站合一音乐搜索,音乐在线试听 - By 麦葱</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <meta name="author" content="Maicong.me">
+    <meta name="author" content="maicong.me">
     <meta name="keywords" content="音乐,音乐搜索,音乐试听,音乐在线听">
-    <meta name="description" content="麦葱(麦田一根葱)特制音乐搜索解决方案，可搜索试听网易云音乐、一听音乐、百度音乐、酷狗音乐、酷我音乐、QQ音乐、虾米音乐、5sing原创音乐、咪咕音乐、SoundCloud。">
+    <meta name="description" content="麦葱特制多站合一音乐搜索解决方案，可搜索试听网易云音乐、QQ音乐、酷狗音乐、酷我音乐、虾米音乐、百度音乐、一听音乐、咪咕音乐、5sing原创音乐、SoundCloud。">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="音乐搜索器">
@@ -20,7 +20,7 @@
     <link rel="apple-touch-icon" href="static/apple-touch-icon.png">
     <link rel="canonical" href="http://music.2333.me/">
     <link rel="stylesheet" href="//cdn.bootcss.com/amazeui/2.3.0/css/amazeui.min.css">
-    <link rel="stylesheet" href="static/style.css?v1.1.0">
+    <link rel="stylesheet" href="static/style.css?v1.1.4">
 </head>
 <body>
     <header class="am-topbar am-topbar-fixed-top">
@@ -51,7 +51,7 @@
         <div class="am-container am-margin-vertical-xl">
             <header class="am-padding-vertical">
                 <h2 class="about-title about-color">音乐搜索器</h2>
-                <p class="am-text-center">麦葱特制网易一听百度酷狗酷我QQ虾米5sing咪咕SoundCloud音乐搜索解决方案</p>
+                <p class="am-text-center">麦葱特制多站合一音乐搜索解决方案</p>
             </header>
             <hr>
             <div class="am-u-lg-12 am-padding-vertical">
@@ -76,14 +76,10 @@
                             <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="163" data-am-ucheck checked>
                                 网易
-                              </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="1ting" data-am-ucheck>
-                                一听
                             </label>
                             <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="baidu" data-am-ucheck>
-                                百度
+                                <input type="radio" name="music_type" value="qq" data-am-ucheck>
+                                ＱＱ
                             </label>
                             <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="kugou" data-am-ucheck>
@@ -94,20 +90,24 @@
                                 酷我
                             </label>
                             <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="qq" data-am-ucheck>
-                                ＱＱ
-                            </label>
-                            <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="xiami" data-am-ucheck>
                                 虾米
                             </label>
                             <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="5sing" data-am-ucheck>
-                                5sing
+                                <input type="radio" name="music_type" value="baidu" data-am-ucheck>
+                                百度
+                            </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" name="music_type" value="1ting" data-am-ucheck>
+                                一听
                             </label>
                             <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="migu" data-am-ucheck>
                                 咪咕
+                            </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" name="music_type" value="5sing" data-am-ucheck>
+                                5sing
                             </label>
                             <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="soundcloud" data-am-ucheck>
@@ -158,10 +158,7 @@
                         <span>网易：</span><u>http://music.163.com/#/song?id=<b>25906124</b></u>
                     </p>
                     <p>
-                        <span>一听：</span><u>http://www.1ting.com/player/b6/player_<b>220513</b>.html</u>
-                    </p>
-                    <p>
-                        <span>百度：</span><u>http://music.baidu.com/song/<b>556113</b></u>
+                        <span>ＱＱ：</span><u>http://y.qq.com/n/yqq/song/<b>002B2EAA3brD5b</b>.html</u>
                     </p>
                     <p>
                         <span>酷狗：</span><u>http://m.kugou.com/play/info/<b>08228af3cb404e8a4e7e9871bf543ff6</b></u>
@@ -170,16 +167,19 @@
                         <span>酷我：</span><u>http://www.kuwo.cn/yinyue/<b>382425</b>/</u>
                     </p>
                     <p>
-                        <span>ＱＱ：</span><u>http://y.qq.com/n/yqq/song/<b>002B2EAA3brD5b</b>.html</u>
-                    </p>
-                    <p>
                         <span>虾米：</span><u>http://www.xiami.com/song/<b>2113248</b></u>
                     </p>
                     <p>
-                        <span>5sing：</span><u>http://5sing.kugou.com/<b>yc/1089684</b>.html</u>
+                        <span>百度：</span><u>http://music.baidu.com/song/<b>556113</b></u>
+                    </p>
+                    <p>
+                        <span>一听：</span><u>http://www.1ting.com/player/b6/player_<b>220513</b>.html</u>
                     </p>
                     <p>
                         <span>咪咕：</span><u>http://music.migu.cn/#/song/<b>1002531572</b>/P7Z1Y1L1N1/3/001002C</u>
+                    </p>
+                    <p>
+                        <span>5sing：</span><u>http://5sing.kugou.com/<b>yc/1089684</b>.html</u>
                     </p>
                     <p>
                         <span>SoundCloud (ID)：</span><u>soundcloud://sounds:<b>197401418</b></u> (请查看源码)</p>
@@ -198,6 +198,7 @@
                 </div>
                 <div class="am-popup-bd">
                     <ul>
+                        <li>2017.04.28 <code>v1.1.4</code> 更新 QQ 音乐 API 接口，优化代码</li>
                         <li>2017.04.21 <code>v1.1.3</code> 优化代码和播放器视觉</li>
                         <li>2017.04.20 <code>v1.1.2</code> 更新音乐地址匹配规则</li>
                         <li>2017.03.24 <code>v1.1.1</code> 移除对天天动听的支持，修复无法获取咪咕音乐的问题，更新 SoundCloud client_id</li>
@@ -229,6 +230,6 @@
     </footer>
     <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/amazeui/2.3.0/js/amazeui.min.js"></script>
-    <script src="static/music.js?v1.1.0"></script>
+    <script src="static/music.js?v1.1.4"></script>
 </body>
 </html>

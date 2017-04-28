@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.1.3
+ * @since   1.1.4
  *
  */
 
@@ -111,12 +111,13 @@ function maicong_song_urls($value, $type = 'query', $site = '163') {
     $radio_search_urls = array(
         '163'        => array(
             'method'  => 'POST',
-            'url'     => 'http://music.163.com/api/search/suggest/web',
+            'url'     => 'http://music.163.com/api/search/get/web',
             'referer' => 'http://music.163.com/',
             'proxy'   => false,
             'body'    => array(
                 'csrf_token' => '',
-                'limit'      => '5',
+                'type'       => '1',
+                'limit'      => '10',
                 's'          => $query
             )
         ),
@@ -127,7 +128,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163') {
             'proxy'   => false,
             'body'    => array(
                 'page' => '1',
-                'size' => '5',
+                'size' => '10',
                 'q'    => $query
             )
         ),
@@ -151,7 +152,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163') {
             'body'       => array(
                 'format'   => 'json',
                 'page'     => '1',
-                'pagesize' => '5',
+                'pagesize' => '10',
                 'keyword'  => $query
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
@@ -165,7 +166,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163') {
                 'ft'       => 'music',
                 'itemset'  => 'web_2013',
                 'pn'       => '0',
-                'rn'       => '5',
+                'rn'       => '10',
                 'rformat'  => 'json',
                 'encoding' => 'utf8',
                 'all'      => $query
@@ -173,12 +174,13 @@ function maicong_song_urls($value, $type = 'query', $site = '163') {
         ),
         'qq'         => array(
             'method'     => 'GET',
-            'url'        => 'http://open.music.qq.com/fcgi-bin/fcg_weixin_music_search.fcg',
-            'referer'    => 'http://m.y.qq.com/',
+            'url'        => 'http://c.y.qq.com/soso/fcgi-bin/client_search_cp',
+            'referer'    => 'http://y.qq.com/portal/search.html',
             'proxy'      => false,
             'body'       => array(
-                'curpage' => '1',
-                'perpage' => '5',
+                'p'       => '1',
+                'n'       => '10',
+                'format'  => 'json',
                 'w'       => $query
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
@@ -193,7 +195,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163') {
                 'app_key' => '1',
                 'r'       => 'search/songs',
                 'page'    => '1',
-                'limit'   => '5',
+                'limit'   => '10',
                 'key'     => $query
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
@@ -216,7 +218,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163') {
                 'keyWord'  => $query,
                 'type'     => 'song',
                 'pageNo'   => '1',
-                'pageSize' => '5'
+                'pageSize' => '10'
             )
         ),
         'soundcloud' => array(
@@ -226,7 +228,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163') {
             'proxy'   => false,
             'body'    => array(
                 'q'         => $query,
-                'limit'     => '5',
+                'limit'     => '10',
                 'offset'    => '0',
                 'facet'     => 'genre',
                 'client_id' => MC_SC_CLIENT_ID,
@@ -290,7 +292,6 @@ function maicong_song_urls($value, $type = 'query', $site = '163') {
             'referer'    => 'http://data.music.qq.com/playsong.html?songmid='.$songid,
             'proxy'      => false,
             'body'       => array(
-                'url'     => '1',
                 'midlist' => $songid
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
@@ -383,9 +384,8 @@ function maicong_get_song_by_name($query, $site = '163') {
             break;
         case 'qq':
             $radio_data = json_decode($radio_result, true);
-            foreach ($radio_data['list'] as $key => $val) {
-                $radio_hash     = explode('|', $val['f']);
-                $radio_songid[] = $radio_hash[20];
+            foreach ($radio_data['data']['song']['list'] as $key => $val) {
+                $radio_songid[] = $val['songmid'];
             }
             break;
         case 'xiami':
@@ -549,22 +549,22 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false) {
             foreach ($radio_result as $key => $val) {
                 $radio_data   = json_decode($val, true);
                 $radio_detail = $radio_data['data'];
-                if (!empty($radio_detail) && $radio_data['url']) {
-                    $radio_pic     = substr($radio_detail[0]['albummid'], -2, 1).'/'.substr($radio_detail[0]['albummid'], -1, 1).'/'.$radio_detail[0]['albummid'];
+                if (!empty($radio_detail)) {
                     $radio_song_id = $radio_detail[0]['songmid'];
+                    $radio_pic     = $radio_detail[0]['albummid'];
                     $radio_authors = array();
                     foreach ($radio_detail[0]['singer'] as $key => $val) {
                         $radio_authors[] = $val['name'];
                     }
-                    $radio_author = implode('/', $radio_authors);
+                    $radio_author  = implode('/', $radio_authors);
                     $radio_songs[] = array(
                         'type'   => 'qq',
                         'link'   => 'https://y.qq.com/n/yqq/song/'.$radio_song_id.'.html',
                         'songid' => $radio_song_id,
                         'name'   => $radio_detail[0]['songname'],
                         'author' => $radio_author,
-                        'music'  => $radio_data['url'][$radio_detail[0]['songid']],
-                        'pic'    => 'http://imgcache.qq.com/music/photo/mid_album_300/'.$radio_pic.'.jpg'
+                        'music'  => 'http://isure.stream.qqmusic.qq.com/C100'.$radio_song_id.'.m4a?fromtag=32',
+                        'pic'    => 'http://y.gtimg.cn/music/photo_new/T002R300x300M000'.$radio_pic.'.jpg'
                     );
                 }
             }
