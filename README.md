@@ -1,12 +1,14 @@
-# 麦葱特制网易一听百度酷狗酷我QQ虾米5sing天天动听咪咕SoundCloud音乐搜索解决方案
+# 麦葱特制多站合一音乐搜索解决方案
 
 ## (๑•̀ㅂ•́)و✧
+
+可搜索试听网易云音乐、QQ音乐、酷狗音乐、酷我音乐、虾米音乐、百度音乐、一听音乐、咪咕音乐、5sing原创音乐、SoundCloud。
 
 数据调用的是各音频网站 JSON 接口！
 
 问我怎么来的？噗，抓包发现的。。。
 
-有的接口并不是开放的API接口，随时可能失效，所以本项目相关代码仅供参考。
+有的接口并不是开放的 API 接口，随时可能失效，所以本项目相关代码仅供参考。
 
 ## Demo / 演示
 
@@ -16,6 +18,7 @@
 
 ## 更新日志
 
+-   2017.04.28 `v1.1.4` 更新 QQ 音乐 API 接口，优化代码
 -   2017.04.21 `v1.1.3` 优化代码和播放器视觉
 -   2017.04.20 `v1.1.2` 更新音乐地址匹配规则
 -   2017.03.24 `v1.1.1` 移除对天天动听的支持，修复无法获取咪咕音乐的问题，更新 SoundCloud client_id
@@ -43,6 +46,28 @@
 更换服务器，选择延迟更低的服务器。
 ```
 
-## MIT
+## 开源协议
 
-You know.
+```
+The MIT License (MIT)
+
+Copyright (c) 2015 Maicong
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
