@@ -357,12 +357,14 @@ function maicong_get_song_by_name($query, $site = '163') {
     switch ($site) {
         case '1ting':
             $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['results'])) return;
             foreach ($radio_data['results'] as $key => $val) {
                 $radio_songid[] = $val['song_id'];
             }
             break;
         case 'baidu':
             $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['data']) || empty($radio_data['data']['song'])) return;
             foreach ($radio_data['data']['song'] as $key => $val) {
                 if ($key > 4) {
                     break;
@@ -372,6 +374,7 @@ function maicong_get_song_by_name($query, $site = '163') {
             break;
         case 'kugou':
             $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['data']) || empty($radio_data['data']['info'])) return;
             foreach ($radio_data['data']['info'] as $key => $val) {
                 $radio_songid[] = $val['hash'];
             }
@@ -379,24 +382,28 @@ function maicong_get_song_by_name($query, $site = '163') {
         case 'kuwo':
             $radio_result = str_replace('\'', '"', $radio_result);
             $radio_data   = json_decode($radio_result, true);
+            if (empty($radio_data['abslist'])) return;
             foreach ($radio_data['abslist'] as $key => $val) {
                 $radio_songid[] = str_replace('MUSIC_', '', $val['MUSICRID']);
             }
             break;
         case 'qq':
             $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['data']) || empty($radio_data['data']['song']) || empty($radio_data['data']['song']['list'])) return;
             foreach ($radio_data['data']['song']['list'] as $key => $val) {
                 $radio_songid[] = $val['songmid'];
             }
             break;
         case 'xiami':
             $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['data']) || empty($radio_data['data']['songs'])) return;
             foreach ($radio_data['data']['songs'] as $key => $val) {
                 $radio_songid[] = $val['song_id'];
             }
             break;
         case '5sing':
             $radio_data = json_decode(substr($radio_result, 1, -1), true);
+            if (empty($radio_data['songs'])) return;
             foreach ($radio_data['songs'] as $key => $val) {
                 if ($key > 4) {
                     break;
@@ -406,12 +413,14 @@ function maicong_get_song_by_name($query, $site = '163') {
             break;
         case 'migu':
             $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['data']) || empty($radio_data['data']['list'])) return;
             foreach ($radio_data['data']['list'] as $key => $val) {
                 $radio_songid[] = $val['songId'];
             }
             break;
         case 'soundcloud':
             $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['collection'])) return;
             foreach ($radio_data['collection'] as $key => $val) {
                 $radio_songid[] = $val['id'];
             }
@@ -419,6 +428,7 @@ function maicong_get_song_by_name($query, $site = '163') {
         case '163':
         default:
             $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['result']) || empty($radio_data['result']['songs'])) return;
             foreach ($radio_data['result']['songs'] as $key => $val) {
                 $radio_songid[] = $val['id'];
             }
