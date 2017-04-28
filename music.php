@@ -111,12 +111,13 @@ function maicong_song_urls($value, $type = 'query', $site = '163') {
     $radio_search_urls = array(
         '163'        => array(
             'method'  => 'POST',
-            'url'     => 'http://music.163.com/api/search/get/web',
+            'url'     => 'http://music.163.com/api/search/pc',
             'referer' => 'http://music.163.com/',
             'proxy'   => false,
             'body'    => array(
                 'csrf_token' => '',
                 'type'       => '1',
+                'offset'     => '0',
                 'limit'      => '10',
                 's'          => $query
             )
