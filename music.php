@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.1.5
+ * @since   1.1.6
  *
  */
 
@@ -116,16 +116,19 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
     $radio_search_urls = array(
         '163'        => array(
             'method'  => 'POST',
-            'url'     => 'http://music.163.com/api/search/pc',
+            'url'     => 'http://music.163.com/api/linux/forward',
             'referer' => 'http://music.163.com/',
             'proxy'   => false,
-            'body'    => array(
-                'csrf_token' => '',
-                'type'       => '1',
-                'offset'     => '0',
-                'limit'      => '10',
-                's'          => $query
-            )
+            'body'    => encode_163data(array(
+                'method'  => 'POST',
+                'url'     => 'http://music.163.com/api/cloudsearch/pc',
+                'params'  => array(
+                    'type'     => '1',
+                    'offset'   => '0',
+                    'limit'    => '10',
+                    's'        => $query
+                )
+            ))
         ),
         '1ting'      => array(
             'method'  => 'GET',
@@ -243,14 +246,18 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
     );
     $radio_song_urls = array(
         '163'        => array(
-            'method'  => 'GET',
-            'url'     => 'http://music.163.com/api/song/detail/',
-            'referer' => 'http://music.163.com/#/song?id='.$songid,
+            'method'  => 'POST',
+            'url'     => 'http://music.163.com/api/linux/forward',
+            'referer' => 'http://music.163.com/',
             'proxy'   => false,
-            'body'    => array(
-                'id'  => $songid,
-                'ids' => '['.$songid.']'
-            )
+            'body'    => encode_163data(array(
+                'method' => 'GET',
+                'url'    => 'http://music.163.com/api/song/detail',
+                'params' => array(
+                  'id'  => $songid,
+                  'ids' => '['.$songid.']'
+                )
+            ))
         ),
         '1ting'      => array(
             'method'  => 'GET',
@@ -725,15 +732,18 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false)
                     $radio_music_url = $radio_detail[0]['mp3Url'];
                     if (!$radio_music_url) {
                         $radio_streams = array(
-                          'method'  => 'GET',
-                          'url'     => 'http://music.163.com/api/song/enhance/player/url',
-                          'referer' => 'http://music.163.com/#/song?id='.$radio_song_id,
+                          'method'  => 'POST',
+                          'url'     => 'http://music.163.com/api/linux/forward',
+                          'referer' => 'http://music.163.com/',
                           'proxy'   => false,
-                          'body'    => array(
-                              'ids'         => '["'.$radio_song_id.'"]',
-                              'br'          => '320000',
-                              'csrf_token'  => ''
-                          )
+                          'body'    => encode_163data(array(
+                              'method' => 'POST',
+                              'url' => 'http://music.163.com/api/song/enhance/player/url',
+                              'params' => array(
+                                  'ids' => array($radio_song_id),
+                                  'br'  => 320000,
+                              )
+                          ))
                         );
                         $radio_streams_info = json_decode(maicong_curl($radio_streams), true);
                         if (!empty($radio_streams_info)) {
@@ -851,6 +861,26 @@ function maicong_decode_xiami_location($location)
     $url = urldecode($url);
     $url = str_replace('^', '0', $url);
     return $url;
+}
+
+// 加密 163 api 参数
+function encode_163data($data)
+{
+    $_key = '7246674226682325323F5E6544673A51';
+    $data = json_encode($data);
+    if (function_exists('openssl_encrypt')) {
+        $data = openssl_encrypt($data, 'aes-128-ecb', pack('H*', $_key));
+    } else {
+        $_pad = 16 - (strlen($data) % 16);
+        $data = base64_encode(mcrypt_encrypt(
+          MCRYPT_RIJNDAEL_128,
+          hex2bin($_key),
+          $data.str_repeat(chr($_pad), $_pad),
+          MCRYPT_MODE_ECB
+        ));
+    }
+    $data = strtoupper(bin2hex(base64_decode($data)));
+    return ['eparams' => $data ];
 }
 
 // Ajax Post
