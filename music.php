@@ -722,20 +722,23 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false)
                         $radio_authors[] = $val['name'];
                     }
                     $radio_author = implode('/', $radio_authors);
-                    $radio_streams = array(
-                        'method'  => 'GET',
-                        'url'     => 'http://music.163.com/api/song/enhance/player/url',
-                        'referer' => 'http://music.163.com/#/song?id='.$songid,
-                        'proxy'   => false,
-                        'body'    => array(
-                            'ids'         => '['.$radio_song_id.']',
-                            'br'          => '320000',
-                            'csrf_token'  => ''
-                        )
-                    );
-                    $radio_streams_info = json_decode(maicong_curl($radio_streams), true);
-                    if (!empty($radio_streams_info)) {
-                        $radio_music_url = $radio_streams_info['data'][0]['url'];
+                    $radio_music_url = $radio_detail[0]['mp3Url'];
+                    if (!$radio_music_url) {
+                        $radio_streams = array(
+                          'method'  => 'GET',
+                          'url'     => 'http://music.163.com/api/song/enhance/player/url',
+                          'referer' => 'http://music.163.com/#/song?id='.$radio_song_id,
+                          'proxy'   => false,
+                          'body'    => array(
+                              'ids'         => '["'.$radio_song_id.'"]',
+                              'br'          => '320000',
+                              'csrf_token'  => ''
+                          )
+                        );
+                        $radio_streams_info = json_decode(maicong_curl($radio_streams), true);
+                        if (!empty($radio_streams_info)) {
+                            $radio_music_url = $radio_streams_info['data'][0]['url'];
+                        }
                     }
                     $radio_songs[] = array(
                         'type'   => '163',
