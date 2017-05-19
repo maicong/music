@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.1.4
+ * @since   1.1.5
  *
  */
 
@@ -22,7 +22,8 @@ require __DIR__.'/Curlclass/Curl.php';
 use Curlclass\Curl;
 
 // 参数处理
-function stripslashes_deep($value) {
+function stripslashes_deep($value)
+{
     if (is_array($value)) {
         $value = array_map('stripslashes_deep', $value);
     } elseif (is_object($value)) {
@@ -36,13 +37,15 @@ function stripslashes_deep($value) {
     }
     return $value;
 }
-function maicong_parse_str($string, &$array) {
+function maicong_parse_str($string, &$array)
+{
     parse_str($string, $array);
     if (get_magic_quotes_gpc()) {
         $array = stripslashes_deep($array);
     }
 }
-function maicong_parse_args($args, $defaults = array()) {
+function maicong_parse_args($args, $defaults = array())
+{
     if (is_object($args)) {
         $r = get_object_vars($args);
     } elseif (is_array($args)) {
@@ -57,7 +60,8 @@ function maicong_parse_args($args, $defaults = array()) {
 }
 
 // Curl 内容获取
-function maicong_curl($args = array()) {
+function maicong_curl($args = array())
+{
     $default = array(
         'method'     => 'GET',
         'user-agent' => 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.4 Safari/537.36',
@@ -102,7 +106,8 @@ function maicong_curl($args = array()) {
 }
 
 // 音频数据接口地址
-function maicong_song_urls($value, $type = 'query', $site = '163') {
+function maicong_song_urls($value, $type = 'query', $site = '163')
+{
     if (!$value) {
         return;
     }
@@ -341,7 +346,8 @@ function maicong_song_urls($value, $type = 'query', $site = '163') {
 }
 
 // 获取音频信息 - 关键词搜索
-function maicong_get_song_by_name($query, $site = '163') {
+function maicong_get_song_by_name($query, $site = '163')
+{
     if (!$query) {
         return;
     }
@@ -357,14 +363,18 @@ function maicong_get_song_by_name($query, $site = '163') {
     switch ($site) {
         case '1ting':
             $radio_data = json_decode($radio_result, true);
-            if (empty($radio_data['results'])) return;
+            if (empty($radio_data['results'])) {
+                return;
+            }
             foreach ($radio_data['results'] as $key => $val) {
                 $radio_songid[] = $val['song_id'];
             }
             break;
         case 'baidu':
             $radio_data = json_decode($radio_result, true);
-            if (empty($radio_data['data']) || empty($radio_data['data']['song'])) return;
+            if (empty($radio_data['data']) || empty($radio_data['data']['song'])) {
+                return;
+            }
             foreach ($radio_data['data']['song'] as $key => $val) {
                 if ($key > 4) {
                     break;
@@ -374,7 +384,9 @@ function maicong_get_song_by_name($query, $site = '163') {
             break;
         case 'kugou':
             $radio_data = json_decode($radio_result, true);
-            if (empty($radio_data['data']) || empty($radio_data['data']['info'])) return;
+            if (empty($radio_data['data']) || empty($radio_data['data']['info'])) {
+                return;
+            }
             foreach ($radio_data['data']['info'] as $key => $val) {
                 $radio_songid[] = $val['hash'];
             }
@@ -382,28 +394,36 @@ function maicong_get_song_by_name($query, $site = '163') {
         case 'kuwo':
             $radio_result = str_replace('\'', '"', $radio_result);
             $radio_data   = json_decode($radio_result, true);
-            if (empty($radio_data['abslist'])) return;
+            if (empty($radio_data['abslist'])) {
+                return;
+            }
             foreach ($radio_data['abslist'] as $key => $val) {
                 $radio_songid[] = str_replace('MUSIC_', '', $val['MUSICRID']);
             }
             break;
         case 'qq':
             $radio_data = json_decode($radio_result, true);
-            if (empty($radio_data['data']) || empty($radio_data['data']['song']) || empty($radio_data['data']['song']['list'])) return;
+            if (empty($radio_data['data']) || empty($radio_data['data']['song']) || empty($radio_data['data']['song']['list'])) {
+                return;
+            }
             foreach ($radio_data['data']['song']['list'] as $key => $val) {
                 $radio_songid[] = $val['songmid'];
             }
             break;
         case 'xiami':
             $radio_data = json_decode($radio_result, true);
-            if (empty($radio_data['data']) || empty($radio_data['data']['songs'])) return;
+            if (empty($radio_data['data']) || empty($radio_data['data']['songs'])) {
+                return;
+            }
             foreach ($radio_data['data']['songs'] as $key => $val) {
                 $radio_songid[] = $val['song_id'];
             }
             break;
         case '5sing':
             $radio_data = json_decode(substr($radio_result, 1, -1), true);
-            if (empty($radio_data['songs'])) return;
+            if (empty($radio_data['songs'])) {
+                return;
+            }
             foreach ($radio_data['songs'] as $key => $val) {
                 if ($key > 4) {
                     break;
@@ -413,14 +433,18 @@ function maicong_get_song_by_name($query, $site = '163') {
             break;
         case 'migu':
             $radio_data = json_decode($radio_result, true);
-            if (empty($radio_data['data']) || empty($radio_data['data']['list'])) return;
+            if (empty($radio_data['data']) || empty($radio_data['data']['list'])) {
+                return;
+            }
             foreach ($radio_data['data']['list'] as $key => $val) {
                 $radio_songid[] = $val['songId'];
             }
             break;
         case 'soundcloud':
             $radio_data = json_decode($radio_result, true);
-            if (empty($radio_data['collection'])) return;
+            if (empty($radio_data['collection'])) {
+                return;
+            }
             foreach ($radio_data['collection'] as $key => $val) {
                 $radio_songid[] = $val['id'];
             }
@@ -428,7 +452,9 @@ function maicong_get_song_by_name($query, $site = '163') {
         case '163':
         default:
             $radio_data = json_decode($radio_result, true);
-            if (empty($radio_data['result']) || empty($radio_data['result']['songs'])) return;
+            if (empty($radio_data['result']) || empty($radio_data['result']['songs'])) {
+                return;
+            }
             foreach ($radio_data['result']['songs'] as $key => $val) {
                 $radio_songid[] = $val['id'];
             }
@@ -438,7 +464,8 @@ function maicong_get_song_by_name($query, $site = '163') {
 }
 
 // 获取音频信息 - 歌曲ID
-function maicong_get_song_by_id($songid, $site = '163', $multi = false) {
+function maicong_get_song_by_id($songid, $site = '163', $multi = false)
+{
     if (empty($songid) || empty($site)) {
         return;
     }
@@ -695,13 +722,28 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false) {
                         $radio_authors[] = $val['name'];
                     }
                     $radio_author = implode('/', $radio_authors);
+                    $radio_streams = array(
+                        'method'  => 'GET',
+                        'url'     => 'http://music.163.com/api/song/enhance/player/url',
+                        'referer' => 'http://music.163.com/#/song?id='.$songid,
+                        'proxy'   => false,
+                        'body'    => array(
+                            'ids'         => '['.$radio_song_id.']',
+                            'br'          => '320000',
+                            'csrf_token'  => ''
+                        )
+                    );
+                    $radio_streams_info = json_decode(maicong_curl($radio_streams), true);
+                    if (!empty($radio_streams_info)) {
+                        $radio_music_url = $radio_streams_info['data'][0]['url'];
+                    }
                     $radio_songs[] = array(
                         'type'   => '163',
                         'link'    => 'http://music.163.com/#/song?id='.$radio_song_id,
                         'songid' => $radio_song_id,
                         'name'   => $radio_detail[0]['name'],
                         'author' => $radio_author,
-                        'music'  => $radio_detail[0]['mp3Url'],
+                        'music'  => $radio_music_url,
                         'pic'    => $radio_detail[0]['album']['picUrl'].'?param=100x100'
                     );
                 }
@@ -712,7 +754,8 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false) {
 }
 
 // 获取音频信息 - url
-function maicong_get_song_by_url($url) {
+function maicong_get_song_by_url($url)
+{
     preg_match('/music\.163\.com\/(#(\/m)?|m)\/song(\?id=|\/)(\d+)/i', $url, $match_163);
     preg_match('/(www|m)\.1ting\.com\/(player\/b6\/player_|#\/song\/)(\d+)/i', $url, $match_1ting);
     preg_match('/music\.baidu\.com\/song\/(\d+)/i', $url, $match_baidu);
@@ -774,7 +817,8 @@ function maicong_get_song_by_url($url) {
 }
 
 // 解密虾米 location
-function maicong_decode_xiami_location($location) {
+function maicong_decode_xiami_location($location)
+{
     $location = trim($location);
     $result   = array();
     $line     = intval($location[0]);
@@ -807,10 +851,12 @@ function maicong_decode_xiami_location($location) {
 }
 
 // Ajax Post
-function ajax_post($key) {
+function ajax_post($key)
+{
     return (!empty($_POST[$key]) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') ? $_POST[$key] : null;
 }
 
-function server($key) {
+function server($key)
+{
     return isset($_SERVER[$key]) ? $_SERVER[$key] : null;
 }
