@@ -20,7 +20,7 @@
     <link rel="apple-touch-icon" href="static/apple-touch-icon.png">
     <link rel="canonical" href="http://music.2333.me/">
     <link rel="stylesheet" href="//cdn.bootcss.com/amazeui/2.3.0/css/amazeui.min.css">
-    <link rel="stylesheet" href="static/style.css?v1.1.4">
+    <link rel="stylesheet" href="static/style.css?v1.1.6">
 </head>
 <body>
     <header class="am-topbar am-topbar-fixed-top">
@@ -198,6 +198,7 @@
                 </div>
                 <div class="am-popup-bd">
                     <ul>
+                        <li>2017.06.26 <code>v1.1.6</code> 修复数组写法兼容性</li>
                         <li>2017.05.19 <code>v1.1.5</code> 修复 网易云音乐 音乐链接失效问题</li>
                         <li>2017.04.28 <code>v1.1.4</code> 更新 QQ 音乐 API 接口，优化代码</li>
                         <li>2017.04.21 <code>v1.1.3</code> 优化代码和播放器视觉</li>
@@ -231,6 +232,6 @@
     </footer>
     <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/amazeui/2.3.0/js/amazeui.min.js"></script>
-    <script src="static/music.js?v1.1.4"></script>
+    <script src="static/music.js?v1.1.6"></script>
 </body>
 </html>

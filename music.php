@@ -880,7 +880,7 @@ function encode_163data($data)
         ));
     }
     $data = strtoupper(bin2hex(base64_decode($data)));
-    return ['eparams' => $data ];
+    return array('eparams' => $data);
 }
 
 // Ajax Post
