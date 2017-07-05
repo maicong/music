@@ -20,7 +20,7 @@
     <link rel="apple-touch-icon" href="static/apple-touch-icon.png">
     <link rel="canonical" href="http://music.2333.me/">
     <link rel="stylesheet" href="//cdn.bootcss.com/amazeui/2.3.0/css/amazeui.min.css">
-    <link rel="stylesheet" href="static/style.css?v1.1.6">
+    <link rel="stylesheet" href="static/style.css?v<?php echo MC_VERSION; ?>">
 </head>
 <body>
     <header class="am-topbar am-topbar-fixed-top">
@@ -69,7 +69,7 @@
                             </li>
                         </ul>
                         <div class="am-form-group">
-                            <input id="music_input" data-filter="name" class="am-form-field am-input-lg am-text-center am-radius" minlength="1" placeholder="例如: 不要说话 陈奕迅" data-am-loading="{loadingText: ' '}" pattern="^.+?$" required>
+                            <input id="music_input" data-filter="name" class="am-form-field am-input-lg am-text-center am-radius" placeholder="例如: 不要说话 陈奕迅" data-am-loading="{loadingText: ' '}" pattern="^.+?$" required>
                             <div class="am-alert am-alert-danger am-animation-shake"></div>
                         </div>
                         <div class="am-form-group am-text-center music-type">
@@ -104,6 +104,10 @@
                             <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="migu" data-am-ucheck>
                                 咪咕
+                            </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" name="music_type" value="lizhi" data-am-ucheck>
+                                荔枝
                             </label>
                             <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="5sing" data-am-ucheck>
@@ -179,6 +183,9 @@
                         <span>咪咕：</span><u>http://music.migu.cn/#/song/<b>1002531572</b>/P7Z1Y1L1N1/3/001002C</u>
                     </p>
                     <p>
+                        <span>荔枝：</span><u>http://www.lizhi.fm/1947925/<b>2498707770886461446</b></u>
+                    </p>
+                    <p>
                         <span>5sing：</span><u>http://5sing.kugou.com/<b>yc/1089684</b>.html</u>
                     </p>
                     <p>
@@ -198,6 +205,7 @@
                 </div>
                 <div class="am-popup-bd">
                     <ul>
+                        <li>2017.07.05 <code>v1.1.7</code> 增加对 荔枝 FM 的支持</li>
                         <li>2017.06.26 <code>v1.1.6</code> 修复数组写法兼容性</li>
                         <li>2017.05.19 <code>v1.1.5</code> 修复 网易云音乐 音乐链接失效问题</li>
                         <li>2017.04.28 <code>v1.1.4</code> 更新 QQ 音乐 API 接口，优化代码</li>
@@ -232,6 +240,6 @@
     </footer>
     <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/amazeui/2.3.0/js/amazeui.min.js"></script>
-    <script src="static/music.js?v1.1.6"></script>
+    <script src="static/music.js?v<?php echo MC_VERSION; ?>"></script>
 </body>
 </html>

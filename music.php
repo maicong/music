@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.1.6
+ * @since   1.1.7
  *
  */
 
@@ -64,7 +64,7 @@ function maicong_curl($args = array())
 {
     $default = array(
         'method'     => 'GET',
-        'user-agent' => 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.4 Safari/537.36',
+        'user-agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36',
         'url'        => null,
         'referer'    => 'https://www.google.co.uk',
         'headers'    => null,
@@ -144,7 +144,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
         'baidu'      => array(
             'method'  => 'GET',
             'url'     => 'http://sug.music.baidu.com/info/suggestion',
-            'referer' => 'http://music.baidu.com/search?key='.$query,
+            'referer' => 'http://music.baidu.com/search?key='.urlencode($query),
             'proxy'   => false,
             'body'    => array(
                 'format'  => 'json',
@@ -164,7 +164,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
                 'pagesize' => '10',
                 'keyword'  => $query
             ),
-            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
+            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
         'kuwo'       => array(
             'method'  => 'GET',
@@ -192,7 +192,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
                 'format'  => 'json',
                 'w'       => $query
             ),
-            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
+            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
         'xiami'      => array(
             'method'     => 'GET',
@@ -207,7 +207,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
                 'limit'   => '10',
                 'key'     => $query
             ),
-            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
+            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
         '5sing'      => array(
             'method'  => 'GET',
@@ -229,6 +229,14 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
                 'pageNo'   => '1',
                 'pageSize' => '10'
             )
+        ),
+        'lizhi'       => array(
+            'method'     => 'GET',
+            'url'        => 'http://m.lizhi.fm/api/search_audio/'.urlencode($query).'/1',
+            'referer'    => 'http://m.lizhi.fm',
+            'proxy'      => false,
+            'body'       => false,
+            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
         'soundcloud' => array(
             'method'  => 'GET',
@@ -288,7 +296,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
                 'cmd'  => 'playInfo',
                 'hash' => $songid
             ),
-            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
+            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
         'kuwo'       => array(
             'method'  => 'GET',
@@ -307,14 +315,14 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
             'body'       => array(
                 'midlist' => $songid
             ),
-            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
+            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
         'xiami'      => array(
             'method'     => 'GET',
             'url'        => 'http://www.xiami.com/song/playlist/id/'.$songid.'/object_name/default/object_id/0/cat/json',
             'referer'    => 'http://m.xiami.com/song/'.$songid,
             'proxy'      => false,
-            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4'
+            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
         '5sing'      => array(
             'method'  => 'GET',
@@ -332,6 +340,16 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
                 'itemid' => $songid,
                 'type'   => 'song'
             )
+        ),
+        'lizhi' => array(
+            'method'     => 'GET',
+            'url'        => 'http://m.lizhi.fm/api/audios_with_radio',
+            'referer'    => 'http://m.lizhi.fm',
+            'proxy'      => false,
+            'body'       => array(
+                'ids'    => $songid
+            ),
+            'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
         'soundcloud' => array(
             'method'  => 'GET',
@@ -445,6 +463,15 @@ function maicong_get_song_by_name($query, $site = '163')
             }
             foreach ($radio_data['data']['list'] as $key => $val) {
                 $radio_songid[] = $val['songId'];
+            }
+            break;
+        case 'lizhi':
+            $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['audio']) || empty($radio_data['audio']['data'])) {
+                return;
+            }
+            foreach ($radio_data['audio']['data'] as $key => $val) {
+                $radio_songid[] = $val['audio']['id'];
             }
             break;
         case 'soundcloud':
@@ -683,6 +710,24 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false)
                 }
             }
             break;
+        case 'lizhi':
+            foreach ($radio_result as $key => $val) {
+                $radio_data = json_decode($val, true);
+                $radio_detail = $radio_data['0'];
+                if (!empty($radio_detail)) {
+                    $radio_song_id = $radio_detail['audio']['id'];
+                    $radio_songs[] = array(
+                        'type'   => 'lizhi',
+                        'link'   => 'http://www.lizhi.fm/'.$radio_detail['radio']['band'].'/'.$radio_song_id,
+                        'songid' => $radio_song_id,
+                        'name'   => urldecode($radio_detail['audio']['name']),
+                        'author' => $radio_detail['radio']['name'],
+                        'music'  => $radio_detail['audio']['url'],
+                        'pic'    => 'http://m.lizhi.fm/radio_cover/'.$radio_detail['radio']['cover']
+                    );
+                }
+            }
+            break;
         case 'soundcloud':
             foreach ($radio_result as $key => $val) {
                 $radio_detail = json_decode($val, true);
@@ -778,6 +823,7 @@ function maicong_get_song_by_url($url)
     preg_match('/(www|m)\.xiami\.com\/song\/(\d+)/i', $url, $match_xiami);
     preg_match('/5sing\.kugou\.com\/(m\/detail\/|)([a-z]+)(-|\/)(\d+)/i', $url, $match_5sing);
     preg_match('/music\.migu\.cn\/#\/song\/(\d+)/i', $url, $match_migu);
+    preg_match('/(www|m)\.lizhi\.fm\/(\d+)\/(\d+)/i', $url, $match_lizhi);
     preg_match('/soundcloud\.com\/[\w\-]+\/[\w\-]+/i', $url, $match_soundcloud);
     if (!empty($match_163)) {
         $songid   = $match_163[4];
@@ -806,6 +852,9 @@ function maicong_get_song_by_url($url)
     } elseif (!empty($match_migu)) {
         $songid   = $match_migu[1];
         $songtype = 'migu';
+    } elseif (!empty($match_lizhi)) {
+        $songid   = $match_lizhi[3];
+        $songtype = 'lizhi';
     } elseif (!empty($match_soundcloud)) {
         $match_resolve = array(
             'method'  => 'GET',
