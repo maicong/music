@@ -205,6 +205,7 @@
                 </div>
                 <div class="am-popup-bd">
                     <ul>
+                        <li>2017.07.10 <code>v1.1.8</code> 修复 api 请求接口问题</li>
                         <li>2017.07.05 <code>v1.1.7</code> 增加对 荔枝 FM 的支持</li>
                         <li>2017.06.26 <code>v1.1.6</code> 修复数组写法兼容性</li>
                         <li>2017.05.19 <code>v1.1.5</code> 修复 网易云音乐 音乐链接失效问题</li>

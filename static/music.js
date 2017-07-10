@@ -4,7 +4,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.1.7
+ * @since   1.1.8
  *
  */
 
@@ -1900,7 +1900,7 @@ $(function() {
         }
         return $.ajax({
           type: 'POST',
-          url: '/',
+          url: location.href.split('?')[0],
           timeout: 30000,
           data: post_data,
           dataType: 'json',
