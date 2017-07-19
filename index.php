@@ -5,13 +5,13 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.1.9
+ * @since   1.2.0
  *
  */
 
 define('MC_CORE', true);
 
-define('MC_VERSION', '1.1.9');
+define('MC_VERSION', '1.2.0');
 
 // SoundCloud 客户端 ID，如果失效请更改
 define('MC_SC_CLIENT_ID', '2t9loNQH90kzJcsFCODdigxfp325aq4z');
@@ -44,12 +44,12 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
     $music_url        = null;
     switch ($music_filter) {
         case 'name':
-            $music_valid      = preg_match('/^.+?$/isu', $music_input);
+            $music_valid      = preg_match('/^.+$/i', $music_input);
             $music_name       = $music_input;
             $music_type_valid = in_array($music_type, $music_type_allow, true);
             break;
         case 'id':
-            $music_valid      = preg_match('/^[\w\/\|]+$/is', $music_input);
+            $music_valid      = preg_match('/^[\w\/\|]+$/i', $music_input);
             $music_type_valid = in_array($music_type, $music_type_allow, true);
             $music_id         = $music_input;
             break;
