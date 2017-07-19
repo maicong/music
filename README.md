@@ -2,7 +2,20 @@
 
 ## (๑•̀ㅂ•́)و✧
 
-可搜索试听网易云音乐、QQ音乐、酷狗音乐、酷我音乐、虾米音乐、百度音乐、一听音乐、咪咕音乐、荔枝FM、5sing原创音乐、SoundCloud。
+目前支持搜索试听以下网站音乐：
+
+> [网易云音乐](http://music.163.com/)
+> [QQ 音乐](http://y.qq.com/)
+> [酷狗音乐](http://www.kugou.com/)
+> [酷我音乐](http://www.kuwo.cn/)
+> [虾米音乐](http://www.xiami.com/)
+> [百度音乐](http://music.baidu.com/)
+> [一听音乐](http://www.1ting.com/)
+> [咪咕音乐](http://music.migu.cn/)
+> [荔枝 FM](http://www.lizhi.fm/)
+> [蜻蜓 FM](http://www.qingting.fm/)
+> [5sing 原创音乐](http://5sing.kugou.com/)
+> [SoundCloud](https://soundcloud.com/)
 
 数据调用的是各音频网站 JSON 接口！
 
