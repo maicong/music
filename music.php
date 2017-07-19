@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.1.7
+ * @since   1.1.9
  *
  */
 
@@ -123,10 +123,10 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
                 'method'  => 'POST',
                 'url'     => 'http://music.163.com/api/cloudsearch/pc',
                 'params'  => array(
+                    's'        => $query,
                     'type'     => '1',
                     'offset'   => '0',
-                    'limit'    => '10',
-                    's'        => $query
+                    'limit'    => '10'
                 )
             ))
         ),
@@ -136,9 +136,9 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
             'referer' => 'http://m.1ting.com/',
             'proxy'   => false,
             'body'    => array(
+                'q'    => $query,
                 'page' => '1',
-                'size' => '10',
-                'q'    => $query
+                'size' => '10'
             )
         ),
         'baidu'      => array(
@@ -147,10 +147,10 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
             'referer' => 'http://music.baidu.com/search?key='.urlencode($query),
             'proxy'   => false,
             'body'    => array(
+                'word'    => $query,
                 'format'  => 'json',
                 'version' => '2',
-                'from'    => '0',
-                'word'    => $query
+                'from'    => '0'
             )
         ),
         'kugou'      => array(
@@ -159,10 +159,10 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
             'referer'    => 'http://m.kugou.com/v2/static/html/search.html',
             'proxy'      => false,
             'body'       => array(
+                'keyword'  => $query,
                 'format'   => 'json',
                 'page'     => '1',
-                'pagesize' => '10',
-                'keyword'  => $query
+                'pagesize' => '10'
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
@@ -172,13 +172,13 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
             'referer' => 'http://player.kuwo.cn/webmusic/play',
             'proxy'   => false,
             'body'    => array(
+                'all'      => $query,
                 'ft'       => 'music',
                 'itemset'  => 'web_2013',
                 'pn'       => '0',
                 'rn'       => '10',
                 'rformat'  => 'json',
-                'encoding' => 'utf8',
-                'all'      => $query
+                'encoding' => 'utf8'
             )
         ),
         'qq'         => array(
@@ -187,10 +187,10 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
             'referer'    => 'http://y.qq.com/portal/search.html',
             'proxy'      => false,
             'body'       => array(
-                'p'       => '1',
-                'n'       => '10',
-                'format'  => 'json',
-                'w'       => $query
+                'w'      => $query,
+                'p'      => '1',
+                'n'      => '10',
+                'format' => 'json'
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
@@ -200,12 +200,12 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
             'referer'    => 'http://m.xiami.com/',
             'proxy'      => false,
             'body'       => array(
+                'key'     => $query,
                 'v'       => '2.0',
                 'app_key' => '1',
                 'r'       => 'search/songs',
                 'page'    => '1',
-                'limit'   => '10',
-                'key'     => $query
+                'limit'   => '10'
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
@@ -238,6 +238,19 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
             'body'       => false,
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
+        'qingting'       => array(
+            'method'     => 'GET',
+            'url'        => 'http://i.qingting.fm/wapi/search',
+            'referer'    => 'http://www.qingting.fm',
+            'proxy'      => false,
+            'body'       => array(
+                'k'        => $query,
+                'page'     => '1',
+                'pagesize' => '10',
+                'include'  => 'program_ondemand',
+                'groups'   => 'program_ondemand'
+            )
+        ),
         'soundcloud' => array(
             'method'  => 'GET',
             'url'     => 'https://api-v2.soundcloud.com/search/tracks',
@@ -248,7 +261,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
                 'limit'     => '10',
                 'offset'    => '0',
                 'facet'     => 'genre',
-                'client_id' => MC_SC_CLIENT_ID,
+                'client_id' => MC_SC_CLIENT_ID
             )
         )
     );
@@ -350,6 +363,13 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
                 'ids'    => $songid
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
+        ),
+        'qingting' => array(
+            'method'     => 'GET',
+            'url'        => 'http://i.qingting.fm/wapi/channels/'.explode('|', $songid)[0].'/programs/'.explode('|', $songid)[1],
+            'referer'    => 'http://www.qingting.fm',
+            'proxy'      => false,
+            'body'       => false
         ),
         'soundcloud' => array(
             'method'  => 'GET',
@@ -472,6 +492,15 @@ function maicong_get_song_by_name($query, $site = '163')
             }
             foreach ($radio_data['audio']['data'] as $key => $val) {
                 $radio_songid[] = $val['audio']['id'];
+            }
+            break;
+        case 'qingting':
+            $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['data']) || empty($radio_data['data']['data'])) {
+                return;
+            }
+            foreach ($radio_data['data']['data'][0]['doclist']['docs'] as $key => $val) {
+                $radio_songid[] = $val['parent_id'].'|'.$val['id'];
             }
             break;
         case 'soundcloud':
@@ -728,6 +757,35 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false)
                 }
             }
             break;
+        case 'qingting':
+            foreach ($radio_result as $key => $val) {
+                $radio_data = json_decode($val, true);
+                $radio_detail = $radio_data['data'];
+                if (!empty($radio_detail)) {
+                    $radio_channels = array(
+                        'method'  => 'GET',
+                        'url'     => 'http://i.qingting.fm/wapi/channels/'.$radio_detail['channel_id'],
+                        'referer' => 'http://www.qingting.fm',
+                        'proxy'   => false,
+                        'body'    => false
+                    );
+                    $radio_channels_info = json_decode(maicong_curl($radio_channels), true);
+                    if (!empty($radio_channels_info) && !empty($radio_channels_info['data'])) {
+                      $radio_author = $radio_channels_info['data']['name'];
+                      $radio_pic = $radio_channels_info['data']['img_url'];
+                    }
+                    $radio_songs[] = array(
+                        'type'   => 'qingting',
+                        'link'   => 'http://www.qingting.fm/channels/'.$radio_detail['channel_id'].'/programs/'.$radio_detail['id'],
+                        'songid' => $radio_detail['channel_id'].'|'.$radio_detail['id'],
+                        'name'   => urldecode($radio_detail['name']),
+                        'author' => $radio_author,
+                        'music'  => 'http://od.qingting.fm/'.$radio_detail['file_path'],
+                        'pic'    => $radio_pic
+                    );
+                }
+            }
+            break;
         case 'soundcloud':
             foreach ($radio_result as $key => $val) {
                 $radio_detail = json_decode($val, true);
@@ -824,6 +882,7 @@ function maicong_get_song_by_url($url)
     preg_match('/5sing\.kugou\.com\/(m\/detail\/|)([a-z]+)(-|\/)(\d+)/i', $url, $match_5sing);
     preg_match('/music\.migu\.cn\/#\/song\/(\d+)/i', $url, $match_migu);
     preg_match('/(www|m)\.lizhi\.fm\/(\d+)\/(\d+)/i', $url, $match_lizhi);
+    preg_match('/(www|m)\.qingting\.fm\/channels\/(\d+)\/programs\/(\d+)/i', $url, $match_qingting);
     preg_match('/soundcloud\.com\/[\w\-]+\/[\w\-]+/i', $url, $match_soundcloud);
     if (!empty($match_163)) {
         $songid   = $match_163[4];
@@ -855,6 +914,9 @@ function maicong_get_song_by_url($url)
     } elseif (!empty($match_lizhi)) {
         $songid   = $match_lizhi[3];
         $songtype = 'lizhi';
+    } elseif (!empty($match_qingting)) {
+        $songid   = $match_qingting[2].'|'.$match_qingting[3];
+        $songtype = 'qingting';
     } elseif (!empty($match_soundcloud)) {
         $match_resolve = array(
             'method'  => 'GET',

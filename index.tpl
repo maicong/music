@@ -62,7 +62,7 @@
                                 <a>音乐名称</a>
                             </li>
                             <li data-filter="id">
-                                <a>音乐ID</a>
+                                <a>音乐 ID</a>
                             </li>
                             <li data-filter="url">
                                 <a>音乐地址</a>
@@ -108,6 +108,10 @@
                             <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="lizhi" data-am-ucheck>
                                 荔枝
+                            </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" name="music_type" value="qingting" data-am-ucheck>
+                                蜻蜓
                             </label>
                             <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="5sing" data-am-ucheck>
@@ -156,8 +160,11 @@
                 <div class="am-u-md-12 am-u-sm-centered am-margin-vertical music-tips">
                     <h4>帮助：</h4>
                     <p>
-                        <b>标红</b> 为 <strong>音乐ID</strong>，<u>下划线</u> 表示 <strong>音乐地址</strong>
+                        <b>标红</b> 为 <strong>音乐 ID</strong>，<u>下划线</u> 表示 <strong>音乐地址</strong>
                     </p>
+                    <blockquote>
+                      <p>蜻蜓 FM 的 音乐 ID 需要使用 <code>| (管道符)</code> 组合，例如 <code>158696|5266259</code></p>
+                    </blockquote>
                     <p>
                         <span>网易：</span><u>http://music.163.com/#/song?id=<b>25906124</b></u>
                     </p>
@@ -186,10 +193,14 @@
                         <span>荔枝：</span><u>http://www.lizhi.fm/1947925/<b>2498707770886461446</b></u>
                     </p>
                     <p>
+                        <span>蜻蜓：</span><u>http://www.qingting.fm/channels/<b>158696</b>/programs/<b>5266259</b></u>
+                    </p>
+                    <p>
                         <span>5sing：</span><u>http://5sing.kugou.com/<b>yc/1089684</b>.html</u>
                     </p>
                     <p>
-                        <span>SoundCloud (ID)：</span><u>soundcloud://sounds:<b>197401418</b></u> (请查看源码)</p>
+                        <span>SoundCloud (ID)：</span><u>soundcloud://sounds:<b>197401418</b></u> (请查看源码)
+                    </p>
                     <p>
                         <span>SoundCloud (地址)：</span><u>https://soundcloud.com/user2953945/tr-n-d-ch-t-n-eason-chan-kh-ng</u>
                     </p>
@@ -205,6 +216,7 @@
                 </div>
                 <div class="am-popup-bd">
                     <ul>
+                        <li>2017.07.19 <code>v1.1.9</code> 增加对蜻蜓 FM 的支持</li>
                         <li>2017.07.10 <code>v1.1.8</code> 修复 api 请求接口问题</li>
                         <li>2017.07.05 <code>v1.1.7</code> 增加对 荔枝 FM 的支持</li>
                         <li>2017.06.26 <code>v1.1.6</code> 修复数组写法兼容性</li>

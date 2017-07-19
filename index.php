@@ -5,13 +5,13 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.1.7
+ * @since   1.1.9
  *
  */
 
 define('MC_CORE', true);
 
-define('MC_VERSION', '1.1.7');
+define('MC_VERSION', '1.1.9');
 
 // SoundCloud 客户端 ID，如果失效请更改
 define('MC_SC_CLIENT_ID', '2t9loNQH90kzJcsFCODdigxfp325aq4z');
@@ -25,7 +25,20 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
     $music_input      = ajax_post('music_input');
     $music_filter     = ajax_post('music_filter');
     $music_type       = ajax_post('music_type');
-    $music_type_allow = array('163', '1ting', 'baidu', 'kugou', 'kuwo', 'qq', 'xiami', '5sing', 'migu', 'lizhi', 'soundcloud');
+    $music_type_allow = array(
+      '163',
+      '1ting',
+      'baidu',
+      'kugou',
+      'kuwo',
+      'qq',
+      'xiami',
+      '5sing',
+      'migu',
+      'lizhi',
+      'qingting',
+      'soundcloud'
+    );
     $music_name       = null;
     $music_id         = null;
     $music_url        = null;
@@ -36,7 +49,7 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
             $music_type_valid = in_array($music_type, $music_type_allow, true);
             break;
         case 'id':
-            $music_valid      = preg_match('/^[\w\/]+$/is', $music_input);
+            $music_valid      = preg_match('/^[\w\/\|]+$/is', $music_input);
             $music_type_valid = in_array($music_type, $music_type_allow, true);
             $music_id         = $music_input;
             break;
