@@ -35,9 +35,6 @@
             <nav class="am-collapse am-topbar-collapse am-fr" id="collapse-head">
                 <ul class="am-nav am-nav-pills am-topbar-nav">
                     <li>
-                      <a href="//img.2333.me">图片反盗链</a>
-                    </li>
-                    <li>
                       <a href="//crx.2333.me">CRX下载</a>
                     </li>
                     <li class="am-active">
