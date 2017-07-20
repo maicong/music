@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.1.9
+ * @since   1.2.2
  *
  */
 
@@ -994,13 +994,26 @@ function encode_163data($data)
     return array('eparams' => $data);
 }
 
-// Ajax Post
-function ajax_post($key)
-{
-    return (!empty($_POST[$key]) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') ? $_POST[$key] : null;
-}
-
+// Server
 function server($key)
 {
     return isset($_SERVER[$key]) ? $_SERVER[$key] : null;
+}
+
+// Post
+function post($key)
+{
+    return isset($_POST[$key]) ? $_POST[$key] : null;
+}
+
+// Response
+function response($data, $code = 200, $error = '')
+{
+  header('Content-type:text/json; charset=utf-8');
+  echo json_encode(array(
+    'data'  => $data,
+    'code'  => $code,
+    'error' => $error
+  ));
+  exit();
 }

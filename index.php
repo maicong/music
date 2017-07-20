@@ -5,79 +5,70 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.1
+ * @since   1.2.2
  *
  */
+
 define('MC_CORE', true);
-define('MC_VERSION', '1.2.1');
+
+define('MC_VERSION', '1.2.2');
+
 // SoundCloud 客户端 ID，如果失效请更改
 define('MC_SC_CLIENT_ID', '2t9loNQH90kzJcsFCODdigxfp325aq4z');
+
 // Curl 代理地址，解决翻墙问题。例如：define('MC_PROXY', 'http://10.10.10.10:8123');
 define('MC_PROXY', false);
+
 require_once __DIR__.'/music.php';
-if (ajax_post('music_input') && ajax_post('music_filter')) {
-    $music_input      = ajax_post('music_input');
-    $music_filter     = ajax_post('music_filter');
-    $music_type       = ajax_post('music_type');
-    $music_type_allow = array(
-      '163',
-      '1ting',
-      'baidu',
-      'kugou',
-      'kuwo',
-      'qq',
-      'xiami',
-      '5sing',
-      'migu',
-      'lizhi',
-      'qingting',
-      'soundcloud'
+
+if (server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
+    $music_input          = trim(post('music_input'));
+    $music_filter         = post('music_filter');
+    $music_type           = post('music_type');
+    $music_type_allows    = array(
+        '163',
+        '1ting',
+        'baidu',
+        'kugou',
+        'kuwo',
+        'qq',
+        'xiami',
+        '5sing',
+        'migu',
+        'lizhi',
+        'qingting',
+        'soundcloud'
     );
-    $music_name       = null;
-    $music_id         = null;
-    $music_url        = null;
+    $music_valid_patterns = array(
+        'name' => '/^.+$/i',
+        'id' => '/^[\w\/\|]+$/i',
+        'url' => '/^https?:\/\/\S+$/i'
+    );
+
+    if (!$music_input || !$music_filter || !$music_type) {
+        response('', 403, '(°ー°〃) 传入的数据不对啊');
+    }
+    if (!preg_match($music_valid_patterns[$music_filter], $music_input)) {
+        response('', 403, '(・-・*) 请检查您的输入是否正确');
+    }
+
     switch ($music_filter) {
         case 'name':
-            $music_valid      = preg_match('/^.+$/i', $music_input);
-            $music_name       = $music_input;
-            $music_type_valid = in_array($music_type, $music_type_allow, true);
+            $music_response = maicong_get_song_by_name($music_input, $music_type);
             break;
         case 'id':
-            $music_valid      = preg_match('/^[\w\/\|]+$/i', $music_input);
-            $music_type_valid = in_array($music_type, $music_type_allow, true);
-            $music_id         = $music_input;
+            $music_response = maicong_get_song_by_id($music_input, $music_type);
             break;
         case 'url':
-            $music_valid      = preg_match('/^https?:\/\/\S+$/i', $music_input);
-            $music_type_valid = true;
-            $music_url        = $music_input;
-            break;
-        default:
-            $music_valid = false;
+            $music_response = maicong_get_song_by_url($music_input);
             break;
     }
-    if ($music_valid && $music_type_valid) {
-        if (null !== $music_name) {
-            $music_name     = htmlspecialchars($music_name, ENT_QUOTES, 'UTF-8');
-            $music_response = maicong_get_song_by_name($music_name, $music_type);
-        }
-        if (null !== $music_id) {
-            $music_id       = htmlspecialchars($music_id, ENT_QUOTES, 'UTF-8');
-            $music_response = maicong_get_song_by_id($music_id, $music_type);
-        }
-        if (null !== $music_url) {
-            $music_response = maicong_get_song_by_url($music_url);
-        }
-        if (!empty($music_response)) {
-            $reinfo = array('status' => '200', 'msg' => '', 'data' => $music_response);
-        } else {
-            $reinfo = array('status' => '404', 'msg' => 'ㄟ( ▔, ▔ )ㄏ，没有找到相关信息');
-        }
-    } else {
-        $reinfo = array('status' => '400', 'msg' => '(・-・*)，请检查您的输入是否正确');
+
+    if (empty($music_response)) {
+        response('', 404, 'ㄟ( ▔, ▔ )ㄏ 没有找到相关信息');
     }
-    header('Content-type:text/json; charset=utf-8');
-    echo json_encode($reinfo);
-    exit();
+
+    response($music_response, 200, '');
 }
+
 include_once __DIR__.'/index.tpl';

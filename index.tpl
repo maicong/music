@@ -216,6 +216,7 @@
                 </div>
                 <div class="am-popup-bd">
                     <ul>
+                        <li>2017.07.20 <code>v1.2.2</code> 优化回调代码</li>
                         <li>2017.07.20 <code>v1.2.1</code> 更新正则匹配规则</li>
                         <li>2017.07.19 <code>v1.2.0</code> 修复正则表达式问题</li>
                         <li>2017.07.19 <code>v1.1.9</code> 增加对蜻蜓 FM 的支持</li>

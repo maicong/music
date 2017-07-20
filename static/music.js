@@ -4,7 +4,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.1
+ * @since   1.2.2
  *
  */
 
@@ -1896,7 +1896,7 @@ $(function() {
           music_type: $('input[name="music_type"]:checked').val()
         };
         if ($('#music_input').data('filter') === 'url') {
-          delete post_data.music_type;
+          post_data.music_type = '_';
         }
         return $.ajax({
           type: 'POST',
@@ -1909,7 +1909,7 @@ $(function() {
             $('#submit').button('loading');
           },
           success: function(result) {
-            if (result.status === '200') {
+            if (result.code === 200 && result.data) {
               var mname = result.data[0].name ? result.data[0].name : '暂无';
               var mauthor = result.data[0].author
                 ? result.data[0].author
@@ -1973,7 +1973,7 @@ $(function() {
               $('#music_input')
                 .closest('.am-form-group')
                 .find('.am-alert')
-                .html(result.msg)
+                .html(result.error || '(°ー°〃) 服务器好像罢工了')
                 .show();
             }
           },
