@@ -4,7 +4,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.1.8
+ * @since   1.2.1
  *
  */
 
@@ -94,7 +94,7 @@ var AmazingAudioPlatforms = {
       ret['-o-' + key] = applyToValue ? '-o-' + object[key] : object[key];
     }
     return ret;
-  },
+  }
 };
 (function($) {
   $.fn.amazingaudioplayer = function(options) {
@@ -300,7 +300,7 @@ var AmazingAudioPlatforms = {
           instance.amazingPlayer.audioPlayer.setVolume(volume);
           if (instance.options.showvolumebar) {
             instance.$volumeBarAdjustActive.css({
-              height: Math.round(volume * 100) + '%',
+              height: Math.round(volume * 100) + '%'
             });
           }
         });
@@ -327,7 +327,7 @@ var AmazingAudioPlatforms = {
               ).toFixed(1);
               vol = vol > 1 ? 1 : vol < 0 ? 0 : vol;
               instance.$volumeBarAdjustActive.css({
-                height: Math.round(vol * 100) + '%',
+                height: Math.round(vol * 100) + '%'
               });
               instance.amazingPlayer.audioPlayer.setVolume(vol);
               instance.$volumeBarAdjust.bind(eMove, function(e) {
@@ -352,7 +352,7 @@ var AmazingAudioPlatforms = {
                   );
                 }
                 instance.$volumeBarAdjustActive.css({
-                  height: Math.round(vol * 100) + '%',
+                  height: Math.round(vol * 100) + '%'
                 });
                 instance.amazingPlayer.audioPlayer.setVolume(vol);
               });
@@ -389,7 +389,7 @@ var AmazingAudioPlatforms = {
           volume = volume > 1 ? 1 : volume < 0 ? 0 : volume;
           if (instance.options.showvolumebar) {
             instance.$volumeBarAdjustActive.css({
-              height: Math.round(volume * 100) + '%',
+              height: Math.round(volume * 100) + '%'
             });
           }
         });
@@ -460,7 +460,7 @@ var AmazingAudioPlatforms = {
           progress
         ) {
           $progressLoaded.css({
-            width: progress + '%',
+            width: progress + '%'
           });
         });
         this.container.bind('amazingaudioplayer.playprogress', function(
@@ -479,7 +479,7 @@ var AmazingAudioPlatforms = {
             progress = Math.ceil(data.current * 100 / data.duration);
           }
           $progressPlayed.css({
-            width: progress + '%',
+            width: progress + '%'
           });
         });
       }
@@ -593,12 +593,12 @@ var AmazingAudioPlatforms = {
           '9.0.0',
           false,
           {
-            playerid: this.id,
+            playerid: this.id
           },
           {
             wmode: 'transparent',
             allowscriptaccess: 'always',
-            allownetworking: 'all',
+            allownetworking: 'all'
           },
           {}
         );
@@ -775,14 +775,14 @@ var AmazingAudioPlatforms = {
       setVolume: function(val) {
         if (this.isHtml5) this.html5Object.get(0).volume = val;
         else this.flashObject.setVolume(val);
-      },
+      }
     };
     var AmazingAudioPlayer = function(container, options, id) {
       this.container = container;
       this.options = options;
       this.id = id;
       $('.amazingaudioplayer-engine').css({
-        display: 'none',
+        display: 'none'
       });
       this.currentItem = -1;
       this.elemArray = [];
@@ -805,7 +805,7 @@ var AmazingAudioPlatforms = {
             var audioId = instance.elemArray.length + 1;
             audioSource.push({
               src: $(this).data('src'),
-              type: $(this).data('type').toLowerCase(),
+              type: $(this).data('type').toLowerCase()
             });
             instance.elemArray.push({
               id: audioId,
@@ -816,7 +816,7 @@ var AmazingAudioPlatforms = {
               info: $this.data('info') + '',
               duration: $this.data('duration') ? $this.data('duration') : '',
               image: $this.data('image') + '',
-              live: $this.data('live') ? true : false,
+              live: $this.data('live') ? true : false
             });
           });
         instance.elemLength = instance.elemArray.length;
@@ -912,7 +912,7 @@ var AmazingAudioPlatforms = {
 
         this.container.trigger('amazingaudioplayer.switched', {
           previous: this.currentItem,
-          current: nextItem,
+          current: nextItem
         });
         this.currentItem = nextItem;
         this.container.trigger(
@@ -972,7 +972,7 @@ var AmazingAudioPlatforms = {
         this.container.trigger('amazingaudioplayer.playprogress', {
           current: 0,
           duration: 0,
-          live: this.elemArray[this.currentItem].live,
+          live: this.elemArray[this.currentItem].live
         });
       },
       setVolume: function(volume) {
@@ -995,7 +995,7 @@ var AmazingAudioPlatforms = {
         this.container.trigger('amazingaudioplayer.playprogress', {
           current: current,
           duration: d0,
-          live: this.elemArray[this.currentItem].live,
+          live: this.elemArray[this.currentItem].live
         });
       },
       setTime: function(pos) {
@@ -1003,7 +1003,7 @@ var AmazingAudioPlatforms = {
           pos,
           this.elemArray[this.currentItem].duration
         );
-      },
+      }
     };
     var bts = function(string) {
       var ret = '';
@@ -1099,7 +1099,7 @@ var AmazingAudioPlatforms = {
         imagefullwidth: false,
         showtracklist: true,
         tracklistitem: 10,
-        tracklistitemformat: '%ID%. %TITLE% <span>%ARTIST%</span>',
+        tracklistitemformat: '%ID%. %TITLE% <span>%ARTIST%</span>'
       };
       this.options = $.extend(defaultOptions, this.options);
       this.options.htmlfolder = window.location.href.substr(
@@ -1228,7 +1228,7 @@ var AmazingSWFObject = (function() {
               playerVersion = [
                 parseInt(d[0], 10),
                 parseInt(d[1], 10),
-                parseInt(d[2], 10),
+                parseInt(d[2], 10)
               ];
             }
           }
@@ -1239,7 +1239,7 @@ var AmazingSWFObject = (function() {
         wk: webkit,
         ie: ie,
         win: windows,
-        mac: mac,
+        mac: mac
       };
     })(),
     onDomLoad = (function() {
@@ -1340,7 +1340,7 @@ var AmazingSWFObject = (function() {
             ua.pv = [
               parseInt(d[0], 10),
               parseInt(d[1], 10),
-              parseInt(d[2], 10),
+              parseInt(d[2], 10)
             ];
           }
         } else if (counter < 10) {
@@ -1363,7 +1363,7 @@ var AmazingSWFObject = (function() {
         var cb = regObjArr[i].callbackFn;
         var cbObj = {
           success: false,
-          id: id,
+          id: id
         };
         if (ua.pv[0] > 0) {
           var obj = getElementById(id);
@@ -1438,7 +1438,7 @@ var AmazingSWFObject = (function() {
     storedCallbackFn = callbackFn || null;
     storedCallbackObj = {
       success: false,
-      id: replaceElemIdStr,
+      id: replaceElemIdStr
     };
     var obj = getElementById(replaceElemIdStr);
     if (obj) {
@@ -1704,7 +1704,7 @@ var AmazingSWFObject = (function() {
       } else if (callbackFn)
         callbackFn({
           success: false,
-          id: objectIdStr,
+          id: objectIdStr
         });
     },
     getObjectById: function(objectIdStr) {
@@ -1724,7 +1724,7 @@ var AmazingSWFObject = (function() {
     ) {
       var callbackObj = {
         success: false,
-        id: replaceElemIdStr,
+        id: replaceElemIdStr
       };
       if (
         ua.w3 &&
@@ -1776,7 +1776,7 @@ var AmazingSWFObject = (function() {
       return {
         major: ua.pv[0],
         minor: ua.pv[1],
-        release: ua.pv[2],
+        release: ua.pv[2]
       };
     },
     hasFlashPlayerVersion: hasPlayerVersion,
@@ -1823,7 +1823,7 @@ var AmazingSWFObject = (function() {
         }
         isExpressInstallActive = false;
       }
-    },
+    }
   };
 })();
 
@@ -1840,9 +1840,9 @@ $(function() {
       name: '例如: 不要说话 陈奕迅',
       id: '例如: 25906124',
       url: '例如: http://music.163.com/#/song?id=25906124',
-      'pattern-name': '^.+?$',
-      'pattern-id': '^[\\w\\/]+$',
-      'pattern-url': '^(http|https):\\/\\/{1}([\\S]+)$',
+      'pattern-name': '^.+$',
+      'pattern-id': '^[\\w\\/\\|]+$',
+      'pattern-url': '^https?:\\/\\/\\S+$'
     };
     var filter = $(this).data('filter');
     $(this).addClass('am-active').siblings('li').removeClass('am-active');
@@ -1850,7 +1850,7 @@ $(function() {
       .data('filter', filter)
       .attr({
         placeholder: holder[filter],
-        pattern: holder['pattern-' + filter],
+        pattern: holder['pattern-' + filter]
       })
       .removeClass('am-field-valid am-field-error am-active')
       .closest('.am-form-group')
@@ -1874,7 +1874,7 @@ $(function() {
       var msgs = {
         name: '将 名称 和 作者 一起输入可提高匹配度',
         id: '输入错误，请查看下面的帮助',
-        url: '输入错误，请查看下面的帮助',
+        url: '输入错误，请查看下面的帮助'
       };
       var msg =
         msgs[$field.data('filter')] || this.getValidationMessage(validity);
@@ -1891,9 +1891,9 @@ $(function() {
       validity.preventDefault();
       if (this.isFormValid()) {
         var post_data = {
-          music_input: $('#music_input').val(),
+          music_input: $.trim($('#music_input').val()),
           music_filter: $('#music_input').data('filter'),
-          music_type: $('input[name="music_type"]:checked').val(),
+          music_type: $('input[name="music_type"]:checked').val()
         };
         if ($('#music_input').data('filter') === 'url') {
           delete post_data.music_type;
@@ -1991,10 +1991,10 @@ $(function() {
           complete: function() {
             $('#music_input').attr('disabled', false);
             $('#submit').button('reset');
-          },
+          }
         });
       }
-    },
+    }
   });
   $('.music-main input').focus(function() {
     $(this).select();

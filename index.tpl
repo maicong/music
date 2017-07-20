@@ -69,7 +69,7 @@
                             </li>
                         </ul>
                         <div class="am-form-group">
-                            <input id="music_input" data-filter="name" class="am-form-field am-input-lg am-text-center am-radius" placeholder="例如: 不要说话 陈奕迅" data-am-loading="{loadingText: ' '}" pattern="^.+?$" required>
+                            <input id="music_input" data-filter="name" class="am-form-field am-input-lg am-text-center am-radius" placeholder="例如: 不要说话 陈奕迅" data-am-loading="{loadingText: ' '}" pattern="^.+$" required>
                             <div class="am-alert am-alert-danger am-animation-shake"></div>
                         </div>
                         <div class="am-form-group am-text-center music-type">
@@ -216,6 +216,7 @@
                 </div>
                 <div class="am-popup-bd">
                     <ul>
+                        <li>2017.07.20 <code>v1.2.1</code> 更新正则匹配规则</li>
                         <li>2017.07.19 <code>v1.2.0</code> 修复正则表达式问题</li>
                         <li>2017.07.19 <code>v1.1.9</code> 增加对蜻蜓 FM 的支持</li>
                         <li>2017.07.10 <code>v1.1.8</code> 修复 api 请求接口问题</li>

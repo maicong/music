@@ -5,22 +5,16 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.0
+ * @since   1.2.1
  *
  */
-
 define('MC_CORE', true);
-
-define('MC_VERSION', '1.2.0');
-
+define('MC_VERSION', '1.2.1');
 // SoundCloud 客户端 ID，如果失效请更改
 define('MC_SC_CLIENT_ID', '2t9loNQH90kzJcsFCODdigxfp325aq4z');
-
 // Curl 代理地址，解决翻墙问题。例如：define('MC_PROXY', 'http://10.10.10.10:8123');
 define('MC_PROXY', false);
-
 require_once __DIR__.'/music.php';
-
 if (ajax_post('music_input') && ajax_post('music_filter')) {
     $music_input      = ajax_post('music_input');
     $music_filter     = ajax_post('music_filter');
@@ -54,7 +48,7 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
             $music_id         = $music_input;
             break;
         case 'url':
-            $music_valid      = preg_match('/^(http|https|ftp):\/\/{1}([\S]+)$/is', $music_input);
+            $music_valid      = preg_match('/^https?:\/\/\S+$/i', $music_input);
             $music_type_valid = true;
             $music_url        = $music_input;
             break;
@@ -86,5 +80,4 @@ if (ajax_post('music_input') && ajax_post('music_filter')) {
     echo json_encode($reinfo);
     exit();
 }
-
 include_once __DIR__.'/index.tpl';
