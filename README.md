@@ -29,7 +29,7 @@
 
 如果获取失败什么的，可以到 [我的博客](https://maicong.me/msg) 留言告诉我。
 
-## 更新日志
+## Changelog / 更新日志
 
 -   2017.07.24 `v1.2.3` 优化目录结构和模版
 -   2017.07.20 `v1.2.2` 优化回调代码
@@ -51,24 +51,30 @@
 -   2015.06.12 `v1.0.1` 代码优化 + BUG修复
 -   2015.06.10 `v1.0.0` 音乐搜索器上线
 
-## 数据获取失败解决方案
+## Help / 数据获取失败解决方案
 
 方案1：
+
 ```
 修改 index.php 文件里的 MC_PROXY 为您的代理地址
-将 music.php 里需要代理的 URL 'proxy' => false 改为 'proxy' => true
+将 core/music.php 里需要代理的 URL 'proxy' => false 改为 'proxy' => true
 ```
+
 方案2：
+
 ```
 在 music.php 里查找 setTimeout，将其后面的数值 20 改为更大。
 在 static/music.js 里查找 data: post_data，将其上面的数值 30000 改为更大。
 ```
+
 方案3：
+
 ```
+服务器要支持 curl。
 更换服务器，选择延迟更低的服务器。
 ```
 
-## 开源协议
+## License / 开源协议
 
 ```
 The MIT License (MIT)
