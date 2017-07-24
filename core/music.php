@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.2
+ * @since   1.2.3
  *
  */
 
@@ -18,8 +18,7 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
 error_reporting(0);
 
 // 引入 curl
-require __DIR__.'/Curlclass/Curl.php';
-use Curlclass\Curl;
+require __DIR__.'/Curl.php';
 
 // 参数处理
 function stripslashes_deep($value)
@@ -106,7 +105,7 @@ function maicong_curl($args = array())
 }
 
 // 音频数据接口地址
-function maicong_song_urls($value, $type = 'query', $site = '163')
+function maicong_song_urls($value, $type = 'query', $site = 'netease')
 {
     if (!$value) {
         return;
@@ -114,12 +113,12 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
     $query             = ('query' === $type) ? $value : '';
     $songid            = ('songid' === $type) ? $value : '';
     $radio_search_urls = array(
-        '163'        => array(
+        'netease'        => array(
             'method'  => 'POST',
             'url'     => 'http://music.163.com/api/linux/forward',
             'referer' => 'http://music.163.com/',
             'proxy'   => false,
-            'body'    => encode_163data(array(
+            'body'    => encode_netease_data(array(
                 'method'  => 'POST',
                 'url'     => 'http://music.163.com/api/cloudsearch/pc',
                 'params'  => array(
@@ -266,12 +265,12 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
         )
     );
     $radio_song_urls = array(
-        '163'        => array(
+        'netease'        => array(
             'method'  => 'POST',
             'url'     => 'http://music.163.com/api/linux/forward',
             'referer' => 'http://music.163.com/',
             'proxy'   => false,
-            'body'    => encode_163data(array(
+            'body'    => encode_netease_data(array(
                 'method' => 'GET',
                 'url'    => 'http://music.163.com/api/song/detail',
                 'params' => array(
@@ -391,7 +390,7 @@ function maicong_song_urls($value, $type = 'query', $site = '163')
 }
 
 // 获取音频信息 - 关键词搜索
-function maicong_get_song_by_name($query, $site = '163')
+function maicong_get_song_by_name($query, $site = 'netease')
 {
     if (!$query) {
         return;
@@ -512,7 +511,7 @@ function maicong_get_song_by_name($query, $site = '163')
                 $radio_songid[] = $val['id'];
             }
             break;
-        case '163':
+        case 'netease':
         default:
             $radio_data = json_decode($radio_result, true);
             if (empty($radio_data['result']) || empty($radio_data['result']['songs'])) {
@@ -527,7 +526,7 @@ function maicong_get_song_by_name($query, $site = '163')
 }
 
 // 获取音频信息 - 歌曲ID
-function maicong_get_song_by_id($songid, $site = '163', $multi = false)
+function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
 {
     if (empty($songid) || empty($site)) {
         return;
@@ -820,7 +819,7 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false)
                 }
             }
             break;
-        case '163':
+        case 'netease':
         default:
             foreach ($radio_result as $key => $val) {
                 $radio_data   = json_decode($val, true);
@@ -839,7 +838,7 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false)
                           'url'     => 'http://music.163.com/api/linux/forward',
                           'referer' => 'http://music.163.com/',
                           'proxy'   => false,
-                          'body'    => encode_163data(array(
+                          'body'    => encode_netease_data(array(
                               'method' => 'POST',
                               'url' => 'http://music.163.com/api/song/enhance/player/url',
                               'params' => array(
@@ -854,7 +853,7 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false)
                         }
                     }
                     $radio_songs[] = array(
-                        'type'   => '163',
+                        'type'   => 'netease',
                         'link'    => 'http://music.163.com/#/song?id='.$radio_song_id,
                         'songid' => $radio_song_id,
                         'name'   => $radio_detail[0]['name'],
@@ -872,7 +871,7 @@ function maicong_get_song_by_id($songid, $site = '163', $multi = false)
 // 获取音频信息 - url
 function maicong_get_song_by_url($url)
 {
-    preg_match('/music\.163\.com\/(#(\/m)?|m)\/song(\?id=|\/)(\d+)/i', $url, $match_163);
+    preg_match('/music\.163\.com\/(#(\/m)?|m)\/song(\?id=|\/)(\d+)/i', $url, $match_netease);
     preg_match('/(www|m)\.1ting\.com\/(player\/b6\/player_|#\/song\/)(\d+)/i', $url, $match_1ting);
     preg_match('/music\.baidu\.com\/song\/(\d+)/i', $url, $match_baidu);
     preg_match('/m\.kugou\.com\/play\/info\/([a-z0-9]+)/i', $url, $match_kugou);
@@ -884,9 +883,9 @@ function maicong_get_song_by_url($url)
     preg_match('/(www|m)\.lizhi\.fm\/(\d+)\/(\d+)/i', $url, $match_lizhi);
     preg_match('/(www|m)\.qingting\.fm\/channels\/(\d+)\/programs\/(\d+)/i', $url, $match_qingting);
     preg_match('/soundcloud\.com\/[\w\-]+\/[\w\-]+/i', $url, $match_soundcloud);
-    if (!empty($match_163)) {
-        $songid   = $match_163[4];
-        $songtype = '163';
+    if (!empty($match_netease)) {
+        $songid   = $match_netease[4];
+        $songtype = 'netease';
     } elseif (!empty($match_1ting)) {
         $songid   = $match_1ting[3];
         $songtype = '1ting';
@@ -974,8 +973,8 @@ function maicong_decode_xiami_location($location)
     return $url;
 }
 
-// 加密 163 api 参数
-function encode_163data($data)
+// 加密网易云音乐 api 参数
+function encode_netease_data($data)
 {
     $_key = '7246674226682325323F5E6544673A51';
     $data = json_encode($data);

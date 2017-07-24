@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+<?php if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
+    header("Location: /");
+    exit();
+}?><!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -70,54 +73,12 @@
                             <div class="am-alert am-alert-danger am-animation-shake"></div>
                         </div>
                         <div class="am-form-group am-text-center music-type">
+                        <?php foreach (MC_MUSIC_TYPES as $key => $val) { ?>
                             <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="163" data-am-ucheck checked>
-                                网易
+                                <input type="radio" name="music_type" value="<?php echo $key; ?>" data-am-ucheck<?php if ($key === 'netease') echo ' checked'; ?>>
+                                <?php echo $val; ?>
                             </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="qq" data-am-ucheck>
-                                ＱＱ
-                            </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="kugou" data-am-ucheck>
-                                酷狗
-                            </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="kuwo" data-am-ucheck>
-                                酷我
-                            </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="xiami" data-am-ucheck>
-                                虾米
-                            </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="baidu" data-am-ucheck>
-                                百度
-                            </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="1ting" data-am-ucheck>
-                                一听
-                            </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="migu" data-am-ucheck>
-                                咪咕
-                            </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="lizhi" data-am-ucheck>
-                                荔枝
-                            </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="qingting" data-am-ucheck>
-                                蜻蜓
-                            </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="5sing" data-am-ucheck>
-                                5sing
-                            </label>
-                            <label class="am-radio-inline">
-                                <input type="radio" name="music_type" value="soundcloud" data-am-ucheck>
-                                SoundCloud
-                            </label>
+                        <?php } ?>
                         </div>
                         <button type="submit" id="submit" class="am-btn am-btn-primary am-btn-lg am-btn-block am-radius" data-am-loading="{spinner: 'cog', loadingText: '正在搜索相关音乐...', resetText: 'Get &#x221A;'}">Get &#x221A;</button>
                     </div>
@@ -205,36 +166,6 @@
                 </div>
             </div>
         </div>
-        <div class="am-popup" id="update-info">
-            <div class="am-popup-inner">
-                <div class="am-popup-hd">
-                    <h4 class="am-popup-title">更新日志</h4>
-                    <span data-am-modal-close class="am-close">&times;</span>
-                </div>
-                <div class="am-popup-bd">
-                    <ul>
-                        <li>2017.07.20 <code>v1.2.2</code> 优化回调代码</li>
-                        <li>2017.07.20 <code>v1.2.1</code> 更新正则匹配规则</li>
-                        <li>2017.07.19 <code>v1.2.0</code> 修复正则表达式问题</li>
-                        <li>2017.07.19 <code>v1.1.9</code> 增加对蜻蜓 FM 的支持</li>
-                        <li>2017.07.10 <code>v1.1.8</code> 修复 api 请求接口问题</li>
-                        <li>2017.07.05 <code>v1.1.7</code> 增加对 荔枝 FM 的支持</li>
-                        <li>2017.06.26 <code>v1.1.6</code> 修复数组写法兼容性</li>
-                        <li>2017.05.19 <code>v1.1.5</code> 修复 网易云音乐 音乐链接失效问题</li>
-                        <li>2017.04.28 <code>v1.1.4</code> 更新 QQ 音乐 API 接口，优化代码</li>
-                        <li>2017.04.21 <code>v1.1.3</code> 优化代码和播放器视觉</li>
-                        <li>2017.04.20 <code>v1.1.2</code> 更新音乐地址匹配规则</li>
-                        <li>2017.03.24 <code>v1.1.1</code> 移除对天天动听的支持，修复无法获取咪咕音乐的问题，更新 SoundCloud client_id</li>
-                        <li>2017.03.23 <code>v1.1.0</code> 更新外链资源地址，优化代码</li>
-                        <li>2015.06.15 <code>v1.0.4</code> 增加对 SoundCloud 的支持，增加代理支持，修复音乐名称识别问题，优化代码</li>
-                        <li>2015.06.13 <code>v1.0.3</code> 增加对天天动听、咪咕的支持</li>
-                        <li>2015.06.12 <code>v1.0.2</code> 增加对 5sing 的支持</li>
-                        <li>2015.06.12 <code>v1.0.1</code> 代码优化 + BUG修复</li>
-                        <li>2015.06.10 <code>v1.0.0</code> 音乐搜索器上线</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
         <div class="am-popup" id="copr-info">
             <div class="am-popup-inner">
                 <div class="am-popup-hd">
@@ -249,7 +180,7 @@
         </div>
     </section>
     <footer class="footer">
-        <p class="am-text-sm">如果获取失败，请 <a href="https://maicong.me/msg" target="_blank" rel="author">@麦葱</a> © 2013-<?php echo date('Y', time()); ?> <a href="javascript:void(0)" data-am-modal="{target: '#update-info'}">更新日志</a> <a href="javascript:void(0)" data-am-modal="{target: '#copr-info'}">版权声明</a> <a href="https://github.com/maicong/music" target="_blank">开源共享</a></p>
+        <p class="am-text-sm">如果获取失败，请 <a href="https://maicong.me/msg" target="_blank" rel="author">@麦葱</a> © 2013-<?php echo date('Y', time()); ?> <a href="javascript:void(0)" data-am-modal="{target: '#copr-info'}">版权声明</a> <a href="https://github.com/maicong/music/blob/master/README.md#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97">更新日志</a> <a href="https://github.com/maicong/music" target="_blank">开源代码</a></p>
     </footer>
     <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/amazeui/2.3.0/js/amazeui.min.js"></script>

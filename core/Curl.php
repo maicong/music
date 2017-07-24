@@ -5,11 +5,14 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.1.3
+ * @since   1.2.3
  *
  */
 
-namespace Curlclass;
+if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
+    header("Location: /");
+    exit();
+}
 
 class Curl
 {
