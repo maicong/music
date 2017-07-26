@@ -5,13 +5,13 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.3
+ * @since   1.2.4
  *
  */
 
 define('MC_CORE', true);
 
-define('MC_VERSION', '1.2.3');
+define('MC_VERSION', '1.2.4');
 
 // SoundCloud 客户端 ID，如果失效请更改
 define('MC_SC_CLIENT_ID', '2t9loNQH90kzJcsFCODdigxfp325aq4z');
@@ -26,7 +26,7 @@ define('MC_CORE_DIR', __DIR__.'/core');
 define('MC_TPL_DIR', __DIR__.'/template');
 
 // 支持的网站
-define('MC_MUSIC_TYPES', array(
+$music_type_list = array(
   'netease'    => '网易',
   'qq'         => 'ＱＱ',
   'kugou'      => '酷狗',
@@ -39,9 +39,9 @@ define('MC_MUSIC_TYPES', array(
   'qingting'   => '蜻蜓',
   '5sing'      => '5sing',
   'soundcloud' => 'SoundCloud'
-));
+);
 
-require_once MC_CORE_DIR.'/music.php';
+require_once(MC_CORE_DIR.'/music.php');
 
 if (server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
     $music_input          = trim(post('music_input'));
@@ -57,7 +57,7 @@ if (server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
         response('', 403, '(°ー°〃) 传入的数据不对啊');
     }
 
-    if (!in_array($music_type, array_keys(MC_MUSIC_TYPES), true)) {
+    if (!in_array($music_type, array_keys($music_type_list), true)) {
         response('', 403, '(°ー°〃) 目前还不支持这个网站');
     }
 
@@ -84,4 +84,4 @@ if (server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
     response($music_response, 200, '');
 }
 
-include_once MC_TPL_DIR.'/index.php';
+include_once(MC_TPL_DIR.'/index.php');

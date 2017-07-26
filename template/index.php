@@ -1,7 +1,9 @@
-<?php if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
+<?php
+if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
     header("Location: /");
     exit();
-}?><!DOCTYPE html>
+}
+?><!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -73,7 +75,7 @@
                             <div class="am-alert am-alert-danger am-animation-shake"></div>
                         </div>
                         <div class="am-form-group am-text-center music-type">
-                        <?php foreach (MC_MUSIC_TYPES as $key => $val) { ?>
+                        <?php foreach ($music_type_list as $key => $val) { ?>
                             <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="<?php echo $key; ?>" data-am-ucheck<?php if ($key === 'netease') echo ' checked'; ?>>
                                 <?php echo $val; ?>

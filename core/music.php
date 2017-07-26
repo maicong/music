@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.3
+ * @since   1.2.4
  *
  */
 
@@ -18,7 +18,7 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
 error_reporting(0);
 
 // 引入 curl
-require __DIR__.'/Curl.php';
+require_once(__DIR__.'/Curl.php');
 
 // 参数处理
 function stripslashes_deep($value)
