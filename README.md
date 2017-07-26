@@ -23,6 +23,8 @@
 
 有的接口并不是开放的 API 接口，随时可能失效，所以本项目相关代码仅供参考。
 
+[点击下载源代码](https://github.com/maicong/music/archive/master.zip)
+
 ## Demo / 演示
 
 [http://music.2333.me/](http://music.2333.me/ "音乐搜索器")
