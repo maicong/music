@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.4
+ * @since   1.2.5
  *
  */
 
@@ -250,6 +250,19 @@ function maicong_song_urls($value, $type = 'query', $site = 'netease')
                 'groups'   => 'program_ondemand'
             )
         ),
+        'ximalaya'       => array(
+            'method'     => 'GET',
+            'url'        => 'http://search.ximalaya.com/front/v1',
+            'referer'    => 'http://www.ximalaya.com',
+            'proxy'      => false,
+            'body'       => array(
+                'kw'      => $query,
+                'core'    => 'all',
+                'page'    => '1',
+                'rows'    => '10',
+                'is_paid' => false
+            )
+        ),
         'soundcloud' => array(
             'method'  => 'GET',
             'url'     => 'https://api-v2.soundcloud.com/search/tracks',
@@ -367,6 +380,13 @@ function maicong_song_urls($value, $type = 'query', $site = 'netease')
             'method'     => 'GET',
             'url'        => 'http://i.qingting.fm/wapi/channels/'.explode('|', $songid)[0].'/programs/'.explode('|', $songid)[1],
             'referer'    => 'http://www.qingting.fm',
+            'proxy'      => false,
+            'body'       => false
+        ),
+        'ximalaya' => array(
+            'method'     => 'GET',
+            'url'        => 'http://mobile.ximalaya.com/v1/track/ca/playpage/'.$songid,
+            'referer'    => 'http://www.ximalaya.com',
             'proxy'      => false,
             'body'       => false
         ),
@@ -500,6 +520,17 @@ function maicong_get_song_by_name($query, $site = 'netease')
             }
             foreach ($radio_data['data']['data'][0]['doclist']['docs'] as $key => $val) {
                 $radio_songid[] = $val['parent_id'].'|'.$val['id'];
+            }
+            break;
+        case 'ximalaya':
+            $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['track']) || empty($radio_data['track']['docs'])) {
+                return;
+            }
+            foreach ($radio_data['track']['docs'] as $key => $val) {
+              if (!$val['is_paid']) { // 过滤付费的
+                $radio_songid[] = $val['id'];
+              }
             }
             break;
         case 'soundcloud':
@@ -785,6 +816,23 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                 }
             }
             break;
+        case 'ximalaya':
+            foreach ($radio_result as $key => $val) {
+                $radio_detail = json_decode($val, true);
+                if (!empty($radio_detail)) {
+                    $radio_song_info = $radio_detail['trackInfo'];
+                    $radio_songs[] = array(
+                        'type'   => 'ximalaya',
+                        'link'   => 'http://www.ximalaya.com/'.$radio_song_info['uid'].'/sound/'.$radio_song_info['trackId'],
+                        'songid' => $radio_song_info['trackId'],
+                        'name'   => urldecode($radio_song_info['title']),
+                        'author' => $radio_detail['userInfo']['nickname'],
+                        'music'  => $radio_song_info['playUrl64'],
+                        'pic'    => $radio_song_info['coverLarge']
+                    );
+                }
+            }
+            break;
         case 'soundcloud':
             foreach ($radio_result as $key => $val) {
                 $radio_detail = json_decode($val, true);
@@ -882,6 +930,7 @@ function maicong_get_song_by_url($url)
     preg_match('/music\.migu\.cn\/#\/song\/(\d+)/i', $url, $match_migu);
     preg_match('/(www|m)\.lizhi\.fm\/(\d+)\/(\d+)/i', $url, $match_lizhi);
     preg_match('/(www|m)\.qingting\.fm\/channels\/(\d+)\/programs\/(\d+)/i', $url, $match_qingting);
+    preg_match('/(www|m)\.ximalaya\.com\/(\d+)\/sound\/(\d+)/i', $url, $match_ximalaya);
     preg_match('/soundcloud\.com\/[\w\-]+\/[\w\-]+/i', $url, $match_soundcloud);
     if (!empty($match_netease)) {
         $songid   = $match_netease[4];
@@ -916,6 +965,9 @@ function maicong_get_song_by_url($url)
     } elseif (!empty($match_qingting)) {
         $songid   = $match_qingting[2].'|'.$match_qingting[3];
         $songtype = 'qingting';
+    } elseif (!empty($match_ximalaya)) {
+        $songid   = $match_ximalaya[3];
+        $songtype = 'ximalaya';
     } elseif (!empty($match_soundcloud)) {
         $match_resolve = array(
             'method'  => 'GET',

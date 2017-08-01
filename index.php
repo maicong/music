@@ -5,13 +5,13 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.4
+ * @since   1.2.5
  *
  */
 
 define('MC_CORE', true);
 
-define('MC_VERSION', '1.2.4');
+define('MC_VERSION', '1.2.5');
 
 // SoundCloud 客户端 ID，如果失效请更改
 define('MC_SC_CLIENT_ID', '2t9loNQH90kzJcsFCODdigxfp325aq4z');
@@ -37,6 +37,7 @@ $music_type_list = array(
   'migu'       => '咪咕',
   'lizhi'      => '荔枝',
   'qingting'   => '蜻蜓',
+  'ximalaya'   => '喜马拉雅',
   '5sing'      => '5sing',
   'soundcloud' => 'SoundCloud'
 );
@@ -57,7 +58,7 @@ if (server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
         response('', 403, '(°ー°〃) 传入的数据不对啊');
     }
 
-    if (!in_array($music_type, array_keys($music_type_list), true)) {
+    if ($music_filter !== 'url' && !in_array($music_type, array_keys($music_type_list), true)) {
         response('', 403, '(°ー°〃) 目前还不支持这个网站');
     }
 

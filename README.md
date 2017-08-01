@@ -14,6 +14,7 @@
 > [咪咕音乐](http://music.migu.cn/)
 > [荔枝 FM](http://www.lizhi.fm/)
 > [蜻蜓 FM](http://www.qingting.fm/)
+> [喜马拉雅 FM](http://www.ximalaya.com/)
 > [5sing 原创音乐](http://5sing.kugou.com/)
 > [SoundCloud](https://soundcloud.com/)
 
@@ -33,6 +34,7 @@
 
 ## Changelog / 更新日志
 
+-   2017.08.01 `v1.2.5` 增加对 喜马拉雅 FM 的支付，修复 url 无法获取问题
 -   2017.07.26 `v1.2.4` 优化代码兼容性
 -   2017.07.24 `v1.2.3` 优化目录结构和模版
 -   2017.07.20 `v1.2.2` 优化回调代码
