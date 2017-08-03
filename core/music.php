@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.5
+ * @since   1.2.6
  *
  */
 
@@ -378,7 +378,7 @@ function maicong_song_urls($value, $type = 'query', $site = 'netease')
         ),
         'qingting' => array(
             'method'     => 'GET',
-            'url'        => 'http://i.qingting.fm/wapi/channels/'.explode('|', $songid)[0].'/programs/'.explode('|', $songid)[1],
+            'url'        => 'http://i.qingting.fm/wapi/channels/'.splitSongID($songid, 0).'/programs/'.splitSongID($songid, 1),
             'referer'    => 'http://www.qingting.fm',
             'proxy'      => false,
             'body'       => false
@@ -1043,6 +1043,17 @@ function encode_netease_data($data)
     }
     $data = strtoupper(bin2hex(base64_decode($data)));
     return array('eparams' => $data);
+}
+
+// 分割 songid 并获取
+function splitSongID ($songid, $index = 0, $delimiter = '|') {
+  if (mb_strpos($songid, $delimiter, 0, 'UTF-8') > 0) {
+    $array = explode($delimiter, $songid);
+    if (count($array) > 1) {
+      return $array[$index];
+    }
+  }
+  return;
 }
 
 // Server
