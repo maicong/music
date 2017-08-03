@@ -27,28 +27,28 @@ define('MC_TPL_DIR', __DIR__.'/template');
 
 // PHP 版本判断
 if (version_compare(phpversion(), '5.4', '<')) {
-  echo sprintf(
-    '<h3>程序运行失败：</h3><blockquote>您的 PHP 版本低于最低要求 5.4，当前版本为 %s</blockquote>',
-    phpversion()
-  );
-  exit;
+    echo sprintf(
+        '<h3>程序运行失败：</h3><blockquote>您的 PHP 版本低于最低要求 5.4，当前版本为 %s</blockquote>',
+        phpversion()
+    );
+    exit;
 }
 
 // 支持的网站
 $music_type_list = array(
-  'netease'    => '网易',
-  'qq'         => 'ＱＱ',
-  'kugou'      => '酷狗',
-  'kuwo'       => '酷我',
-  'xiami'      => '虾米',
-  'baidu'      => '百度',
-  '1ting'      => '一听',
-  'migu'       => '咪咕',
-  'lizhi'      => '荔枝',
-  'qingting'   => '蜻蜓',
-  'ximalaya'   => '喜马拉雅',
-  '5sing'      => '5sing',
-  'soundcloud' => 'SoundCloud'
+    'netease'    => '网易',
+    'qq'         => 'ＱＱ',
+    'kugou'      => '酷狗',
+    'kuwo'       => '酷我',
+    'xiami'      => '虾米',
+    'baidu'      => '百度',
+    '1ting'      => '一听',
+    'migu'       => '咪咕',
+    'lizhi'      => '荔枝',
+    'qingting'   => '蜻蜓',
+    'ximalaya'   => '喜马拉雅',
+    '5sing'      => '5sing',
+    'soundcloud' => 'SoundCloud'
 );
 
 require_once(MC_CORE_DIR.'/music.php');

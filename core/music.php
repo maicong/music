@@ -528,9 +528,9 @@ function maicong_get_song_by_name($query, $site = 'netease')
                 return;
             }
             foreach ($radio_data['track']['docs'] as $key => $val) {
-              if (!$val['is_paid']) { // 过滤付费的
-                $radio_songid[] = $val['id'];
-              }
+                if (!$val['is_paid']) { // 过滤付费的
+                    $radio_songid[] = $val['id'];
+                }
             }
             break;
         case 'soundcloud':
@@ -789,7 +789,7 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
             break;
         case 'qingting':
             foreach ($radio_result as $key => $val) {
-                $radio_data = json_decode($val, true);
+                $radio_data   = json_decode($val, true);
                 $radio_detail = $radio_data['data'];
                 if (!empty($radio_detail)) {
                     $radio_channels = array(
@@ -801,8 +801,8 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                     );
                     $radio_channels_info = json_decode(maicong_curl($radio_channels), true);
                     if (!empty($radio_channels_info) && !empty($radio_channels_info['data'])) {
-                      $radio_author = $radio_channels_info['data']['name'];
-                      $radio_pic = $radio_channels_info['data']['img_url'];
+                        $radio_author = $radio_channels_info['data']['name'];
+                        $radio_pic = $radio_channels_info['data']['img_url'];
                     }
                     $radio_songs[] = array(
                         'type'   => 'qingting',
@@ -1035,10 +1035,10 @@ function encode_netease_data($data)
     } else {
         $_pad = 16 - (strlen($data) % 16);
         $data = base64_encode(mcrypt_encrypt(
-          MCRYPT_RIJNDAEL_128,
-          hex2bin($_key),
-          $data.str_repeat(chr($_pad), $_pad),
-          MCRYPT_MODE_ECB
+            MCRYPT_RIJNDAEL_128,
+            hex2bin($_key),
+            $data.str_repeat(chr($_pad), $_pad),
+            MCRYPT_MODE_ECB
         ));
     }
     $data = strtoupper(bin2hex(base64_decode($data)));
@@ -1047,13 +1047,13 @@ function encode_netease_data($data)
 
 // 分割 songid 并获取
 function splitSongID ($songid, $index = 0, $delimiter = '|') {
-  if (mb_strpos($songid, $delimiter, 0, 'UTF-8') > 0) {
-    $array = explode($delimiter, $songid);
-    if (count($array) > 1) {
-      return $array[$index];
+    if (mb_strpos($songid, $delimiter, 0, 'UTF-8') > 0) {
+        $array = explode($delimiter, $songid);
+        if (count($array) > 1) {
+            return $array[$index];
+        }
     }
-  }
-  return;
+    return;
 }
 
 // Server
@@ -1071,11 +1071,11 @@ function post($key)
 // Response
 function response($data, $code = 200, $error = '')
 {
-  header('Content-type:text/json; charset=utf-8');
-  echo json_encode(array(
-    'data'  => $data,
-    'code'  => $code,
-    'error' => $error
-  ));
-  exit();
+    header('Content-type:text/json; charset=utf-8');
+    echo json_encode(array(
+        'data'  => $data,
+        'code'  => $code,
+        'error' => $error
+    ));
+    exit();
 }

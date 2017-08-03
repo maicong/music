@@ -31,19 +31,19 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
     <header class="am-topbar am-topbar-fixed-top">
         <div class="am-container">
             <h1 class="am-topbar-brand">
-              <a href="/">2333 实验室</a>
+                <a href="/">2333 实验室</a>
             </h1>
             <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only" data-am-collapse="{target: '#collapse-head'}">
-              <span class="am-sr-only">导航切换</span>
-              <span class="am-icon-bars"></span>
+                <span class="am-sr-only">导航切换</span>
+                <span class="am-icon-bars"></span>
             </button>
             <nav class="am-collapse am-topbar-collapse am-fr" id="collapse-head">
                 <ul class="am-nav am-nav-pills am-topbar-nav">
                     <li>
-                      <a href="//crx.2333.me">CRX下载</a>
+                        <a href="//crx.2333.me">CRX下载</a>
                     </li>
                     <li class="am-active">
-                      <a href="//music.2333.me">音乐搜索器</a>
+                        <a href="//music.2333.me">音乐搜索器</a>
                     </li>
                 </ul>
             </nav>
