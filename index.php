@@ -25,6 +25,7 @@ define('MC_CORE_DIR', __DIR__.'/core');
 // 模版文件目录;
 define('MC_TPL_DIR', __DIR__.'/template');
 
+// PHP 版本判断
 if (version_compare(phpversion(), '5.4', '<')) {
   echo sprintf(
     '<h3>程序运行失败：</h3><blockquote>您的 PHP 版本低于最低要求 5.4，当前版本为 %s</blockquote>',

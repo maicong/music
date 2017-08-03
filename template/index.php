@@ -185,7 +185,7 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
         </div>
     </section>
     <footer class="footer">
-        <p class="am-text-sm">如果获取失败，请 <a href="https://maicong.me/msg" target="_blank" rel="author">@麦葱</a> © 2013-<?php echo date('Y', time()); ?> <a href="javascript:void(0)" data-am-modal="{target: '#copr-info'}">版权声明</a> <a href="https://github.com/maicong/music/blob/master/README.md#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97">更新日志</a> <a href="https://github.com/maicong/music" target="_blank">开源代码</a></p>
+        <p class="am-text-sm">Powered by <a href="https://maicong.me/" target="_blank" rel="author">麦葱</a> v<?php echo MC_VERSION; ?> &copy; 2013-<?php echo date('Y', time()); ?> <a href="javascript:void(0)" data-am-modal="{target: '#copr-info'}">版权声明</a> <a href="https://github.com/maicong/music/blob/master/README.md#%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97" target="_blank">更新日志</a> <a href="https://github.com/maicong/music" target="_blank">开源地址</a></p>
     </footer>
     <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/amazeui/2.3.0/js/amazeui.min.js"></script>
