@@ -378,7 +378,7 @@ function maicong_song_urls($value, $type = 'query', $site = 'netease')
         ),
         'qingting' => array(
             'method'     => 'GET',
-            'url'        => 'http://i.qingting.fm/wapi/channels/'.splitSongID($songid, 0).'/programs/'.splitSongID($songid, 1),
+            'url'        => 'http://i.qingting.fm/wapi/channels/'.split_songid($songid, 0).'/programs/'.split_songid($songid, 1),
             'referer'    => 'http://www.qingting.fm',
             'proxy'      => false,
             'body'       => false
@@ -1046,7 +1046,7 @@ function encode_netease_data($data)
 }
 
 // 分割 songid 并获取
-function splitSongID ($songid, $index = 0, $delimiter = '|') {
+function split_songid ($songid, $index = 0, $delimiter = '|') {
     if (mb_strpos($songid, $delimiter, 0, 'UTF-8') > 0) {
         $array = explode($delimiter, $songid);
         if (count($array) > 1) {
