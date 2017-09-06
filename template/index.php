@@ -80,6 +80,7 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
                                 <input type="radio" name="music_type" value="<?php echo $key; ?>" data-am-ucheck<?php if ($key === 'netease') echo ' checked'; ?>>
                                 <?php echo $val; ?>
                             </label>
+                            <?php if ($key === 'migu') echo '<br />'; ?>
                         <?php } ?>
                         </div>
                         <button type="submit" id="submit" class="am-btn am-btn-primary am-btn-lg am-btn-block am-radius" data-am-loading="{spinner: 'cog', loadingText: '正在搜索相关音乐...', resetText: 'Get &#x221A;'}">Get &#x221A;</button>
@@ -159,7 +160,10 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
                         <span>喜马拉雅：</span><u>http://www.ximalaya.com/51701370/sound/<b>24755731</b></u>
                     </p>
                     <p>
-                        <span>5sing：</span><u>http://5sing.kugou.com/<b>yc/1089684</b>.html</u>
+                        <span>5sing 原创：</span><u>http://5sing.kugou.com/yc/<b>1089684</b>.html</u>
+                    </p>
+                    <p>
+                        <span>5sing 翻唱：</span><u>http://5sing.kugou.com/fc/<b>14369766</b>.html</u>
                     </p>
                     <p>
                         <span>SoundCloud (ID)：</span><u>soundcloud://sounds:<b>197401418</b></u> (请查看源码)

@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.6
+ * @since   1.2.8
  *
  */
 
@@ -208,13 +208,30 @@ function maicong_song_urls($value, $type = 'query', $site = 'netease')
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
-        '5sing'      => array(
+        '5singyc'      => array(
             'method'  => 'GET',
-            'url'     => 'http://search.5sing.kugou.com/home/QuickSearch',
+            'url'     => 'http://goapi.5sing.kugou.com/search/search',
             'referer' => 'http://5sing.kugou.com/',
             'proxy'   => false,
             'body'    => array(
-                'keyword' => $query
+                'k'          => $query,
+                't'          => '0',
+                'filterType' => '1',
+                'ps'         => 10,
+                'pn'         => 1
+            )
+        ),
+        '5singfc'      => array(
+            'method'  => 'GET',
+            'url'     => 'http://goapi.5sing.kugou.com/search/search',
+            'referer' => 'http://5sing.kugou.com/',
+            'proxy'   => false,
+            'body'    => array(
+                'k'          => $query,
+                't'          => '0',
+                'filterType' => '2',
+                'ps'         => 10,
+                'pn'         => 1
             )
         ),
         'migu'       => array(
@@ -349,12 +366,25 @@ function maicong_song_urls($value, $type = 'query', $site = 'netease')
             'proxy'      => false,
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
-        '5sing'      => array(
+        '5singyc'      => array(
             'method'  => 'GET',
-            'url'     => 'http://5sing.kugou.com/'.$songid.'.html',
-            'referer' => 'http://5sing.kugou.com/'.$songid.'.html',
-            'range'   => '0-2000',
-            'proxy'   => false
+            'url'     => 'http://mobileapi.5sing.kugou.com/song/newget',
+            'referer' => 'http://5sing.kugou.com/yc/'.$songid.'.html',
+            'proxy'   => false,
+            'body'    => array(
+                'songid'   => $songid,
+                'songtype' => 'yc'
+            )
+        ),
+        '5singfc'      => array(
+            'method'  => 'GET',
+            'url'     => 'http://mobileapi.5sing.kugou.com/song/newget',
+            'referer' => 'http://5sing.kugou.com/fc/'.$songid.'.html',
+            'proxy'   => false,
+            'body'    => array(
+                'songid'   => $songid,
+                'songtype' => 'fc'
+            )
         ),
         'migu'       => array(
             'method'  => 'GET',
@@ -483,16 +513,14 @@ function maicong_get_song_by_name($query, $site = 'netease')
                 $radio_songid[] = $val['song_id'];
             }
             break;
-        case '5sing':
-            $radio_data = json_decode(substr($radio_result, 1, -1), true);
-            if (empty($radio_data['songs'])) {
+        case '5singyc':
+        case '5singfc':
+            $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['data']['songArray'])) {
                 return;
             }
-            foreach ($radio_data['songs'] as $key => $val) {
-                if ($key > 4) {
-                    break;
-                }
-                $radio_songid[] = $val['type'].'/'.$val['songId'];
+            foreach ($radio_data['data']['songArray'] as $key => $val) {
+                $radio_songid[] = $val['songId'];
             }
             break;
         case 'migu':
@@ -595,8 +623,8 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'type'   => '1ting',
                         'link'   => 'http://www.1ting.com/player/b6/player_'.$radio_song_id.'.html',
                         'songid' => $radio_song_id,
-                        'name'   => $radio_detail[0]['song_name'],
-                        'author' => $radio_detail[0]['singer_name'],
+                        'name'   => urldecode($radio_detail[0]['song_name']),
+                        'author' => urldecode($radio_detail[0]['singer_name']),
                         'music'  => 'http://96.1ting.com'.str_replace('.wma', '.mp3', $radio_detail[0]['song_filepath']),
                         'pic'    => $radio_detail[0]['album_cover']
                     );
@@ -614,8 +642,8 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'type'   => 'baidu',
                         'link'   => 'http://music.baidu.com/song/'.$radio_song_id,
                         'songid' => $radio_song_id,
-                        'name'   => $radio_detail['songinfo']['title'],
-                        'author' => $radio_detail['songinfo']['author'],
+                        'name'   => urldecode($radio_detail['songinfo']['title']),
+                        'author' => urldecode($radio_detail['songinfo']['author']),
                         'music'  => $radio_detail['bitrate']['file_link'],
                         'pic'    => $radio_detail['songinfo']['pic_big']
                     );
@@ -647,8 +675,8 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'type'   => 'kugou',
                         'link'   => 'http://m.kugou.com/play/info/'.$radio_song_id,
                         'songid' => $radio_song_id,
-                        'name'   => $radio_name[1],
-                        'author' => $radio_name[0],
+                        'name'   => urldecode($radio_name[1]),
+                        'author' => urldecode($radio_name[0]),
                         'music'  => $radio_detail['url'],
                         'pic'    => $radio_pic
                     );
@@ -668,8 +696,8 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'type'   => 'kuwo',
                         'link'   => 'http://www.kuwo.cn/yinyue/'.$radio_song_id,
                         'songid' => $radio_song_id,
-                        'name'   => $radio_detail['name'],
-                        'author' => $radio_detail['singer'],
+                        'name'   => urldecode($radio_detail['name']),
+                        'author' => urldecode($radio_detail['singer']),
                         'music'  => 'http://'.$radio_detail['mp3dl'].'/resource/'.$radio_detail['mp3path'],
                         'pic'    => $radio_detail['artist_pic']
                     );
@@ -692,8 +720,8 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'type'   => 'qq',
                         'link'   => 'https://y.qq.com/n/yqq/song/'.$radio_song_id.'.html',
                         'songid' => $radio_song_id,
-                        'name'   => $radio_detail[0]['songname'],
-                        'author' => $radio_author,
+                        'name'   => urldecode($radio_detail[0]['songname']),
+                        'author' => urldecode($radio_author),
                         'music'  => 'http://isure.stream.qqmusic.qq.com/C100'.$radio_song_id.'.m4a?fromtag=32',
                         'pic'    => 'http://y.gtimg.cn/music/photo_new/T002R300x300M000'.$radio_pic.'.jpg'
                     );
@@ -710,44 +738,30 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'type'   => 'xiami',
                         'link'   => 'http://www.xiami.com/song/'.$radio_song_id,
                         'songid' => $radio_song_id,
-                        'name'   => $radio_detail[0]['title'],
-                        'author' => $radio_detail[0]['artist'],
+                        'name'   => urldecode($radio_detail[0]['title']),
+                        'author' => urldecode($radio_detail[0]['artist']),
                         'music'  => maicong_decode_xiami_location($radio_detail[0]['location']),
                         'pic'    => $radio_detail[0]['album_pic']
                     );
                 }
             }
             break;
-        case '5sing':
+        case '5singyc':
+        case '5singfc':
             foreach ($radio_result as $key => $val) {
-                preg_match('/ticket"\: "(.*?)"/i', $val, $radio_match);
-                if (!empty($radio_match[1])) {
-                    $radio_detail = json_decode(base64_decode($radio_match[1], true), true);
-                    if (!empty($radio_detail)) {
-                        $radio_song_id = $radio_detail['songType'].'/'.$radio_detail['songID'];
-                        $radio_author = $radio_detail['singer'];
-                        $radio_pic = $radio_detail['avatar'];
-                        if (empty($radio_author)) {
-                            preg_match('/<title>(.*?)<\/title>/i', $val, $radio_match_author);
-                            if (!empty($radio_match_author[1])) {
-                                $radio_author_ep = explode(' - ', $radio_match_author[1]);
-                                $radio_author = $radio_author_ep[1];
-                            }
-                        }
-                        if (empty($radio_pic)) {
-                            preg_match('/img\s+src="(.*?)"\s+width="180"/i', $val, $radio_match_pic);
-                            $radio_pic = !empty($radio_match_pic[1]) ? $radio_match_pic[1] : null;
-                        }
-                        $radio_songs[] = array(
-                            'type'   => '5sing',
-                            'link'   => 'http://5sing.kugou.com/'.$radio_song_id.'.html',
-                            'songid' => $radio_song_id,
-                            'name'   => $radio_detail['songName'],
-                            'author' => $radio_author,
-                            'music'  => $radio_detail['file'],
-                            'pic'    => $radio_pic
-                        );
-                    }
+                $radio_data   = json_decode($val, true);
+                $radio_detail = $radio_data['data'];
+                if (!empty($radio_detail)) {
+                    $radio_song_id = $radio_detail['ID'];
+                    $radio_songs[] = array(
+                        'type'   => $site,
+                        'link'   => 'http://5sing.kugou.com/'.$radio_detail['SK'].'/'.$radio_song_id.'.html',
+                        'songid' => $radio_song_id,
+                        'name'   => urldecode($radio_detail['SN']),
+                        'author' => urldecode($radio_detail['user']['NN']),
+                        'music'  => $radio_detail['KL'],
+                        'pic'    => $radio_detail['user']['I']
+                    );
                 }
             }
             break;
@@ -762,7 +776,7 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'link'   => 'http://music.migu.cn/#/song/'.$radio_song_id,
                         'songid' => $radio_song_id,
                         'name'   => urldecode($radio_detail[0]['songName']),
-                        'author' => $radio_detail[0]['singerName'],
+                        'author' => urldecode($radio_detail[0]['singerName']),
                         'music'  => $radio_detail[0]['mp3'],
                         'pic'    => $radio_detail[0]['poster']
                     );
@@ -780,7 +794,7 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'link'   => 'http://www.lizhi.fm/'.$radio_detail['radio']['band'].'/'.$radio_song_id,
                         'songid' => $radio_song_id,
                         'name'   => urldecode($radio_detail['audio']['name']),
-                        'author' => $radio_detail['radio']['name'],
+                        'author' => urldecode($radio_detail['radio']['name']),
                         'music'  => $radio_detail['audio']['url'],
                         'pic'    => 'http://m.lizhi.fm/radio_cover/'.$radio_detail['radio']['cover']
                     );
@@ -809,7 +823,7 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'link'   => 'http://www.qingting.fm/channels/'.$radio_detail['channel_id'].'/programs/'.$radio_detail['id'],
                         'songid' => $radio_detail['channel_id'].'|'.$radio_detail['id'],
                         'name'   => urldecode($radio_detail['name']),
-                        'author' => $radio_author,
+                        'author' => urldecode($radio_author),
                         'music'  => 'http://od.qingting.fm/'.$radio_detail['file_path'],
                         'pic'    => $radio_pic
                     );
@@ -826,7 +840,7 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'link'   => 'http://www.ximalaya.com/'.$radio_song_info['uid'].'/sound/'.$radio_song_info['trackId'],
                         'songid' => $radio_song_info['trackId'],
                         'name'   => urldecode($radio_song_info['title']),
-                        'author' => $radio_detail['userInfo']['nickname'],
+                        'author' => urldecode($radio_detail['userInfo']['nickname']),
                         'music'  => $radio_song_info['playUrl64'],
                         'pic'    => $radio_song_info['coverLarge']
                     );
@@ -859,8 +873,8 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'type'   => 'soundcloud',
                         'link'   => $radio_detail['permalink_url'],
                         'songid' => $radio_detail['id'],
-                        'name'   => $radio_detail['title'],
-                        'author' => $radio_detail['user']['username'],
+                        'name'   => urldecode($radio_detail['title']),
+                        'author' => urldecode($radio_detail['user']['username']),
                         'music'  => $radio_music,
                         'pic'    => $radio_pic
                     );
@@ -904,8 +918,8 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'type'   => 'netease',
                         'link'    => 'http://music.163.com/#/song?id='.$radio_song_id,
                         'songid' => $radio_song_id,
-                        'name'   => $radio_detail[0]['name'],
-                        'author' => $radio_author,
+                        'name'   => urldecode($radio_detail[0]['name']),
+                        'author' => urldecode($radio_author),
                         'music'  => $radio_music_url,
                         'pic'    => $radio_detail[0]['album']['picUrl'].'?param=100x100'
                     );
@@ -926,7 +940,8 @@ function maicong_get_song_by_url($url)
     preg_match('/www\.kuwo\.cn\/(yinyue|my)\/(\d+)/i', $url, $match_kuwo);
     preg_match('/(y\.qq\.com\/n\/yqq\/song\/|data\.music\.qq\.com\/playsong\.html\?songmid=)([a-zA-Z0-9]+)/i', $url, $match_qq);
     preg_match('/(www|m)\.xiami\.com\/song\/(\d+)/i', $url, $match_xiami);
-    preg_match('/5sing\.kugou\.com\/(m\/detail\/|)([a-z]+)(-|\/)(\d+)/i', $url, $match_5sing);
+    preg_match('/5sing\.kugou\.com\/(m\/detail\/|)yc(-|\/)(\d+)/i', $url, $match_5singyc);
+    preg_match('/5sing\.kugou\.com\/(m\/detail\/|)fc(-|\/)(\d+)/i', $url, $match_5singfc);
     preg_match('/music\.migu\.cn\/#\/song\/(\d+)/i', $url, $match_migu);
     preg_match('/(www|m)\.lizhi\.fm\/(\d+)\/(\d+)/i', $url, $match_lizhi);
     preg_match('/(www|m)\.qingting\.fm\/channels\/(\d+)\/programs\/(\d+)/i', $url, $match_qingting);
@@ -953,9 +968,12 @@ function maicong_get_song_by_url($url)
     } elseif (!empty($match_xiami)) {
         $songid   = $match_xiami[2];
         $songtype = 'xiami';
-    } elseif (!empty($match_5sing)) {
-        $songid   = $match_5sing[2].'/'.$match_5sing[4];
-        $songtype = '5sing';
+    } elseif (!empty($match_5singyc)) {
+        $songid   = $match_5singyc[3];
+        $songtype = '5singyc';
+    } elseif (!empty($match_5singfc)) {
+        $songid   = $match_5singfc[3];
+        $songtype = '5singfc';
     } elseif (!empty($match_migu)) {
         $songid   = $match_migu[1];
         $songtype = 'migu';

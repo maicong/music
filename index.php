@@ -5,13 +5,13 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.7
+ * @since   1.2.8
  *
  */
 
 define('MC_CORE', true);
 
-define('MC_VERSION', '1.2.7');
+define('MC_VERSION', '1.2.8');
 
 // SoundCloud 客户端 ID，如果失效请更改
 define('MC_SC_CLIENT_ID', '2t9loNQH90kzJcsFCODdigxfp325aq4z');
@@ -48,7 +48,8 @@ $music_type_list = array(
     'lizhi'      => '荔枝',
     'qingting'   => '蜻蜓',
     'ximalaya'   => '喜马拉雅',
-    '5sing'      => '5sing',
+    '5singyc'    => '5sing 原创',
+    '5singfc'    => '5sing 翻唱',
     'soundcloud' => 'SoundCloud'
 );
 
