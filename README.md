@@ -6,7 +6,7 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](#LICENSE)
 [![Maicong's Blog](https://img.shields.io/badge/blog-maicong.me-green.svg)](https://maicong.me/)
 
-## 🚫 开源项目，请勿商用  (๑•̀ㅂ•́)و✧
+**(๑•̀ㅂ•́)و 开源项目，请勿商用 🚫✧**
 
 目前支持搜索试听以下网站音乐：
 
