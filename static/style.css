@@ -4,7 +4,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.1.9
+ * @since   1.2.9
  *
  */
 
@@ -128,6 +128,9 @@ a {
 }
 .footer p a:hover {
   color: #bbb;
+}
+.footer a {
+  text-decoration: underline;
 }
 .audio-player {
   position: relative;

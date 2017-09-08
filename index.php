@@ -5,13 +5,13 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.8
+ * @since   1.2.9
  *
  */
 
 define('MC_CORE', true);
 
-define('MC_VERSION', '1.2.8');
+define('MC_VERSION', '1.2.9');
 
 // SoundCloud 客户端 ID，如果失效请更改
 define('MC_SC_CLIENT_ID', '2t9loNQH90kzJcsFCODdigxfp325aq4z');

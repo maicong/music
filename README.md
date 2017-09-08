@@ -1,6 +1,12 @@
-# 麦葱特制多站合一音乐搜索解决方案
+# 音乐搜索器 - 麦葱特制多站合一音乐搜索解决方案
 
-## (๑•̀ㅂ•́)و✧
+## 🚫 开源项目，请勿商用  (๑•̀ㅂ•́)و✧
+
+[![PHP version](https://img.shields.io/badge/php-%3E%205.4-orange.svg)](https://github.com/php-src/php)
+[![Amazeui](https://img.shields.io/badge/amazeui-2.3.0-blue.svg)](https://github.com/amazeui/amazeui)
+[![jQuery](https://img.shields.io/badge/jquery-1.11.1-blue.svg)](https://github.com/jquery/jquery)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](#LICENSE)
+[![Maicong's Blog](https://img.shields.io/badge/blog-maicong.me-green.svg)](https://maicong.me/)
 
 目前支持搜索试听以下网站音乐：
 
@@ -15,7 +21,7 @@
 > [荔枝 FM](http://www.lizhi.fm/)
 > [蜻蜓 FM](http://www.qingting.fm/)
 > [喜马拉雅 FM](http://www.ximalaya.com/)
-> [5sing 原创音乐](http://5sing.kugou.com/)
+> [5sing 音乐](http://5sing.kugou.com/)
 > [SoundCloud](https://soundcloud.com/)
 
 数据调用的是各音频网站 JSON 接口！
@@ -24,16 +30,17 @@
 
 有的接口并不是开放的 API 接口，随时可能失效，所以本项目相关代码仅供参考。
 
-[点击下载源代码](https://github.com/maicong/music/archive/master.zip)
+[📦 点击下载源代码](https://github.com/maicong/music/archive/master.zip)
 
 ## Demo / 演示
 
-[http://music.2333.me/](http://music.2333.me/ "音乐搜索器")
+[🔗 http://music.2333.me/](http://music.2333.me/ "音乐搜索器")
 
 如果获取失败什么的，可以到 [我的博客](https://maicong.me/msg) 留言告诉我。
 
 ## Changelog / 更新日志
 
+-   2017.09.08 `v1.2.9` 优化模版代码，更新说明
 -   2017.09.06 `v1.2.8` 更新 5sing 接口，优化代码
 -   2017.09.04 `v1.2.7` 修复低版本提示显示编码问题
 -   2017.08.03 `v1.2.6` 更新页脚和注释
@@ -81,6 +88,13 @@
 ```
 服务器要支持 curl。
 更换服务器，选择延迟更低的服务器。
+```
+
+## 免责声明
+
+```
+1、本站音频文件来自各网站接口，本站不会修改任何音频文件
+2、音频版权来自各网站，本站只提供数据查询服务，不提供任何音频存储和贩卖服务
 ```
 
 ## License / 开源协议
