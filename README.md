@@ -1,12 +1,12 @@
 # 音乐搜索器 - 麦葱特制多站合一音乐搜索解决方案
 
-## 🚫 开源项目，请勿商用  (๑•̀ㅂ•́)و✧
-
 [![PHP version](https://img.shields.io/badge/php-%3E%205.4-orange.svg)](https://github.com/php-src/php)
 [![Amazeui](https://img.shields.io/badge/amazeui-2.3.0-blue.svg)](https://github.com/amazeui/amazeui)
 [![jQuery](https://img.shields.io/badge/jquery-1.11.1-blue.svg)](https://github.com/jquery/jquery)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](#LICENSE)
 [![Maicong's Blog](https://img.shields.io/badge/blog-maicong.me-green.svg)](https://maicong.me/)
+
+## 🚫 开源项目，请勿商用  (๑•̀ㅂ•́)و✧
 
 目前支持搜索试听以下网站音乐：
 
