@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.8
+ * @since   1.3.0
  *
  */
 
@@ -182,8 +182,8 @@ function maicong_song_urls($value, $type = 'query', $site = 'netease')
         ),
         'qq'         => array(
             'method'     => 'GET',
-            'url'        => 'http://c.y.qq.com/soso/fcgi-bin/client_search_cp',
-            'referer'    => 'http://y.qq.com/portal/search.html',
+            'url'        => 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp',
+            'referer'    => 'https://m.y.qq.com/#search',
             'proxy'      => false,
             'body'       => array(
                 'w'      => $query,
@@ -351,11 +351,13 @@ function maicong_song_urls($value, $type = 'query', $site = 'netease')
         ),
         'qq'         => array(
             'method'     => 'GET',
-            'url'        => 'http://i.y.qq.com/s.plcloud/fcgi-bin/fcg_list_songinfo_cp.fcg',
-            'referer'    => 'http://data.music.qq.com/playsong.html?songmid='.$songid,
+            'url'        => 'https://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg',
+            'referer'    => 'https://y.qq.com/n/yqq/song/'.$songid.'.html',
             'proxy'      => false,
             'body'       => array(
-                'midlist' => $songid
+                'songmid' => $songid,
+                'format'  => 'json'
+
             ),
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
@@ -708,22 +710,25 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
             foreach ($radio_result as $key => $val) {
                 $radio_data   = json_decode($val, true);
                 $radio_detail = $radio_data['data'];
+                $radio_url    = $radio_data['url'];
                 if (!empty($radio_detail)) {
-                    $radio_song_id = $radio_detail[0]['songmid'];
-                    $radio_pic     = $radio_detail[0]['albummid'];
-                    $radio_authors = array();
+                    $radio_song_id  = $radio_detail[0]['mid'];
+                    $radio_album_id = $radio_detail[0]['album']['mid'];
+                    $radio_authors  = array();
                     foreach ($radio_detail[0]['singer'] as $key => $val) {
-                        $radio_authors[] = $val['name'];
+                        $radio_authors[] = $val['title'];
                     }
-                    $radio_author  = implode('/', $radio_authors);
+                    $radio_author = implode('/', $radio_authors);
+                    $radio_music1 = 'http://'.$radio_url[$radio_detail[0]['id']];
+                    $radio_music2 = 'http://isure.stream.qqmusic.qq.com/C100'.$radio_song_id.'.m4a?fromtag=32';
                     $radio_songs[] = array(
                         'type'   => 'qq',
                         'link'   => 'https://y.qq.com/n/yqq/song/'.$radio_song_id.'.html',
                         'songid' => $radio_song_id,
-                        'name'   => urldecode($radio_detail[0]['songname']),
+                        'name'   => urldecode($radio_detail[0]['title']),
                         'author' => urldecode($radio_author),
-                        'music'  => 'http://isure.stream.qqmusic.qq.com/C100'.$radio_song_id.'.m4a?fromtag=32',
-                        'pic'    => 'http://y.gtimg.cn/music/photo_new/T002R300x300M000'.$radio_pic.'.jpg'
+                        'music'  => $radio_music1 ? $radio_music1 : $radio_music2,
+                        'pic'    => 'http://y.gtimg.cn/music/photo_new/T002R300x300M000'.$radio_album_id.'.jpg'
                     );
                 }
             }
