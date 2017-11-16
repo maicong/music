@@ -14,7 +14,6 @@ html {
     "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  height: 100%;
   -webkit-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -35,8 +34,6 @@ a {
 .about {
   background: #fff;
   color: #7f8c8d;
-  height: 100%;
-  min-height: 500px;
 }
 .about-color {
   color: #34495e;
@@ -48,40 +45,9 @@ a {
 .main {
   margin: 60px 0;
 }
-.am-alert {
-  display: none;
-}
 .music-tabs > li > a {
   padding: 0.5em 1em;
   cursor: pointer;
-}
-.music-tips {
-  line-height: 1.5;
-  overflow: hidden;
-}
-.music-tips .more {
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  font-size: 14px;
-  color: #666;
-  background: #eee;
-  cursor: pointer;
-}
-.music-tips blockquote {
-  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-  font-size: 13px;
-}
-.music-tips p:nth-child(5) ~ p {
-  display: none;
-}
-.music-tips p span {
-  display: inline-block;
-  min-width: 50px;
-}
-.music-tips p b {
-  font-weight: 500;
-  color: #c7254e;
 }
 .music-main {
   display: none;
@@ -103,11 +69,33 @@ a {
 .music-type .am-icon-checked {
   color: #0e90d2;
 }
-.mejs-container {
-  min-width: 100%;
+.music-tips {
+  margin-top: 50px;
 }
-.am-popup-bd {
-  height: 100%;
+.music-tips blockquote {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 14px;
+  margin-top: 30px;
+}
+.music-tips p span {
+  display: inline-block;
+  min-width: 50px;
+}
+.music-tips p b {
+  font-weight: 500;
+  color: #c7254e;
+}
+.music-overflow {
+    max-height: 200px;
+    overflow: hidden;
+}
+.music-more {
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  background: #eee;
+  cursor: pointer;
 }
 .footer {
   position: relative;
@@ -131,6 +119,12 @@ a {
 }
 .footer a {
   text-decoration: underline;
+}
+.am-alert {
+  display: none;
+}
+.am-popup-bd {
+  height: 100%;
 }
 .audio-player {
   position: relative;

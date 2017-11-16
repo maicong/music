@@ -4,7 +4,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.2
+ * @since   1.3.1
  *
  */
 
@@ -1835,7 +1835,7 @@ $(function() {
       return;
     }
   }
-  $('#form-tabs li').on('click', function() {
+  $('#j-form').on('click', 'li', function() {
     var holder = {
       name: '例如: 不要说话 陈奕迅',
       id: '例如: 25906124',
@@ -1846,7 +1846,7 @@ $(function() {
     };
     var filter = $(this).data('filter');
     $(this).addClass('am-active').siblings('li').removeClass('am-active');
-    $('#music_input')
+    $('#j-input')
       .data('filter', filter)
       .attr({
         placeholder: holder[filter],
@@ -1858,12 +1858,12 @@ $(function() {
       .find('.am-alert')
       .hide();
     if (filter === 'url') {
-      $('.music-type').hide();
+      $('#j-type').hide();
     } else {
-      $('.music-type').show();
+      $('#j-type').show();
     }
   });
-  $('#form-vld').validator({
+  $('#j-validator').validator({
     onValid: function(validity) {
       $(validity.field).closest('.am-form-group').find('.am-alert').hide();
     },
@@ -1891,11 +1891,11 @@ $(function() {
       validity.preventDefault();
       if (this.isFormValid()) {
         var post_data = {
-          music_input: $.trim($('#music_input').val()),
-          music_filter: $('#music_input').data('filter'),
+          music_input: $.trim($('#j-input').val()),
+          music_filter: $('#j-input').data('filter'),
           music_type: $('input[name="music_type"]:checked').val()
         };
-        if ($('#music_input').data('filter') === 'url') {
+        if ($('#j-input').data('filter') === 'url') {
           post_data.music_type = '_';
         }
         return $.ajax({
@@ -1905,8 +1905,8 @@ $(function() {
           data: post_data,
           dataType: 'json',
           beforeSend: function() {
-            $('#music_input').attr('disabled', true);
-            $('#submit').button('loading');
+            $('#j-input').attr('disabled', true);
+            $('#j-submit').button('loading');
           },
           success: function(result) {
             if (result.code === 200 && result.data) {
@@ -1914,14 +1914,14 @@ $(function() {
               var mauthor = result.data[0].author
                 ? result.data[0].author
                 : '暂无';
-              $('#form-vld').slideUp();
-              $('.music-main').slideDown();
-              $('#music-link').val(result.data[0].link);
-              $('#music-src').val(result.data[0].music);
-              $('#music-name').val(mname);
-              $('#music-author').val(mauthor);
+              $('#j-validator').slideUp();
+              $('#j-main').slideDown();
+              $('#j-link').val(result.data[0].link);
+              $('#j-src').val(result.data[0].music);
+              $('#j-name').val(mname);
+              $('#j-author').val(mauthor);
               var html =
-                '<div id="player" class="audio-player"><div class="amazingaudioplayer-audios">';
+                '<div id="j-player" class="audio-player"><div class="amazingaudioplayer-audios">';
               for (var i = 0; i < result.data.length; i++) {
                 var rname = result.data[i].name ? result.data[i].name : '暂无';
                 var rauthor = result.data[i].author
@@ -1946,8 +1946,8 @@ $(function() {
                   '" data-type="audio/mpeg"></a>';
               }
               html += '</div>';
-              $('#music-show').html(html);
-              $('#player').amazingaudioplayer();
+              $('#j-show').html(html);
+              $('#j-player').amazingaudioplayer();
               $(
                 '.amazingaudioplayer-prev, .amazingaudioplayer-next, .amazingaudioplayer-track-item'
               ).on('click', function() {
@@ -1964,13 +1964,13 @@ $(function() {
                 var mauthor = $('.amazingaudioplayer-audios a')
                   .eq(index)
                   .data('artist');
-                $('#music-link').val(mlink);
-                $('#music-src').val(mmusic);
-                $('#music-name').val(mname);
-                $('#music-author').val(mauthor);
+                $('#j-link').val(mlink);
+                $('#j-src').val(mmusic);
+                $('#j-name').val(mname);
+                $('#j-author').val(mauthor);
               });
             } else {
-              $('#music_input')
+              $('#j-input')
                 .closest('.am-form-group')
                 .find('.am-alert')
                 .html(result.error || '(°ー°〃) 服务器好像罢工了')
@@ -1982,32 +1982,32 @@ $(function() {
             if (t === 'timeout') {
               errtext = '(°ー°〃) 请求超时了，可能是您的网络慢';
             }
-            $('#music_input')
+            $('#j-input')
               .closest('.am-form-group')
               .find('.am-alert')
               .html(errtext)
               .show();
           },
           complete: function() {
-            $('#music_input').attr('disabled', false);
-            $('#submit').button('reset');
+            $('#j-input').attr('disabled', false);
+            $('#j-submit').button('reset');
           }
         });
       }
     }
   });
-  $('.music-main input').focus(function() {
+  $('#j-main input').focus(function() {
     $(this).select();
   });
-  $('.music-tips .more').on('click', function() {
+  $('#j-more').on('click', function() {
     $(this).hide();
-    $('.music-tips p').show();
+    $('#j-quote').removeClass('music-overflow');
   });
-  $('#getit').on('click', function() {
+  $('#j-getit').on('click', function() {
     $('audio')[0].pause();
-    $('#form-vld').slideDown();
-    $('.music-main').slideUp();
-    $('.music-main input').val('');
-    $('#music-show').html('');
+    $('#j-validator').slideDown();
+    $('#j-main').slideUp();
+    $('#j-main input').val('');
+    $('#j-show').html('');
   });
 });

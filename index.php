@@ -11,7 +11,7 @@
 
 define('MC_CORE', true);
 
-define('MC_VERSION', '1.3.0');
+define('MC_VERSION', '1.3.1');
 
 // SoundCloud 客户端 ID，如果失效请更改
 define('MC_SC_CLIENT_ID', '2t9loNQH90kzJcsFCODdigxfp325aq4z');

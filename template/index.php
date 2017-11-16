@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.2.9
+ * @since   1.3.1
  *
  */
 
@@ -46,9 +46,9 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
             </header>
             <hr>
             <div class="am-u-lg-12 am-padding-vertical">
-                <form class="am-form am-margin-bottom-lg" method="post" id="form-vld">
+                <form id="j-validator" class="am-form am-margin-bottom-lg" method="post">
                     <div class="am-u-md-12 am-u-sm-centered">
-                        <ul id="form-tabs" class="am-nav am-nav-pills am-nav-justify am-margin-bottom music-tabs">
+                        <ul id="j-form" class="am-nav am-nav-pills am-nav-justify am-margin-bottom music-tabs">
                             <li class="am-active" data-filter="name">
                                 <a>音乐名称</a>
                             </li>
@@ -60,10 +60,10 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
                             </li>
                         </ul>
                         <div class="am-form-group">
-                            <input id="music_input" data-filter="name" class="am-form-field am-input-lg am-text-center am-radius" placeholder="例如: 不要说话 陈奕迅" data-am-loading="{loadingText: ' '}" pattern="^.+$" required>
+                            <input id="j-input" data-filter="name" class="am-form-field am-input-lg am-text-center am-radius" placeholder="例如: 不要说话 陈奕迅" data-am-loading="{loadingText: ' '}" pattern="^.+$" required>
                             <div class="am-alert am-alert-danger am-animation-shake"></div>
                         </div>
-                        <div class="am-form-group am-text-center music-type">
+                        <div id="j-type" class="am-form-group am-text-center music-type">
                         <?php foreach ($music_type_list as $key => $val) { ?>
                             <label class="am-radio-inline">
                                 <input type="radio" name="music_type" value="<?php echo $key; ?>" data-am-ucheck<?php if ($key === 'netease') echo ' checked'; ?>>
@@ -72,22 +72,22 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
                             <?php if ($key === 'migu') echo '<br />'; ?>
                         <?php } ?>
                         </div>
-                        <button type="submit" id="submit" class="am-btn am-btn-primary am-btn-lg am-btn-block am-radius" data-am-loading="{spinner: 'cog', loadingText: '正在搜索相关音乐...', resetText: 'Get &#x221A;'}">Get &#x221A;</button>
+                        <button id="j-submit" type="submit" class="am-btn am-btn-primary am-btn-lg am-btn-block am-radius" data-am-loading="{spinner: 'cog', loadingText: '正在搜索相关音乐...', resetText: 'Get &#x221A;'}">Get &#x221A;</button>
                     </div>
                 </form>
-                <form class="am-form am-u-md-12 am-u-sm-centered music-main">
-                    <a type="button" id="getit" class="am-btn am-btn-success am-btn-lg am-btn-block am-radius am-margin-bottom-lg">成功 Get &#x221A; 返回继续 <i class="am-icon-reply am-icon-fw"></i></a>
+                <form id="j-main" class="am-form am-u-md-12 am-u-sm-centered music-main">
+                    <a type="button" id="j-getit" class="am-btn am-btn-success am-btn-lg am-btn-block am-radius am-margin-bottom-lg">成功 Get &#x221A; 返回继续 <i class="am-icon-reply am-icon-fw"></i></a>
                     <div class="am-g am-margin-bottom-sm">
                         <div class="am-u-lg-6">
                             <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐地址', trigger: 'hover'}">
                                 <span class="am-input-group-label"><i class="am-icon-link am-icon-fw"></i></span>
-                                <input id="music-link" class="am-form-field">
+                                <input id="j-link" class="am-form-field">
                             </div>
                         </div>
                         <div class="am-u-lg-6">
                             <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐链接', trigger: 'hover'}">
                                 <span class="am-input-group-label"><i class="am-icon-music am-icon-fw"></i></span>
-                                <input id="music-src" class="am-form-field">
+                                <input id="j-src" class="am-form-field">
                             </div>
                         </div>
                     </div>
@@ -95,72 +95,40 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
                         <div class="am-u-lg-6">
                             <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐名称', trigger: 'hover'}">
                                 <span class="am-input-group-label"><i class="am-icon-tag am-icon-fw"></i></span>
-                                <input id="music-name" class="am-form-field">
+                                <input id="j-name" class="am-form-field">
                             </div>
                         </div>
                         <div class="am-u-lg-6">
                             <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐作者', trigger: 'hover'}">
                                 <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
-                                <input id="music-author" class="am-form-field">
+                                <input id="j-author" class="am-form-field">
                             </div>
                         </div>
                     </div>
-                    <div id="music-show" class="am-margin-vertical"></div>
+                    <div id="j-show" class="am-margin-vertical"></div>
                 </form>
                 <div class="am-u-md-12 am-u-sm-centered am-margin-vertical music-tips">
                     <h4>帮助：</h4>
-                    <p>
-                        <b>标红</b> 为 <strong>音乐 ID</strong>，<u>下划线</u> 表示 <strong>音乐地址</strong>
-                    </p>
-                    <blockquote>
-                      <p>蜻蜓 FM 的 音乐 ID 需要使用 <code>| (管道符)</code> 组合，例如 <code>158696|5266259</code></p>
+                    <p><b>标红</b> 为 <strong>音乐 ID</strong>，<u>下划线</u> 表示 <strong>音乐地址</strong></p>
+                    <p>蜻蜓 FM 的 音乐 ID 需要使用 <code>| (管道符)</code> 组合，例如 <code>158696|5266259</code></p>
+                    <blockquote id="j-quote" class="music-overflow">
+                        <p><span>网易：</span><u>http://music.163.com/#/song?id=<b>25906124</b></u></p>
+                        <p><span>ＱＱ：</span><u>http://y.qq.com/n/yqq/song/<b>002B2EAA3brD5b</b>.html</u></p>
+                        <p><span>酷狗：</span><u>http://m.kugou.com/play/info/<b>08228af3cb404e8a4e7e9871bf543ff6</b></u></p>
+                        <p><span>酷我：</span><u>http://www.kuwo.cn/yinyue/<b>382425</b>/</u></p>
+                        <p><span>虾米：</span><u>http://www.xiami.com/song/<b>2113248</b></u></p>
+                        <p><span>百度：</span><u>http://music.baidu.com/song/<b>556113</b></u></p>
+                        <p><span>一听：</span><u>http://www.1ting.com/player/b6/player_<b>220513</b>.html</u></p>
+                        <p><span>咪咕：</span><u>http://music.migu.cn/#/song/<b>1002531572</b>/P7Z1Y1L1N1/3/001002C</u></p>
+                        <p><span>荔枝：</span><u>http://www.lizhi.fm/1947925/<b>2498707770886461446</b></u></p>
+                        <p><span>蜻蜓：</span><u>http://www.qingting.fm/channels/<b>158696</b>/programs/<b>5266259</b></u></p>
+                        <p><span>喜马拉雅：</span><u>http://www.ximalaya.com/51701370/sound/<b>24755731</b></u></p>
+                        <p><span>5sing 原创：</span><u>http://5sing.kugou.com/yc/<b>1089684</b>.html</u></p>
+                        <p><span>5sing 翻唱：</span><u>http://5sing.kugou.com/fc/<b>14369766</b>.html</u></p>
+                        <p><span>SoundCloud (ID)：</span><u>soundcloud://sounds:<b>197401418</b></u> (请查看源码)</p>
+                        <p><span>SoundCloud (地址)：</span><u>https://soundcloud.com/user2953945/tr-n-d-ch-t-n-eason-chan-kh-ng</u></p>
                     </blockquote>
-                    <p>
-                        <span>网易：</span><u>http://music.163.com/#/song?id=<b>25906124</b></u>
-                    </p>
-                    <p>
-                        <span>ＱＱ：</span><u>http://y.qq.com/n/yqq/song/<b>002B2EAA3brD5b</b>.html</u>
-                    </p>
-                    <p>
-                        <span>酷狗：</span><u>http://m.kugou.com/play/info/<b>08228af3cb404e8a4e7e9871bf543ff6</b></u>
-                    </p>
-                    <p>
-                        <span>酷我：</span><u>http://www.kuwo.cn/yinyue/<b>382425</b>/</u>
-                    </p>
-                    <p>
-                        <span>虾米：</span><u>http://www.xiami.com/song/<b>2113248</b></u>
-                    </p>
-                    <p>
-                        <span>百度：</span><u>http://music.baidu.com/song/<b>556113</b></u>
-                    </p>
-                    <p>
-                        <span>一听：</span><u>http://www.1ting.com/player/b6/player_<b>220513</b>.html</u>
-                    </p>
-                    <p>
-                        <span>咪咕：</span><u>http://music.migu.cn/#/song/<b>1002531572</b>/P7Z1Y1L1N1/3/001002C</u>
-                    </p>
-                    <p>
-                        <span>荔枝：</span><u>http://www.lizhi.fm/1947925/<b>2498707770886461446</b></u>
-                    </p>
-                    <p>
-                        <span>蜻蜓：</span><u>http://www.qingting.fm/channels/<b>158696</b>/programs/<b>5266259</b></u>
-                    </p>
-                    <p>
-                        <span>喜马拉雅：</span><u>http://www.ximalaya.com/51701370/sound/<b>24755731</b></u>
-                    </p>
-                    <p>
-                        <span>5sing 原创：</span><u>http://5sing.kugou.com/yc/<b>1089684</b>.html</u>
-                    </p>
-                    <p>
-                        <span>5sing 翻唱：</span><u>http://5sing.kugou.com/fc/<b>14369766</b>.html</u>
-                    </p>
-                    <p>
-                        <span>SoundCloud (ID)：</span><u>soundcloud://sounds:<b>197401418</b></u> (请查看源码)
-                    </p>
-                    <p>
-                        <span>SoundCloud (地址)：</span><u>https://soundcloud.com/user2953945/tr-n-d-ch-t-n-eason-chan-kh-ng</u>
-                    </p>
-                    <div class="more">查看更多</div>
+                    <div id="j-more" class="music-more">查看更多</div>
                 </div>
             </div>
         </div>
@@ -178,7 +146,7 @@ if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
         </div>
     </section>
     <footer class="footer">
-        <p class="am-text-sm">&copy; 2017 v<?php echo MC_VERSION; ?>&nbsp;来自<a href="https://maicong.me/" target="_blank" rel="author">麦葱</a>的<a href="https://github.com/maicong/music" target="_blank">开源项目</a>&nbsp;<a href="javascript:void(0)" data-am-modal="{target: '#copr-info'}">免责声明</a></p>
+        <p class="am-text-sm">v<?php echo MC_VERSION; ?>&nbsp;&copy;&nbsp;2017&nbsp;<a href="https://github.com/maicong/music" target="_blank" rel="author">源码下载</a>&nbsp;<a href="https://maicong.me/msg" target="_blank">意见反馈</a>&nbsp;<a href="javascript:void(0)" data-am-modal="{target: '#copr-info'}">免责声明</a></p>
     </footer>
     <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/amazeui/2.3.0/js/amazeui.min.js"></script>
