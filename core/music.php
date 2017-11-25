@@ -738,13 +738,13 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                 $radio_data   = json_decode($val, true);
                 $radio_detail = $radio_data['data']['trackList'];
                 if (!empty($radio_detail)) {
-                    $radio_song_id = $radio_detail[0]['song_id'];
+                    $radio_song_id = $radio_detail[0]['songId'];
                     $radio_songs[] = array(
                         'type'   => 'xiami',
                         'link'   => 'http://www.xiami.com/song/'.$radio_song_id,
                         'songid' => $radio_song_id,
-                        'name'   => urldecode($radio_detail[0]['title']),
-                        'author' => urldecode($radio_detail[0]['artist']),
+                        'name'   => urldecode($radio_detail[0]['songName']),
+                        'author' => urldecode($radio_detail[0]['singers']),
                         'music'  => maicong_decode_xiami_location($radio_detail[0]['location']),
                         'pic'    => $radio_detail[0]['album_pic']
                     );
