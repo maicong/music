@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.3.0
+ * @since   1.4.0
  *
  */
 

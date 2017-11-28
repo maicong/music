@@ -5,11 +5,11 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.3.1
+ * @since   1.4.0
  *
  */
 
-if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
+if (!defined('MC_CORE')) {
     header("Location: /");
     exit();
 }
