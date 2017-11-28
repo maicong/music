@@ -9,54 +9,20 @@
  *
  */
 
-if (!defined('MC_CORE') || !defined('MC_SC_CLIENT_ID')) {
+// 非我族类
+if (!defined('MC_CORE')) {
     header("Location: /");
     exit();
 }
 
-// 关闭错误信息，如果要调试请注释掉
-error_reporting(0);
+// 显示 PHP 错误报告
+error_reporting(MC_DEBUG);
 
-// 引入 curl
-require_once(__DIR__.'/Curl.php');
+// 引入 Curl
+require MC_CORE_DIR . '/vendor/autoload.php';
 
-// 参数处理
-function stripslashes_deep($value)
-{
-    if (is_array($value)) {
-        $value = array_map('stripslashes_deep', $value);
-    } elseif (is_object($value)) {
-        $vars = get_object_vars($value);
-        foreach ($vars as $key => $data) {
-            $value->{$key}
-            = stripslashes_deep($data);
-        }
-    } elseif (is_string($value)) {
-        $value = stripslashes($value);
-    }
-    return $value;
-}
-function maicong_parse_str($string, &$array)
-{
-    parse_str($string, $array);
-    if (get_magic_quotes_gpc()) {
-        $array = stripslashes_deep($array);
-    }
-}
-function maicong_parse_args($args, $defaults = array())
-{
-    if (is_object($args)) {
-        $r = get_object_vars($args);
-    } elseif (is_array($args)) {
-        $r = &$args;
-    } else {
-        maicong_parse_str($args, $r);
-    }
-    if (is_array($defaults)) {
-        return array_merge($defaults, $r);
-    }
-    return $r;
-}
+// 使用 Curl
+use \Curl\Curl;
 
 // Curl 内容获取
 function maicong_curl($args = array())
@@ -68,40 +34,32 @@ function maicong_curl($args = array())
         'referer'    => 'https://www.google.co.uk',
         'headers'    => null,
         'body'       => null,
-        'sslverify'  => false,
-        'proxy'      => false,
-        'range'      => false
+        'proxy'      => false
     );
-    $args         = maicong_parse_args($args, $default);
+    $args         = array_merge($default, $args);
     $method       = mb_strtolower($args['method']);
-    $method_allow = array('get', 'post', 'put', 'patch', 'delete', 'head', 'options');
+    $method_allow = array('get', 'post');
     if (null === $args['url'] || !in_array($method, $method_allow, true)) {
         return;
     }
     $curl = new Curl();
-    $curl->setOpt(CURLOPT_SSL_VERIFYPEER, $args['sslverify']);
     $curl->setUserAgent($args['user-agent']);
     $curl->setReferrer($args['referer']);
-    $curl->setTimeout(20);
+    $curl->setTimeout(15);
     $curl->setHeader('X-Requested-With', 'XMLHttpRequest');
-    if ($args['proxy'] && define('MC_PROXY') && MC_PROXY) {
+    if ($args['proxy'] && define('MC_PROXY')) {
+        $curl->setOpt(CURLOPT_HTTPPROXYTUNNEL, 1);
         $curl->setOpt(CURLOPT_PROXY, MC_PROXY);
-    }
-    if (!empty($args['range'])) {
-        $curl->setOpt(CURLOPT_RANGE, $args['range']);
+        $curl->setOpt(CURLOPT_PROXYUSERPWD, MC_PROXYUSERPWD);
     }
     if (!empty($args['headers'])) {
-        foreach ($args['headers'] as $key => $val) {
-            $curl->setHeader($key, $val);
-        }
+        $curl->setHeaders($args['headers']);
     }
     $curl->$method($args['url'], $args['body']);
     $curl->close();
-    $response = $curl->raw_response;
-    if (!empty($response)) {
-        return $response;
+    if (!$curl->error) {
+        return $curl->response;
     }
-    return;
 }
 
 // 音频数据接口地址

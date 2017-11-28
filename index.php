@@ -9,21 +9,29 @@
  *
  */
 
+// 定义核心
 define('MC_CORE', true);
 
+// 定义版本
 define('MC_VERSION', '1.3.1');
+
+// 核心文件目录
+define('MC_CORE_DIR', __DIR__ . '/core');
+
+// 模版文件目录
+define('MC_TEMP_DIR', __DIR__ . '/template');
+
+// 调试模式，0为关闭，-1为打开
+define('MC_DEBUG', 0);
+
+// Curl 代理地址，例如：define('MC_PROXY', 'someproxy.com:9999')
+define('MC_PROXY', false);
+
+// Curl 代理用户名和密码，例如：define('MC_PROXYUSERPWD', 'username:password')
+define('MC_PROXYUSERPWD', false);
 
 // SoundCloud 客户端 ID，如果失效请更改
 define('MC_SC_CLIENT_ID', '2t9loNQH90kzJcsFCODdigxfp325aq4z');
-
-// Curl 代理地址，解决翻墙问题。例如：define('MC_PROXY', 'http://10.10.10.10:8123');
-define('MC_PROXY', false);
-
-// 核心文件目录;
-define('MC_CORE_DIR', __DIR__.'/core');
-
-// 模版文件目录;
-define('MC_TPL_DIR', __DIR__.'/template');
 
 // PHP 版本判断
 if (version_compare(phpversion(), '5.4', '<')) {
@@ -34,6 +42,8 @@ if (version_compare(phpversion(), '5.4', '<')) {
     );
     exit;
 }
+
+include_once MC_CORE_DIR . '/music.php';
 
 // 支持的网站
 $music_type_list = array(
@@ -52,8 +62,6 @@ $music_type_list = array(
     '5singfc'    => '5sing 翻唱',
     'soundcloud' => 'SoundCloud'
 );
-
-require_once(MC_CORE_DIR.'/music.php');
 
 if (server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
     $music_input          = trim(post('music_input'));
@@ -96,4 +104,4 @@ if (server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
     response($music_response, 200, '');
 }
 
-include_once(MC_TPL_DIR.'/index.php');
+include_once(MC_TEMP_DIR . '/index.php');
