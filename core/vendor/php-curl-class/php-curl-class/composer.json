@@ -1,0 +1,28 @@
+{
+    "name": "php-curl-class/php-curl-class",
+    "description": "PHP Curl Class makes it easy to send HTTP requests and integrate with web APIs.",
+    "homepage": "https://github.com/php-curl-class/php-curl-class",
+    "license": "Unlicense",
+    "keywords": [
+        "php", "curl", "class", "api", "client", "framework", "http client",
+        "http", "json", "requests", "rest", "restful", "web service", "xml"
+    ],
+    "authors": [
+        {
+            "name": "Zach Borboa"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "squizlabs/php_codesniffer": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Curl\\": "src/Curl/"
+        }
+    }
+}
