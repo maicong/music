@@ -58,7 +58,7 @@ function mc_curl($args = array())
     $curl->$method($args['url'], $args['body']);
     $curl->close();
     if (!$curl->error) {
-        return $curl->response;
+        return $curl->rawResponse;
     }
 }
 
@@ -90,7 +90,7 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
         '1ting'      => array(
             'method'  => 'GET',
             'url'     => 'http://so.1ting.com/song/json',
-            'referer' => 'http://m.1ting.com/',
+            'referer' => 'http://h5.1ting.com/',
             'proxy'   => false,
             'body'    => array(
                 'q'    => $query,
@@ -263,14 +263,14 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
                 'url'    => 'http://music.163.com/api/song/detail',
                 'params' => array(
                   'id'  => $songid,
-                  'ids' => '['.$songid.']'
+                  'ids' => '[' . $songid . ']'
                 )
             ))
         ),
         '1ting'      => array(
             'method'  => 'GET',
-            'url'     => 'http://m.1ting.com/touch/api/song',
-            'referer' => 'http://m.1ting.com/#/song/'.$songid,
+            'url'     => 'http://h5.1ting.com/touch/api/song',
+            'referer' => 'http://h5.1ting.com/#/song/' . $songid,
             'proxy'   => false,
             'body'    => array(
                 'ids' => $songid
@@ -278,19 +278,17 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
         ),
         'baidu'      => array(
             'method'  => 'GET',
-            'url'     => 'http://tingapi.ting.baidu.com/v2/restserver/ting',
-            'referer' => 'music.baidu.com/song/'.$songid,
+            'url'     => 'http://music.baidu.com/data/music/links',
+            'referer' => 'music.baidu.com/song/' . $songid,
             'proxy'   => false,
             'body'    => array(
-                'method' => 'baidu.ting.song.play',
-                'format' => 'json',
-                'songid' => $songid
+                'songIds' => $songid
             )
         ),
         'kugou'      => array(
             'method'     => 'GET',
             'url'        => 'http://m.kugou.com/app/i/getSongInfo.php',
-            'referer'    => 'http://m.kugou.com/play/info/'.$songid,
+            'referer'    => 'http://m.kugou.com/play/info/' . $songid,
             'proxy'      => false,
             'body'       => array(
                 'cmd'  => 'playInfo',
@@ -304,13 +302,13 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
             'referer' => 'http://player.kuwo.cn/webmusic/play',
             'proxy'   => false,
             'body'    => array(
-                'rid' => 'MUSIC_'.$songid
+                'rid' => 'MUSIC_' . $songid
             )
         ),
         'qq'         => array(
             'method'     => 'GET',
             'url'        => 'https://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg',
-            'referer'    => 'https://y.qq.com/n/yqq/song/'.$songid.'.html',
+            'referer'    => 'https://y.qq.com/',
             'proxy'      => false,
             'body'       => array(
                 'songmid' => $songid,
@@ -321,15 +319,15 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
         ),
         'xiami'      => array(
             'method'     => 'GET',
-            'url'        => 'http://www.xiami.com/song/playlist/id/'.$songid.'/object_name/default/object_id/0/cat/json',
-            'referer'    => 'http://m.xiami.com/song/'.$songid,
+            'url'        => 'http://www.xiami.com/song/playlist/id/' . $songid . '/object_name/default/object_id/0/cat/json',
+            'referer'    => 'http://m.xiami.com/',
             'proxy'      => false,
             'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
         '5singyc'      => array(
             'method'  => 'GET',
             'url'     => 'http://mobileapi.5sing.kugou.com/song/newget',
-            'referer' => 'http://5sing.kugou.com/yc/'.$songid.'.html',
+            'referer' => 'http://5sing.kugou.com/yc/' . $songid . '.html',
             'proxy'   => false,
             'body'    => array(
                 'songid'   => $songid,
@@ -339,7 +337,7 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
         '5singfc'      => array(
             'method'  => 'GET',
             'url'     => 'http://mobileapi.5sing.kugou.com/song/newget',
-            'referer' => 'http://5sing.kugou.com/fc/'.$songid.'.html',
+            'referer' => 'http://5sing.kugou.com/fc/' . $songid . '.html',
             'proxy'   => false,
             'body'    => array(
                 'songid'   => $songid,
@@ -349,7 +347,7 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
         'migu'       => array(
             'method'  => 'GET',
             'url'     => 'http://music.migu.cn/webfront/player/findsong.do',
-            'referer' => 'http://music.migu.cn/#/song/'.$songid,
+            'referer' => 'http://music.migu.cn/#/song/' . $songid,
             'proxy'   => false,
             'body'    => array(
                 'itemid' => $songid,
@@ -368,21 +366,21 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
         ),
         'qingting' => array(
             'method'     => 'GET',
-            'url'        => 'http://i.qingting.fm/wapi/channels/'.split_songid($songid, 0).'/programs/'.split_songid($songid, 1),
+            'url'        => 'http://i.qingting.fm/wapi/channels/' . split_songid($songid, 0) . '/programs/' . split_songid($songid, 1),
             'referer'    => 'http://www.qingting.fm',
             'proxy'      => false,
             'body'       => false
         ),
         'ximalaya' => array(
             'method'     => 'GET',
-            'url'        => 'http://mobile.ximalaya.com/v1/track/ca/playpage/'.$songid,
+            'url'        => 'http://mobile.ximalaya.com/v1/track/ca/playpage/' . $songid,
             'referer'    => 'http://www.ximalaya.com',
             'proxy'      => false,
             'body'       => false
         ),
         'soundcloud' => array(
             'method'  => 'GET',
-            'url'     => 'https://api.soundcloud.com/tracks/'.$songid.'.json',
+            'url'     => 'https://api.soundcloud.com/tracks/' . $songid . '.json',
             'referer' => 'https://soundcloud.com/',
             'proxy'   => false,
             'body'    => array(
@@ -420,7 +418,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['results'])) {
                 return;
             }
-            foreach ($radio_data['results'] as $key => $val) {
+            foreach ($radio_data['results'] as $val) {
                 $radio_songid[] = $val['song_id'];
             }
             break;
@@ -429,10 +427,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['data']) || empty($radio_data['data']['song'])) {
                 return;
             }
-            foreach ($radio_data['data']['song'] as $key => $val) {
-                if ($key > 4) {
-                    break;
-                }
+            foreach ($radio_data['data']['song'] as $val) {
                 $radio_songid[] = $val['songid'];
             }
             break;
@@ -441,7 +436,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['data']) || empty($radio_data['data']['info'])) {
                 return;
             }
-            foreach ($radio_data['data']['info'] as $key => $val) {
+            foreach ($radio_data['data']['info'] as $val) {
                 $radio_songid[] = $val['hash'];
             }
             break;
@@ -451,7 +446,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['abslist'])) {
                 return;
             }
-            foreach ($radio_data['abslist'] as $key => $val) {
+            foreach ($radio_data['abslist'] as $val) {
                 $radio_songid[] = str_replace('MUSIC_', '', $val['MUSICRID']);
             }
             break;
@@ -460,7 +455,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['data']) || empty($radio_data['data']['song']) || empty($radio_data['data']['song']['list'])) {
                 return;
             }
-            foreach ($radio_data['data']['song']['list'] as $key => $val) {
+            foreach ($radio_data['data']['song']['list'] as $val) {
                 $radio_songid[] = $val['songmid'];
             }
             break;
@@ -469,7 +464,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['data']) || empty($radio_data['data']['songs'])) {
                 return;
             }
-            foreach ($radio_data['data']['songs'] as $key => $val) {
+            foreach ($radio_data['data']['songs'] as $val) {
                 $radio_songid[] = $val['song_id'];
             }
             break;
@@ -479,7 +474,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['data']['songArray'])) {
                 return;
             }
-            foreach ($radio_data['data']['songArray'] as $key => $val) {
+            foreach ($radio_data['data']['songArray'] as $val) {
                 $radio_songid[] = $val['songId'];
             }
             break;
@@ -488,7 +483,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['data']) || empty($radio_data['data']['list'])) {
                 return;
             }
-            foreach ($radio_data['data']['list'] as $key => $val) {
+            foreach ($radio_data['data']['list'] as $val) {
                 $radio_songid[] = $val['songId'];
             }
             break;
@@ -497,7 +492,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['audio']) || empty($radio_data['audio']['data'])) {
                 return;
             }
-            foreach ($radio_data['audio']['data'] as $key => $val) {
+            foreach ($radio_data['audio']['data'] as $val) {
                 $radio_songid[] = $val['audio']['id'];
             }
             break;
@@ -506,7 +501,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['data']) || empty($radio_data['data']['data'])) {
                 return;
             }
-            foreach ($radio_data['data']['data'][0]['doclist']['docs'] as $key => $val) {
+            foreach ($radio_data['data']['data'][0]['doclist']['docs'] as $val) {
                 $radio_songid[] = $val['parent_id'].'|'.$val['id'];
             }
             break;
@@ -515,7 +510,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['track']) || empty($radio_data['track']['docs'])) {
                 return;
             }
-            foreach ($radio_data['track']['docs'] as $key => $val) {
+            foreach ($radio_data['track']['docs'] as $val) {
                 if (!$val['is_paid']) { // 过滤付费的
                     $radio_songid[] = $val['id'];
                 }
@@ -526,7 +521,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['collection'])) {
                 return;
             }
-            foreach ($radio_data['collection'] as $key => $val) {
+            foreach ($radio_data['collection'] as $val) {
                 $radio_songid[] = $val['id'];
             }
             break;
@@ -536,7 +531,7 @@ function mc_get_song_by_name($query, $site = 'netease')
             if (empty($radio_data['result']) || empty($radio_data['result']['songs'])) {
                 return;
             }
-            foreach ($radio_data['result']['songs'] as $key => $val) {
+            foreach ($radio_data['result']['songs'] as $val) {
                 $radio_songid[] = $val['id'];
             }
             break;
@@ -551,12 +546,25 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
         return;
     }
     $radio_song_urls = array();
+    $site_allow_multiple = array(
+        'netease',
+        '1ting',
+        'baidu',
+        'qq',
+        'xiami',
+        'migu',
+        'lizhi'
+    );
     if ($multi) {
         if (!is_array($songid)) {
             return;
         }
-        foreach ($songid as $key => $val) {
-            $radio_song_urls[] = mc_song_urls($val, 'songid', $site);
+        if (in_array($site, $site_allow_multiple, true)) {
+            $radio_song_urls[] = mc_song_urls(implode(',', $songid), 'songid', $site);
+        } else {
+            foreach ($songid as $key => $val) {
+                $radio_song_urls[] = mc_song_urls($val, 'songid', $site);
+            }
         }
     } else {
         $radio_song_urls[] = mc_song_urls($songid, 'songid', $site);
@@ -574,270 +582,267 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
     $radio_songs = array();
     switch ($site) {
         case '1ting':
-            foreach ($radio_result as $key => $val) {
-                $radio_data   = json_decode($val, true);
-                $radio_detail = $radio_data;
-                if (!empty($radio_detail)) {
-                    $radio_song_id = $radio_detail[0]['song_id'];
-                    $radio_songs[] = array(
-                        'type'   => '1ting',
-                        'link'   => 'http://www.1ting.com/player/b6/player_'.$radio_song_id.'.html',
-                        'songid' => $radio_song_id,
-                        'name'   => urldecode($radio_detail[0]['song_name']),
-                        'author' => urldecode($radio_detail[0]['singer_name']),
-                        'music'  => 'http://96.1ting.com'.str_replace('.wma', '.mp3', $radio_detail[0]['song_filepath']),
-                        'pic'    => $radio_detail[0]['album_cover']
-                    );
+            foreach ($radio_result as $val) {
+                $radio_data = json_decode($val, true);
+                if (!empty($radio_data)) {
+                    foreach ($radio_data as $value) {
+                        $radio_song_id = $value['song_id'];
+                        $radio_songs[] = array(
+                            'type'   => '1ting',
+                            'link'   => 'http://www.1ting.com/player/6c/player_' . $radio_song_id . '.html',
+                            'songid' => $radio_song_id,
+                            'name'   => urldecode($value['song_name']),
+                            'author' => urldecode($value['singer_name']),
+                            'music'  => 'http://h5.1ting.com/file?url=' . str_replace('.wma', '.mp3', $value['song_filepath']),
+                            'pic'    => $value['album_cover']
+                        );
+                    }
                 }
             }
             break;
         case 'baidu':
-            foreach ($radio_result as $key => $val) {
-                $radio_data   = json_decode($val, true);
-                $radio_detail = $radio_data;
-                if (!empty($radio_detail) && !empty($radio_detail['songinfo'])) {
-                    // 注： 百度不允许外链 ~ 自信解决吧
-                    $radio_song_id = $radio_detail['songinfo']['song_id'];
-                    $radio_songs[] = array(
-                        'type'   => 'baidu',
-                        'link'   => 'http://music.baidu.com/song/'.$radio_song_id,
-                        'songid' => $radio_song_id,
-                        'name'   => urldecode($radio_detail['songinfo']['title']),
-                        'author' => urldecode($radio_detail['songinfo']['author']),
-                        'music'  => $radio_detail['bitrate']['file_link'],
-                        'pic'    => $radio_detail['songinfo']['pic_big']
-                    );
+            foreach ($radio_result as $val) {
+                $radio_json = json_decode($val, true);
+                $radio_data = $radio_json['data']['songList'];
+                if (!empty($radio_data)) {
+                    foreach ($radio_data as $value) {
+                        // 注： 百度不允许外链 ~ 自行解决吧
+                        $radio_song_id = $value['songId'];
+                        $radio_songs[] = array(
+                            'type'   => 'baidu',
+                            'link'   => 'http://music.baidu.com/song/' . $radio_song_id,
+                            'songid' => $radio_song_id,
+                            'name'   => urldecode($value['songName']),
+                            'author' => urldecode($value['artistName']),
+                            'music'  => $value['songLink'],
+                            'pic'    => $value['songPicBig']
+                        );
+                    }
                 }
             }
             break;
         case 'kugou':
-            foreach ($radio_result as $key => $val) {
-                $radio_data   = json_decode($val, true);
-                $radio_detail = $radio_data;
-                if (!empty($radio_detail) && $radio_data['status']) {
-                    $radio_name = explode(' - ', $radio_detail['fileName']);
-                    $radio_img  = array(
-                        'method' => 'GET',
-                        'url'    => 'http://mobilecdn.kugou.com/new/app/i/yueku.php',
-                        'proxy'  => false,
-                        'body'   => array(
-                            'cmd'    => '104',
-                            'size'   => '100',
-                            'singer' => $radio_name[0]
-                        )
-                    );
-                    $radio_imginfo = json_decode(mc_curl($radio_img), true);
-                    if (!empty($radio_imginfo)) {
-                        $radio_pic = $radio_imginfo['url'];
-                    }
-                    $radio_song_id = $radio_detail['hash'];
-                    $radio_songs[] = array(
+            foreach ($radio_result as $val) {
+                $radio_data = json_decode($val, true);
+                if (!empty($radio_data) && $radio_data['status']) {
+                    $radio_song_id    = $radio_data['hash'];
+                    $radio_song_album = str_replace('{size}', '150', $radio_data['album_img']);
+                    $radio_song_img   = str_replace('{size}', '150', $radio_data['imgUrl']);
+                    $radio_songs[]    = array(
                         'type'   => 'kugou',
-                        'link'   => 'http://m.kugou.com/play/info/'.$radio_song_id,
+                        'link'   => 'http://m.kugou.com/play/info/' . $radio_song_id,
                         'songid' => $radio_song_id,
-                        'name'   => urldecode($radio_name[1]),
-                        'author' => urldecode($radio_name[0]),
-                        'music'  => $radio_detail['url'],
-                        'pic'    => $radio_pic
+                        'name'   => urldecode($radio_data['songName']),
+                        'author' => urldecode($radio_data['singerName']),
+                        'music'  => $radio_data['url'],
+                        'pic'    => $radio_song_album ? $radio_song_album : $radio_song_img
                     );
                 }
             }
             break;
         case 'kuwo':
-            foreach ($radio_result as $key => $val) {
-                preg_match_all('/<([\w]+)>(.*?)<\/\\1>/i', $val, $radio_data);
-                if (!empty($radio_data[1]) && !empty($radio_data[2])) {
-                    $radio_detail = array();
-                    foreach ($radio_data[1] as $key => $val) {
-                        $radio_detail[$val] = $radio_data[2][$key];
+            foreach ($radio_result as $val) {
+                preg_match_all('/<([\w]+)>(.*?)<\/\\1>/i', $val, $radio_json);
+                if (!empty($radio_json[1]) && !empty($radio_json[2])) {
+                    $radio_data             = array();
+                    foreach ($radio_json[1] as $key => $value) {
+                        $radio_data[$value] = $radio_json[2][$key];
                     }
-                    $radio_song_id = $radio_detail['music_id'];
-                    $radio_songs[] = array(
+                    $radio_song_id          = $radio_data['music_id'];
+                    $radio_songs[]          = array(
                         'type'   => 'kuwo',
-                        'link'   => 'http://www.kuwo.cn/yinyue/'.$radio_song_id,
+                        'link'   => 'http://www.kuwo.cn/yinyue/' . $radio_song_id,
                         'songid' => $radio_song_id,
-                        'name'   => urldecode($radio_detail['name']),
-                        'author' => urldecode($radio_detail['singer']),
-                        'music'  => 'http://'.$radio_detail['mp3dl'].'/resource/'.$radio_detail['mp3path'],
-                        'pic'    => $radio_detail['artist_pic']
+                        'name'   => urldecode($radio_data['name']),
+                        'author' => urldecode($radio_data['singer']),
+                        'music'  => 'http://' . $radio_data['mp3dl'] . '/resource/' . $radio_data['mp3path'],
+                        'pic'    => $radio_data['artist_pic']
                     );
                 }
             }
             break;
         case 'qq':
-            foreach ($radio_result as $key => $val) {
-                $radio_data   = json_decode($val, true);
-                $radio_detail = $radio_data['data'];
-                $radio_url    = $radio_data['url'];
-                if (!empty($radio_detail)) {
-                    $radio_song_id  = $radio_detail[0]['mid'];
-                    $radio_album_id = $radio_detail[0]['album']['mid'];
-                    $radio_authors  = array();
-                    foreach ($radio_detail[0]['singer'] as $key => $val) {
-                        $radio_authors[] = $val['title'];
+            foreach ($radio_result as $val) {
+                $radio_json = json_decode($val, true);
+                $radio_data = $radio_json['data'];
+                $radio_url  = $radio_json['url'];
+                if (!empty($radio_data) && !empty($radio_url)) {
+                    foreach ($radio_data as $value) {
+                        $radio_song_id       = $value['mid'];
+                        $radio_authors       = array();
+                        foreach ($radio_data[0]['singer'] as $singer) {
+                            $radio_authors[] = $singer['title'];
+                        }
+                        $radio_author        = implode('/', $radio_authors);
+                        $radio_music1        = 'http://' . $radio_url[$value['id']];
+                        $radio_music2        = 'http://isure.stream.qqmusic.qq.com/C100' . $radio_song_id . '.m4a?fromtag=32';
+                        $radio_album_id      = $value['album']['mid'];
+                        $radio_songs[]       = array(
+                            'type'   => 'qq',
+                            'link'   => 'https://y.qq.com/n/yqq/song/' . $radio_song_id . '.html',
+                            'songid' => $radio_song_id,
+                            'name'   => urldecode($value['title']),
+                            'author' => urldecode($radio_author),
+                            'music'  => $radio_music1 ? $radio_music1 : $radio_music2,
+                            'pic'    => 'http://y.gtimg.cn/music/photo_new/T002R300x300M000' . $radio_album_id . '.jpg'
+                        );
                     }
-                    $radio_author = implode('/', $radio_authors);
-                    $radio_music1 = 'http://'.$radio_url[$radio_detail[0]['id']];
-                    $radio_music2 = 'http://isure.stream.qqmusic.qq.com/C100'.$radio_song_id.'.m4a?fromtag=32';
-                    $radio_songs[] = array(
-                        'type'   => 'qq',
-                        'link'   => 'https://y.qq.com/n/yqq/song/'.$radio_song_id.'.html',
-                        'songid' => $radio_song_id,
-                        'name'   => urldecode($radio_detail[0]['title']),
-                        'author' => urldecode($radio_author),
-                        'music'  => $radio_music1 ? $radio_music1 : $radio_music2,
-                        'pic'    => 'http://y.gtimg.cn/music/photo_new/T002R300x300M000'.$radio_album_id.'.jpg'
-                    );
                 }
             }
             break;
         case 'xiami':
-            foreach ($radio_result as $key => $val) {
-                $radio_data   = json_decode($val, true);
-                $radio_detail = $radio_data['data']['trackList'];
-                if (!empty($radio_detail)) {
-                    $radio_song_id = $radio_detail[0]['songId'];
-                    $radio_songs[] = array(
-                        'type'   => 'xiami',
-                        'link'   => 'http://www.xiami.com/song/'.$radio_song_id,
-                        'songid' => $radio_song_id,
-                        'name'   => urldecode($radio_detail[0]['songName']),
-                        'author' => urldecode($radio_detail[0]['singers']),
-                        'music'  => decode_xiami_location($radio_detail[0]['location']),
-                        'pic'    => $radio_detail[0]['album_pic']
-                    );
+            foreach ($radio_result as $val) {
+                $radio_json = json_decode($val, true);
+                $radio_data = $radio_json['data']['trackList'];
+                if (!empty($radio_data)) {
+                    foreach ($radio_data as $value) {
+                        $radio_song_id = $value['songId'];
+                        $radio_songs[] = array(
+                            'type'   => 'xiami',
+                            'link'   => 'http://www.xiami.com/song/' . $radio_song_id,
+                            'songid' => $radio_song_id,
+                            'name'   => urldecode($value['songName']),
+                            'author' => urldecode($value['singers']),
+                            'music'  => decode_xiami_location($value['location']),
+                            'pic'    => $value['album_pic']
+                        );
+                    }
                 }
             }
             break;
         case '5singyc':
         case '5singfc':
-            foreach ($radio_result as $key => $val) {
-                $radio_data   = json_decode($val, true);
-                $radio_detail = $radio_data['data'];
-                if (!empty($radio_detail)) {
-                    $radio_song_id = $radio_detail['ID'];
+            foreach ($radio_result as $val) {
+                $radio_json = json_decode($val, true);
+                $radio_data = $radio_json['data'];
+                if (!empty($radio_data)) {
+                    $radio_song_id = $radio_data['ID'];
                     $radio_songs[] = array(
                         'type'   => $site,
-                        'link'   => 'http://5sing.kugou.com/'.$radio_detail['SK'].'/'.$radio_song_id.'.html',
+                        'link'   => 'http://5sing.kugou.com/'.$radio_data['SK'] . '/' . $radio_song_id . '.html',
                         'songid' => $radio_song_id,
-                        'name'   => urldecode($radio_detail['SN']),
-                        'author' => urldecode($radio_detail['user']['NN']),
-                        'music'  => $radio_detail['KL'],
-                        'pic'    => $radio_detail['user']['I']
+                        'name'   => urldecode($radio_data['SN']),
+                        'author' => urldecode($radio_data['user']['NN']),
+                        'music'  => $radio_data['KL'],
+                        'pic'    => $radio_data['user']['I']
                     );
                 }
             }
             break;
         case 'migu':
-            foreach ($radio_result as $key => $val) {
-                $radio_data = json_decode($val, true);
-                $radio_detail = $radio_data['msg'];
-                if (!empty($radio_detail)) {
-                    $radio_song_id = $radio_detail[0]['songId'];
-                    $radio_songs[] = array(
-                        'type'   => 'migu',
-                        'link'   => 'http://music.migu.cn/#/song/'.$radio_song_id,
-                        'songid' => $radio_song_id,
-                        'name'   => urldecode($radio_detail[0]['songName']),
-                        'author' => urldecode($radio_detail[0]['singerName']),
-                        'music'  => $radio_detail[0]['mp3'],
-                        'pic'    => $radio_detail[0]['poster']
-                    );
+            foreach ($radio_result as $val) {
+                $radio_json = json_decode($val, true);
+                $radio_data = $radio_json['msg'];
+                if (!empty($radio_data)) {
+                    foreach ($radio_data as $value) {
+                        $radio_song_id = $value['songId'];
+                        $radio_songs[] = array(
+                            'type'   => 'migu',
+                            'link'   => 'http://music.migu.cn/#/song/' . $radio_song_id,
+                            'songid' => $radio_song_id,
+                            'name'   => urldecode($value['songName']),
+                            'author' => urldecode($value['singerName']),
+                            'music'  => $value['mp3'],
+                            'pic'    => $value['poster']
+                        );
+                    }
                 }
             }
             break;
         case 'lizhi':
-            foreach ($radio_result as $key => $val) {
+            foreach ($radio_result as $val) {
                 $radio_data = json_decode($val, true);
-                $radio_detail = $radio_data['0'];
-                if (!empty($radio_detail)) {
-                    $radio_song_id = $radio_detail['audio']['id'];
-                    $radio_songs[] = array(
-                        'type'   => 'lizhi',
-                        'link'   => 'http://www.lizhi.fm/'.$radio_detail['radio']['band'].'/'.$radio_song_id,
-                        'songid' => $radio_song_id,
-                        'name'   => urldecode($radio_detail['audio']['name']),
-                        'author' => urldecode($radio_detail['radio']['name']),
-                        'music'  => $radio_detail['audio']['url'],
-                        'pic'    => 'http://m.lizhi.fm/radio_cover/'.$radio_detail['radio']['cover']
-                    );
+                if (!empty($radio_data)) {
+                    foreach ($radio_data as $value) {
+                        $radio_song_id = $value['audio']['id'];
+                        $radio_songs[] = array(
+                            'type'   => 'lizhi',
+                            'link'   => 'http://www.lizhi.fm/' . $value['radio']['band'] . '/' . $radio_song_id,
+                            'songid' => $radio_song_id,
+                            'name'   => urldecode($value['audio']['name']),
+                            'author' => urldecode($value['radio']['name']),
+                            'music'  => $value['audio']['url'],
+                            'pic'    => 'http://m.lizhi.fm/radio_cover/' . $value['radio']['cover']
+                        );
+                    }
                 }
             }
             break;
         case 'qingting':
-            foreach ($radio_result as $key => $val) {
-                $radio_data   = json_decode($val, true);
-                $radio_detail = $radio_data['data'];
-                if (!empty($radio_detail)) {
-                    $radio_channels = array(
+            foreach ($radio_result as $val) {
+                $radio_json = json_decode($val, true);
+                $radio_data = $radio_json['data'];
+                if (!empty($radio_data)) {
+                    $radio_channels      = array(
                         'method'  => 'GET',
-                        'url'     => 'http://i.qingting.fm/wapi/channels/'.$radio_detail['channel_id'],
+                        'url'     => 'http://i.qingting.fm/wapi/channels/' . $radio_data['channel_id'],
                         'referer' => 'http://www.qingting.fm',
                         'proxy'   => false,
                         'body'    => false
                     );
                     $radio_channels_info = json_decode(mc_curl($radio_channels), true);
                     if (!empty($radio_channels_info) && !empty($radio_channels_info['data'])) {
-                        $radio_author = $radio_channels_info['data']['name'];
-                        $radio_pic = $radio_channels_info['data']['img_url'];
+                        $radio_author    = $radio_channels_info['data']['name'];
+                        $radio_pic       = $radio_channels_info['data']['img_url'];
                     }
-                    $radio_songs[] = array(
+                    $radio_songs[]       = array(
                         'type'   => 'qingting',
-                        'link'   => 'http://www.qingting.fm/channels/'.$radio_detail['channel_id'].'/programs/'.$radio_detail['id'],
-                        'songid' => $radio_detail['channel_id'].'|'.$radio_detail['id'],
-                        'name'   => urldecode($radio_detail['name']),
+                        'link'   => 'http://www.qingting.fm/channels/' . $radio_data['channel_id'] . '/programs/' . $radio_data['id'],
+                        'songid' => $radio_data['channel_id'] . '|' . $radio_data['id'],
+                        'name'   => urldecode($radio_data['name']),
                         'author' => urldecode($radio_author),
-                        'music'  => 'http://od.qingting.fm/'.$radio_detail['file_path'],
+                        'music'  => 'http://od.qingting.fm/' . $radio_data['file_path'],
                         'pic'    => $radio_pic
                     );
                 }
             }
             break;
         case 'ximalaya':
-            foreach ($radio_result as $key => $val) {
-                $radio_detail = json_decode($val, true);
-                if (!empty($radio_detail)) {
-                    $radio_song_info = $radio_detail['trackInfo'];
+            foreach ($radio_result as $val) {
+                $radio_json = json_decode($val, true);
+                $radio_data = $radio_json['trackInfo'];
+                $radio_user = $radio_json['userInfo'];
+                if (!empty($radio_data) && !empty($radio_user)) {
                     $radio_songs[] = array(
                         'type'   => 'ximalaya',
-                        'link'   => 'http://www.ximalaya.com/'.$radio_song_info['uid'].'/sound/'.$radio_song_info['trackId'],
-                        'songid' => $radio_song_info['trackId'],
-                        'name'   => urldecode($radio_song_info['title']),
-                        'author' => urldecode($radio_detail['userInfo']['nickname']),
-                        'music'  => $radio_song_info['playUrl64'],
-                        'pic'    => $radio_song_info['coverLarge']
+                        'link'   => 'http://www.ximalaya.com/' . $radio_data['uid'] . '/sound/' . $radio_data['trackId'],
+                        'songid' => $radio_data['trackId'],
+                        'name'   => urldecode($radio_data['title']),
+                        'author' => urldecode($radio_user['nickname']),
+                        'music'  => $radio_data['playUrl64'],
+                        'pic'    => $radio_data['coverLarge']
                     );
                 }
             }
             break;
         case 'soundcloud':
-            foreach ($radio_result as $key => $val) {
-                $radio_detail = json_decode($val, true);
-                if (!empty($radio_detail)) {
-                    $radio_streams = array(
+            foreach ($radio_result as $val) {
+                $radio_data = json_decode($val, true);
+                if (!empty($radio_data)) {
+                    $radio_streams           = array(
                         'method'  => 'GET',
-                        'url'     => 'https://api.soundcloud.com/i1/tracks/'.$radio_detail['id'].'/streams',
+                        'url'     => 'https://api.soundcloud.com/i1/tracks/' . $radio_data['id'] . '/streams',
                         'referer' => 'https://soundcloud.com/',
                         'proxy'   => false,
                         'body'    => array(
                             'client_id' => MC_SC_CLIENT_ID
                         )
                     );
-                    $radio_streams_info = json_decode(mc_curl($radio_streams), true);
+                    $radio_streams_info      = json_decode(mc_curl($radio_streams), true);
                     if (!empty($radio_streams_info)) {
                         $radio_music_http    = $radio_streams_info['http_mp3_128_url'];
                         $radio_music_preview = $radio_streams_info['preview_mp3_128_url'];
                         $radio_music         = $radio_music_http ? $radio_music_http : $radio_music_preview;
                     }
-                    $radio_pic_artwork = $radio_detail['artwork_url'];
-                    $radio_pic_avatar  = $radio_detail['user']['avatar_url'];
-                    $radio_pic         = $radio_pic_artwork ? $radio_pic_artwork : $radio_pic_avatar;
-                    $radio_songs[]     = array(
+                    $radio_pic_artwork       = $radio_data['artwork_url'];
+                    $radio_pic_avatar        = $radio_data['user']['avatar_url'];
+                    $radio_pic               = $radio_pic_artwork ? $radio_pic_artwork : $radio_pic_avatar;
+                    $radio_songs[]           = array(
                         'type'   => 'soundcloud',
-                        'link'   => $radio_detail['permalink_url'],
-                        'songid' => $radio_detail['id'],
-                        'name'   => urldecode($radio_detail['title']),
-                        'author' => urldecode($radio_detail['user']['username']),
+                        'link'   => $radio_data['permalink_url'],
+                        'songid' => $radio_data['id'],
+                        'name'   => urldecode($radio_data['title']),
+                        'author' => urldecode($radio_data['user']['username']),
                         'music'  => $radio_music,
                         'pic'    => $radio_pic
                     );
@@ -846,46 +851,49 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
             break;
         case 'netease':
         default:
-            foreach ($radio_result as $key => $val) {
-                $radio_data   = json_decode($val, true);
-                $radio_detail = $radio_data['songs'];
-                if (!empty($radio_detail)) {
-                    $radio_song_id = $radio_detail[0]['id'];
-                    $radio_authors = array();
-                    foreach ($radio_detail[0]['artists'] as $key => $val) {
-                        $radio_authors[] = $val['name'];
-                    }
-                    $radio_author = implode('/', $radio_authors);
-                    $radio_music_url = $radio_detail[0]['mp3Url'];
-                    if (!$radio_music_url) {
-                        $radio_streams = array(
-                          'method'  => 'POST',
-                          'url'     => 'http://music.163.com/api/linux/forward',
-                          'referer' => 'http://music.163.com/',
-                          'proxy'   => false,
-                          'body'    => encode_netease_data(array(
-                              'method' => 'POST',
-                              'url' => 'http://music.163.com/api/song/enhance/player/url',
-                              'params' => array(
-                                  'ids' => array($radio_song_id),
-                                  'br'  => 320000,
-                              )
-                          ))
-                        );
-                        $radio_streams_info = json_decode(mc_curl($radio_streams), true);
-                        if (!empty($radio_streams_info)) {
-                            $radio_music_url = $radio_streams_info['data'][0]['url'];
+            foreach ($radio_result as $val) {
+                $radio_json = json_decode($val, true);
+                $radio_data = $radio_json['songs'];
+                if (!empty($radio_data)) {
+                    foreach ($radio_data as $value) {
+                        $radio_song_id           = $value['id'];
+                        $radio_authors           = array();
+                        foreach ($value['artists'] as $key => $val) {
+                            $radio_authors[]     = $val['name'];
                         }
+                        $radio_author            = implode('/', $radio_authors);
+                        $radio_music_url         = $value['mp3Url'];
+                        if (!$radio_music_url) {
+                            $radio_streams       = array(
+                              'method'  => 'POST',
+                              'url'     => 'http://music.163.com/api/linux/forward',
+                              'referer' => 'http://music.163.com/',
+                              'proxy'   => false,
+                              'body'    => encode_netease_data(array(
+                                  'method' => 'POST',
+                                  'url' => 'http://music.163.com/api/song/enhance/player/url',
+                                  'params' => array(
+                                      'ids' => array($radio_song_id),
+                                      'br'  => 320000,
+                                  )
+                              ))
+                            );
+                            $radio_streams_info  = json_decode(mc_curl($radio_streams), true);
+                            if (!empty($radio_streams_info)) {
+                                $radio_music_url = $radio_streams_info['data'][0]['url'];
+                            }
+                        }
+                        $radio_songs[]           = array(
+                            'type'   => 'netease',
+                            'link'    => 'http://music.163.com/#/song?id=' . $radio_song_id,
+                            'songid' => $radio_song_id,
+                            'name'   => urldecode($value['name']),
+                            'author' => urldecode($radio_author),
+                            'music'  => $radio_music_url,
+                            'pic'    => $value['album']['picUrl'] . '?param=300x300'
+                        );
                     }
-                    $radio_songs[] = array(
-                        'type'   => 'netease',
-                        'link'    => 'http://music.163.com/#/song?id='.$radio_song_id,
-                        'songid' => $radio_song_id,
-                        'name'   => urldecode($radio_detail[0]['name']),
-                        'author' => urldecode($radio_author),
-                        'music'  => $radio_music_url,
-                        'pic'    => $radio_detail[0]['album']['picUrl'].'?param=100x100'
-                    );
+
                 }
             }
             break;
