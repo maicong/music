@@ -25,7 +25,7 @@ require MC_CORE_DIR . '/vendor/autoload.php';
 use \Curl\Curl;
 
 // Curl 内容获取
-function maicong_curl($args = array())
+function mc_curl($args = array())
 {
     $default = array(
         'method'     => 'GET',
@@ -63,7 +63,7 @@ function maicong_curl($args = array())
 }
 
 // 音频数据接口地址
-function maicong_song_urls($value, $type = 'query', $site = 'netease')
+function mc_song_urls($value, $type = 'query', $site = 'netease')
 {
     if (!$value) {
         return;
@@ -400,16 +400,16 @@ function maicong_song_urls($value, $type = 'query', $site = 'netease')
 }
 
 // 获取音频信息 - 关键词搜索
-function maicong_get_song_by_name($query, $site = 'netease')
+function mc_get_song_by_name($query, $site = 'netease')
 {
     if (!$query) {
         return;
     }
-    $radio_search_url = maicong_song_urls($query, 'query', $site);
+    $radio_search_url = mc_song_urls($query, 'query', $site);
     if (empty($query) || empty($radio_search_url)) {
         return;
     }
-    $radio_result = maicong_curl($radio_search_url);
+    $radio_result = mc_curl($radio_search_url);
     if (empty($radio_result)) {
         return;
     }
@@ -541,11 +541,11 @@ function maicong_get_song_by_name($query, $site = 'netease')
             }
             break;
     }
-    return maicong_get_song_by_id($radio_songid, $site, true);
+    return mc_get_song_by_id($radio_songid, $site, true);
 }
 
 // 获取音频信息 - 歌曲ID
-function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
+function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
 {
     if (empty($songid) || empty($site)) {
         return;
@@ -556,17 +556,17 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
             return;
         }
         foreach ($songid as $key => $val) {
-            $radio_song_urls[] = maicong_song_urls($val, 'songid', $site);
+            $radio_song_urls[] = mc_song_urls($val, 'songid', $site);
         }
     } else {
-        $radio_song_urls[] = maicong_song_urls($songid, 'songid', $site);
+        $radio_song_urls[] = mc_song_urls($songid, 'songid', $site);
     }
     if (empty($radio_song_urls) || !array_key_exists(0, $radio_song_urls)) {
         return;
     }
     $radio_result = array();
     foreach ($radio_song_urls as $key => $val) {
-        $radio_result[] = maicong_curl($val);
+        $radio_result[] = mc_curl($val);
     }
     if (empty($radio_result) || !array_key_exists(0, $radio_result)) {
         return;
@@ -626,7 +626,7 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                             'singer' => $radio_name[0]
                         )
                     );
-                    $radio_imginfo = json_decode(maicong_curl($radio_img), true);
+                    $radio_imginfo = json_decode(mc_curl($radio_img), true);
                     if (!empty($radio_imginfo)) {
                         $radio_pic = $radio_imginfo['url'];
                     }
@@ -703,7 +703,7 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'songid' => $radio_song_id,
                         'name'   => urldecode($radio_detail[0]['songName']),
                         'author' => urldecode($radio_detail[0]['singers']),
-                        'music'  => maicong_decode_xiami_location($radio_detail[0]['location']),
+                        'music'  => decode_xiami_location($radio_detail[0]['location']),
                         'pic'    => $radio_detail[0]['album_pic']
                     );
                 }
@@ -776,7 +776,7 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'proxy'   => false,
                         'body'    => false
                     );
-                    $radio_channels_info = json_decode(maicong_curl($radio_channels), true);
+                    $radio_channels_info = json_decode(mc_curl($radio_channels), true);
                     if (!empty($radio_channels_info) && !empty($radio_channels_info['data'])) {
                         $radio_author = $radio_channels_info['data']['name'];
                         $radio_pic = $radio_channels_info['data']['img_url'];
@@ -823,7 +823,7 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                             'client_id' => MC_SC_CLIENT_ID
                         )
                     );
-                    $radio_streams_info = json_decode(maicong_curl($radio_streams), true);
+                    $radio_streams_info = json_decode(mc_curl($radio_streams), true);
                     if (!empty($radio_streams_info)) {
                         $radio_music_http    = $radio_streams_info['http_mp3_128_url'];
                         $radio_music_preview = $radio_streams_info['preview_mp3_128_url'];
@@ -872,7 +872,7 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
                               )
                           ))
                         );
-                        $radio_streams_info = json_decode(maicong_curl($radio_streams), true);
+                        $radio_streams_info = json_decode(mc_curl($radio_streams), true);
                         if (!empty($radio_streams_info)) {
                             $radio_music_url = $radio_streams_info['data'][0]['url'];
                         }
@@ -894,7 +894,7 @@ function maicong_get_song_by_id($songid, $site = 'netease', $multi = false)
 }
 
 // 获取音频信息 - url
-function maicong_get_song_by_url($url)
+function mc_get_song_by_url($url)
 {
     preg_match('/music\.163\.com\/(#(\/m)?|m)\/song(\?id=|\/)(\d+)/i', $url, $match_netease);
     preg_match('/(www|m)\.1ting\.com\/(player\/b6\/player_|#\/song\/)(\d+)/i', $url, $match_1ting);
@@ -960,7 +960,7 @@ function maicong_get_song_by_url($url)
                 'client_id' => MC_SC_CLIENT_ID
             )
         );
-        $match_request = maicong_curl($match_resolve);
+        $match_request = mc_curl($match_resolve);
         preg_match('/tracks\/(\d+)\.json/i', $match_request, $match_location);
         if (!empty($match_location)) {
             $songid   = $match_location[1];
@@ -969,11 +969,11 @@ function maicong_get_song_by_url($url)
     } else {
         return;
     }
-    return maicong_get_song_by_id($songid, $songtype);
+    return mc_get_song_by_id($songid, $songtype);
 }
 
 // 解密虾米 location
-function maicong_decode_xiami_location($location)
+function decode_xiami_location($location)
 {
     $location = trim($location);
     $result   = array();

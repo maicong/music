@@ -87,13 +87,13 @@ if (server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
 
     switch ($music_filter) {
         case 'name':
-            $music_response = maicong_get_song_by_name($music_input, $music_type);
+            $music_response = mc_get_song_by_name($music_input, $music_type);
             break;
         case 'id':
-            $music_response = maicong_get_song_by_id($music_input, $music_type);
+            $music_response = mc_get_song_by_id($music_input, $music_type);
             break;
         case 'url':
-            $music_response = maicong_get_song_by_url($music_input);
+            $music_response = mc_get_song_by_url($music_input);
             break;
     }
 
