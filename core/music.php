@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.4.1
+ * @since   1.4.2
  *
  */
 
@@ -60,6 +60,15 @@ function mc_curl($args = array())
     if (!$curl->error) {
         return $curl->rawResponse;
     }
+}
+
+// 判断地址是否有误
+function mc_is_error ($url) {
+    $curl = new Curl();
+    $curl->setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36');
+    $curl->head($url);
+    $curl->close();
+    return $curl->errorCode;
 }
 
 // 音频数据接口地址
@@ -1065,8 +1074,7 @@ function generate_qqmusic_url ($songmid, $key) {
     $quality = array('M800', 'M500', 'C600', 'C400', 'C100');
     foreach ($quality as $value) {
         $url = 'https://dl.stream.qqmusic.qq.com/' . $value . $songmid . '.mp3?vkey=' . $key . '&guid=5150825362&fromtag=1';
-        $header = get_headers($url, 1);
-        if (empty($header['error'])) {
+        if (!mc_is_error($url)) {
             return $url;
         }
     }
