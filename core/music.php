@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.4.0
+ * @since   1.4.1
  *
  */
 
@@ -662,6 +662,18 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
             }
             break;
         case 'qq':
+            $radio_vkey = json_decode(mc_curl(array(
+                'method'     => 'GET',
+                'url'        => 'http://base.music.qq.com/fcgi-bin/fcg_musicexpress.fcg',
+                'referer'    => 'https://y.qq.com',
+                'proxy'      => false,
+                'body'       => array(
+                    'json' => 3,
+                    'guid' => 5150825362,
+                    'format'  => 'json'
+                ),
+                'user-agent' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
+            )), true);
             foreach ($radio_result as $val) {
                 $radio_json = json_decode($val, true);
                 $radio_data = $radio_json['data'];
@@ -670,12 +682,15 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                     foreach ($radio_data as $value) {
                         $radio_song_id       = $value['mid'];
                         $radio_authors       = array();
-                        foreach ($radio_data[0]['singer'] as $singer) {
+                        foreach ($value['singer'] as $singer) {
                             $radio_authors[] = $singer['title'];
                         }
                         $radio_author        = implode('/', $radio_authors);
-                        $radio_music1        = 'http://' . $radio_url[$value['id']];
-                        $radio_music2        = 'http://isure.stream.qqmusic.qq.com/C100' . $radio_song_id . '.m4a?fromtag=32';
+                        if (!empty($radio_vkey['key'])) {
+                            $radio_music     = generate_qqmusic_url($radio_song_id, $radio_vkey['key']);
+                        } else {
+                            $radio_music     = 'https://' . str_replace('ws', 'dl', $radio_url[$value['id']]);
+                        }
                         $radio_album_id      = $value['album']['mid'];
                         $radio_songs[]       = array(
                             'type'   => 'qq',
@@ -683,7 +698,7 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                             'songid' => $radio_song_id,
                             'name'   => urldecode($value['title']),
                             'author' => urldecode($radio_author),
-                            'music'  => $radio_music1 ? $radio_music1 : $radio_music2,
+                            'music'  => $radio_music,
                             'pic'    => 'http://y.gtimg.cn/music/photo_new/T002R300x300M000' . $radio_album_id . '.jpg'
                         );
                     }
@@ -1043,6 +1058,18 @@ function split_songid ($songid, $index = 0, $delimiter = '|') {
         }
     }
     return;
+}
+
+// 生成 QQ 音乐各品质链接
+function generate_qqmusic_url ($songmid, $key) {
+    $quality = array('M800', 'M500', 'C600', 'C400', 'C100');
+    foreach ($quality as $value) {
+        $url = 'https://dl.stream.qqmusic.qq.com/' . $value . $songmid . '.mp3?vkey=' . $key . '&guid=5150825362&fromtag=1';
+        $header = get_headers($url, 1);
+        if (empty($header['error'])) {
+            return $url;
+        }
+    }
 }
 
 // Server
