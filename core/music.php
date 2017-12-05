@@ -890,35 +890,33 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                 $radio_json = json_decode($val, true);
                 $radio_data = $radio_json['songs'];
                 if (!empty($radio_data)) {
-                    foreach ($radio_data as $value) {
-                        $radio_song_id           = $value['id'];
-                        $radio_authors           = array();
+                    $radio_streams = array(
+                      'method'  => 'POST',
+                      'url'     => 'http://music.163.com/api/linux/forward',
+                      'referer' => 'http://music.163.com/',
+                      'proxy'   => false,
+                      'body'    => encode_netease_data(array(
+                          'method' => 'POST',
+                          'url' => 'http://music.163.com/api/song/enhance/player/url',
+                          'params' => array(
+                              'ids' => $songid,
+                              'br'  => 320000,
+                          )
+                      ))
+                    );
+                    $radio_info  = json_decode(mc_curl($radio_streams), true);
+                    foreach ($radio_data as $key => $value) {
+                        $radio_song_id       = $value['id'];
+                        $radio_authors       = array();
                         foreach ($value['artists'] as $key => $val) {
-                            $radio_authors[]     = $val['name'];
+                            $radio_authors[] = $val['name'];
                         }
-                        $radio_author            = implode('/', $radio_authors);
-                        $radio_music_url         = $value['mp3Url'];
-                        if (!$radio_music_url) {
-                            $radio_streams       = array(
-                              'method'  => 'POST',
-                              'url'     => 'http://music.163.com/api/linux/forward',
-                              'referer' => 'http://music.163.com/',
-                              'proxy'   => false,
-                              'body'    => encode_netease_data(array(
-                                  'method' => 'POST',
-                                  'url' => 'http://music.163.com/api/song/enhance/player/url',
-                                  'params' => array(
-                                      'ids' => array($radio_song_id),
-                                      'br'  => 320000,
-                                  )
-                              ))
-                            );
-                            $radio_streams_info  = json_decode(mc_curl($radio_streams), true);
-                            if (!empty($radio_streams_info)) {
-                                $radio_music_url = $radio_streams_info['data'][0]['url'];
-                            }
+                        $radio_author        = implode('/', $radio_authors);
+                        $radio_music_url     = $value['mp3Url'];
+                        if (!$radio_music_url && !empty($radio_info['data'])) {
+                            $radio_music_url = $radio_info['data'][$key]['url'];
                         }
-                        $radio_songs[]           = array(
+                        $radio_songs[]       = array(
                             'type'   => 'netease',
                             'link'    => 'http://music.163.com/#/song?id=' . $radio_song_id,
                             'songid' => $radio_song_id,
@@ -928,7 +926,6 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                             'pic'    => $value['album']['picUrl'] . '?param=300x300'
                         );
                     }
-
                 }
             }
             break;
