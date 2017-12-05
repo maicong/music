@@ -328,10 +328,9 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
         ),
         'xiami'             => array(
             'method'        => 'GET',
-            'url'           => 'http://www.xiami.com/song/playlist/id/' . $songid . '/object_name/default/object_id/0/cat/json',
-            'referer'       => 'http://m.xiami.com',
-            'proxy'         => false,
-            'user-agent'    => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
+            'url'           => 'http://www.xiami.com/song/playlist/id/' . $songid . '/type/0/cat/json',
+            'referer'       => 'http://www.xiami.com',
+            'proxy'         => false
         ),
         '5singyc'           => array(
             'method'        => 'GET',
