@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.4.3
+ * @since   1.4.4
  *
  */
 
@@ -13,7 +13,7 @@
 define('MC_CORE', true);
 
 // 定义版本
-define('MC_VERSION', '1.4.3');
+define('MC_VERSION', '1.4.4');
 
 // 核心文件目录
 define('MC_CORE_DIR', __DIR__ . '/core');
