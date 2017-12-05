@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.4.2
+ * @since   1.4.3
  *
  */
 
@@ -13,7 +13,7 @@
 define('MC_CORE', true);
 
 // 定义版本
-define('MC_VERSION', '1.4.2');
+define('MC_VERSION', '1.4.3');
 
 // 核心文件目录
 define('MC_CORE_DIR', __DIR__ . '/core');
@@ -99,6 +99,10 @@ if (server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
 
     if (empty($music_response)) {
         response('', 404, 'ㄟ( ▔, ▔ )ㄏ 没有找到相关信息');
+    }
+
+    if ($music_response['error']) {
+        response('', $music_response['code'], '(°ー°〃) ' . $music_response['error']);
     }
 
     response($music_response, 200, '');

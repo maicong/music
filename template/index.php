@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.4.0
+ * @since   1.4.3
  *
  */
 
@@ -114,7 +114,7 @@ if (!defined('MC_CORE')) {
                     <blockquote id="j-quote" class="music-overflow">
                         <p><span>网易：</span><u>http://music.163.com/#/song?id=<b>25906124</b></u></p>
                         <p><span>ＱＱ：</span><u>http://y.qq.com/n/yqq/song/<b>002B2EAA3brD5b</b>.html</u></p>
-                        <p><span>酷狗：</span><u>http://m.kugou.com/play/info/<b>08228af3cb404e8a4e7e9871bf543ff6</b></u></p>
+                        <p><span>酷狗：</span><u>http://www.kugou.com/song/#hash=<b>08228af3cb404e8a4e7e9871bf543ff6</b></u></p>
                         <p><span>酷我：</span><u>http://www.kuwo.cn/yinyue/<b>382425</b>/</u></p>
                         <p><span>虾米：</span><u>http://www.xiami.com/song/<b>2113248</b></u></p>
                         <p><span>百度：</span><u>http://music.baidu.com/song/<b>556113</b></u></p>

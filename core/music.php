@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.4.2
+ * @since   1.4.3
  *
  */
 
@@ -446,7 +446,7 @@ function mc_get_song_by_name($query, $site = 'netease')
                 return;
             }
             foreach ($radio_data['data']['info'] as $val) {
-                $radio_songid[] = $val['hash'];
+                $radio_songid[] = $val['320hash'] ? $val['320hash'] : $val['hash'];
             }
             break;
         case 'kuwo':
@@ -633,13 +633,24 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
         case 'kugou':
             foreach ($radio_result as $val) {
                 $radio_data = json_decode($val, true);
-                if (!empty($radio_data) && $radio_data['status']) {
+                if (!$radio_data['url'] && count($radio_result) === 1) {
+                    $radio_songs = array(
+                        'error' => $radio_data['privilege'] ? '无法播放需要付费的歌曲' : '找不到可用的播放地址',
+                        'code' => 403
+                    );
+                    break;
+                }
+                if (!empty($radio_data)) {
+                    if (!$radio_data['url']) {
+                        // 过滤无效的
+                        continue;
+                    }
                     $radio_song_id    = $radio_data['hash'];
                     $radio_song_album = str_replace('{size}', '150', $radio_data['album_img']);
                     $radio_song_img   = str_replace('{size}', '150', $radio_data['imgUrl']);
                     $radio_songs[]    = array(
                         'type'   => 'kugou',
-                        'link'   => 'http://m.kugou.com/play/info/' . $radio_song_id,
+                        'link'   => 'http://www.kugou.com/song/#hash=' . $radio_song_id,
                         'songid' => $radio_song_id,
                         'name'   => urldecode($radio_data['songName']),
                         'author' => urldecode($radio_data['singerName']),
@@ -931,7 +942,7 @@ function mc_get_song_by_url($url)
     preg_match('/music\.163\.com\/(#(\/m)?|m)\/song(\?id=|\/)(\d+)/i', $url, $match_netease);
     preg_match('/(www|m)\.1ting\.com\/(player\/b6\/player_|#\/song\/)(\d+)/i', $url, $match_1ting);
     preg_match('/music\.baidu\.com\/song\/(\d+)/i', $url, $match_baidu);
-    preg_match('/m\.kugou\.com\/play\/info\/([a-z0-9]+)/i', $url, $match_kugou);
+    preg_match('/(m|www)\.kugou\.com\/(play\/info\/|song\/\#hash\=)([a-z0-9]+)/i', $url, $match_kugou);
     preg_match('/www\.kuwo\.cn\/(yinyue|my)\/(\d+)/i', $url, $match_kuwo);
     preg_match('/(y\.qq\.com\/n\/yqq\/song\/|data\.music\.qq\.com\/playsong\.html\?songmid=)([a-zA-Z0-9]+)/i', $url, $match_qq);
     preg_match('/(www|m)\.xiami\.com\/song\/(\d+)/i', $url, $match_xiami);
@@ -952,7 +963,7 @@ function mc_get_song_by_url($url)
         $songid   = $match_baidu[1];
         $songtype = 'baidu';
     } elseif (!empty($match_kugou)) {
-        $songid   = $match_kugou[1];
+        $songid   = $match_kugou[3];
         $songtype = 'kugou';
     } elseif (!empty($match_kuwo)) {
         $songid   = $match_kuwo[2];
