@@ -615,7 +615,6 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                 $radio_data = $radio_json['data']['songList'];
                 if (!empty($radio_data)) {
                     foreach ($radio_data as $value) {
-                        // 注： 百度不允许外链 ~ 自行解决吧
                         $radio_song_id = $value['songId'];
                         $radio_songs[] = array(
                             'type'   => 'baidu',
@@ -623,7 +622,11 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                             'songid' => $radio_song_id,
                             'name'   => urldecode($value['songName']),
                             'author' => urldecode($value['artistName']),
-                            'music'  => $value['songLink'],
+                            'music'  => str_replace(
+                                'yinyueshiting.baidu.com',
+                                'gss0.bdstatic.com/y0s1hSulBw92lNKgpU_Z2jR7b2w6buu',
+                                $value['songLink']
+                            ),
                             'pic'    => $value['songPicBig']
                         );
                     }
