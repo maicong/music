@@ -744,6 +744,14 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                             'pic'    => $value['album_pic']
                         );
                     }
+                } else {
+                    if ($radio_json['message']) {
+                        $radio_songs      = array(
+                            'error' => $radio_json['message'],
+                            'code' => 403
+                        );
+                        break;
+                    }
                 }
             }
             break;
@@ -946,7 +954,7 @@ function mc_get_song_by_url($url)
     preg_match('/(m|www)\.kugou\.com\/(play\/info\/|song\/\#hash\=)([a-z0-9]+)/i', $url, $match_kugou);
     preg_match('/www\.kuwo\.cn\/(yinyue|my)\/(\d+)/i', $url, $match_kuwo);
     preg_match('/(y\.qq\.com\/n\/yqq\/song\/|data\.music\.qq\.com\/playsong\.html\?songmid=)([a-zA-Z0-9]+)/i', $url, $match_qq);
-    preg_match('/(www|m)\.xiami\.com\/song\/(\d+)/i', $url, $match_xiami);
+    preg_match('/(www|m)\.xiami\.com\/song\/([a-zA-Z0-9]+)/i', $url, $match_xiami);
     preg_match('/5sing\.kugou\.com\/(m\/detail\/|)yc(-|\/)(\d+)/i', $url, $match_5singyc);
     preg_match('/5sing\.kugou\.com\/(m\/detail\/|)fc(-|\/)(\d+)/i', $url, $match_5singfc);
     preg_match('/music\.migu\.cn\/#\/song\/(\d+)/i', $url, $match_migu);
