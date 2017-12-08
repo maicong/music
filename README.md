@@ -1,8 +1,9 @@
 # 音乐搜索器 - 麦葱特制多站合一音乐搜索解决方案
 
 [![PHP version](https://img.shields.io/badge/php-%3E%205.4-orange.svg)](https://github.com/php-src/php)
-[![Amazeui](https://img.shields.io/badge/amazeui-2.3.0-blue.svg)](https://github.com/amazeui/amazeui)
 [![jQuery](https://img.shields.io/badge/jquery-1.11.1-blue.svg)](https://github.com/jquery/jquery)
+[![Amazeui](https://img.shields.io/badge/amazeui-2.3.0-blue.svg)](https://github.com/amazeui/amazeui)
+[![APlayer](https://img.shields.io/badge/aplayer-1.6.0-blue.svg)](https://github.com/MoePlayer/APlayer)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](#LICENSE)
 [![Maicong's Blog](https://img.shields.io/badge/blog-maicong.me-green.svg)](https://maicong.me/)
 
@@ -11,17 +12,17 @@
 目前支持搜索试听以下网站音乐：
 
 > [网易云音乐](http://music.163.com/)
-> [QQ 音乐](http://y.qq.com/)
+> [QQ音乐](http://y.qq.com/)
 > [酷狗音乐](http://www.kugou.com/)
 > [酷我音乐](http://www.kuwo.cn/)
 > [虾米音乐](http://www.xiami.com/)
 > [百度音乐](http://music.baidu.com/)
 > [一听音乐](http://www.1ting.com/)
 > [咪咕音乐](http://music.migu.cn/)
-> [荔枝 FM](http://www.lizhi.fm/)
-> [蜻蜓 FM](http://www.qingting.fm/)
-> [喜马拉雅 FM](http://www.ximalaya.com/)
-> [5sing 音乐](http://5sing.kugou.com/)
+> [荔枝FM](http://www.lizhi.fm/)
+> [蜻蜓FM](http://www.qingting.fm/)
+> [喜马拉雅FM](http://www.ximalaya.com/)
+> [5sing音乐](http://5sing.kugou.com/)
 > [SoundCloud](https://soundcloud.com/)
 
 数据调用的是各音频网站 JSON 接口！
@@ -30,7 +31,9 @@
 
 有的接口并不是开放的 API 接口，随时可能失效，所以本项目相关代码仅供参考。
 
-[📦 点击下载源代码](https://github.com/maicong/music/archive/master.zip)
+[📦 下载当前开发代码](https://github.com/maicong/music/archive/master.zip)
+
+[📦 下载发布版本代码](https://github.com/maicong/music/releases)
 
 ## Demo / 演示
 
@@ -104,7 +107,7 @@
 更换服务器，选择延迟更低的服务器。
 ```
 
-## 免责声明
+## Disclaimer / 免责声明
 
 ```
 1、本站音频文件来自各网站接口，本站不会修改任何音频文件
@@ -116,7 +119,7 @@
 ```
 The MIT License (MIT)
 
-Copyright (c) 2015 Maicong
+Copyright (c) 2017 Maicong
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
