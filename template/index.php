@@ -149,7 +149,7 @@ if (!defined('MC_CORE')) {
                         <p><span>酷我：</span><u>http://www.kuwo.cn/yinyue/<b>382425</b>/</u></p>
                         <p><span>虾米：</span><u>http://www.xiami.com/song/<b>2113248</b></u></p>
                         <p><span>百度：</span><u>http://music.baidu.com/song/<b>266069</b></u></p>
-                        <p><span>一听：</span><u>http://www.1ting.com/player/b6/player_<b>220513</b>.html</u></p>
+                        <p><span>一听：</span><u>http://www.1ting.com/player/b6/player_<b>357838</b>.html</u></p>
                         <p><span>咪咕：</span><u>http://music.migu.cn/#/song/<b>1002531572</b>/P7Z1Y1L1N1/3/001002C</u></p>
                         <p><span>荔枝：</span><u>http://www.lizhi.fm/1947925/<b>2498707770886461446</b></u></p>
                         <p><span>蜻蜓：</span><u>http://www.qingting.fm/channels/<b>158696</b>/programs/<b>5266259</b></u></p>
