@@ -4,11 +4,12 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.5.1
+ * @since   1.5.0
  *
  */
 
 $(function() {
+  var _this = this;
   var player = null;
   var nopic = 'static/img/nopic.jpg';
 
@@ -22,9 +23,9 @@ $(function() {
       pattern_id: '^[\\w\\/\\|]+$',
       pattern_url: '^https?:\\/\\/\\S+$'
     };
-    var filter = $(this).data('filter');
+    var filter = $(_this).data('filter');
 
-    $(this)
+    $(_this)
       .addClass('am-active')
       .siblings('li')
       .removeClass('am-active');
