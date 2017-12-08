@@ -39,16 +39,23 @@ if (!defined('MC_CORE')) {
 </head>
 <body>
     <!--[if lte IE 9]>
-        <script type="text/javascript">
-            var alertText = '\u4f60\u7684\u6d4f\u89c8\u5668\u4e5f\u592a\u632b\u4e86\u5427\uff01\u5927\u4f6c\u6362\u4e00\u4e2a\u567b\uff01';
-            document.body.innerHTML = alertText;
-            document.body.style.fontSize = '88px';
-            document.body.style.color = '#fff';
-            document.body.style.background = '#000';
-            alert(alertText);
-            window.open('', '_self', '');
-            window.close();
-        </script>
+      <script type="text/javascript">
+        (function(){
+          var t = '你的浏览器也太挫了吧！大佬换一个噻！';
+          document.body.innerHTML = t;
+          document.body.style.fontSize = '66px';
+          document.body.style.textAlign = 'center';
+          document.body.style.background = '#000';
+          document.body.style.color = '#fff';
+          if (prompt('输入代号 666666 销毁此电脑: ', '') === '666666') {
+            alert('拜拜了您呢~')
+          } else {
+            alert('总感觉哪里不对');
+          }
+          window.open('', '_self', '');
+          window.close();
+        })();
+      </script>
     <![endif]-->
     <section class="am-g about">
         <div class="am-container am-margin-vertical-xl">
