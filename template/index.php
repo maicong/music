@@ -156,8 +156,8 @@ if (!defined('MC_CORE')) {
                         <p><span>喜马拉雅：</span><u>http://www.ximalaya.com/51701370/sound/<b>24755731</b></u></p>
                         <p><span>5sing 原创：</span><u>http://5sing.kugou.com/yc/<b>3082899</b>.html</u></p>
                         <p><span>5sing 翻唱：</span><u>http://5sing.kugou.com/fc/<b>14369766</b>.html</u></p>
-                        <p><span>SoundCloud (ID)：</span><u>soundcloud://sounds:<b>197401418</b></u> (请查看源码)</p>
-                        <p><span>SoundCloud (地址)：</span><u>https://soundcloud.com/user2953945/tr-n-d-ch-t-n-eason-chan-kh-ng</u></p>
+                        <p><span>SoundCloud (ID)：</span><u>soundcloud://sounds:<b>199029905</b></u> (请查看源码)</p>
+                        <p><span>SoundCloud (地址)：</span><u>https://soundcloud.com/yonino/zwt063phk16o</u></p>
                     </blockquote>
                     <div id="j-more" class="music-more">查看更多</div>
                 </div>
