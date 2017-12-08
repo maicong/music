@@ -701,7 +701,7 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                         $radio_song_id  = $value['songId'];
                         $radio_lrc_urls = mc_song_urls($radio_song_id, 'lrc', $site);
                         if ($radio_lrc_urls) {
-                            $radio_lrc  = mc_curl($radio_lrc_urls);
+                            $radio_lrc  = json_decode(mc_curl($radio_lrc_urls), true);
                         }
                         $radio_songs[]  = array(
                             'type'   => 'baidu',
