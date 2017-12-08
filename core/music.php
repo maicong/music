@@ -1022,7 +1022,7 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                   'method'  => 'POST',
                   'url'     => 'http://music.163.com/api/song/enhance/player/url',
                   'params'  => array(
-                      'ids' => $songid,
+                      'ids' => is_array($songid) ? $songid : [$songid],
                       'br'  => 320000,
                   )
               ))
