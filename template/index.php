@@ -31,13 +31,25 @@ if (!defined('MC_CORE')) {
     <meta name="apple-mobile-web-app-title" content="音乐搜索器">
     <meta name="application-name" content="音乐搜索器">
     <meta name="format-detection" content="telephone=no">
-    <link rel="shortcut icon" href="static/favicon.ico">
-    <link rel="apple-touch-icon" href="static/apple-touch-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="static/img/apple-touch-icon.png">
     <link rel="canonical" href="http://music.2333.me/">
     <link rel="stylesheet" href="//cdn.bootcss.com/amazeui/2.3.0/css/amazeui.min.css">
-    <link rel="stylesheet" href="static/style.css?v<?php echo MC_VERSION; ?>">
+    <link rel="stylesheet" href="static/css/style.css?v<?php echo MC_VERSION; ?>">
 </head>
 <body>
+    <!--[if lte IE 9]>
+        <script type="text/javascript">
+            var alertText = '\u4f60\u7684\u6d4f\u89c8\u5668\u4e5f\u592a\u632b\u4e86\u5427\uff01\u5927\u4f6c\u6362\u4e00\u4e2a\u567b\uff01';
+            document.body.innerHTML = alertText;
+            document.body.style.fontSize = '88px';
+            document.body.style.color = '#fff';
+            document.body.style.background = '#000';
+            alert(alertText);
+            window.open('', '_self', '');
+            window.close();
+        </script>
+    <![endif]-->
     <section class="am-g about">
         <div class="am-container am-margin-vertical-xl">
             <header class="am-padding-vertical">
@@ -82,12 +94,22 @@ if (!defined('MC_CORE')) {
                             <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐地址', trigger: 'hover'}">
                                 <span class="am-input-group-label"><i class="am-icon-link am-icon-fw"></i></span>
                                 <input id="j-link" class="am-form-field">
+                                <span class="am-input-group-btn">
+                                    <a id="j-link-btn" class="am-btn am-btn-default" target="_blank">
+                                        <i class="am-icon-external-link"></i>
+                                    </a>
+                                </span>
                             </div>
                         </div>
                         <div class="am-u-lg-6">
                             <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐链接', trigger: 'hover'}">
                                 <span class="am-input-group-label"><i class="am-icon-music am-icon-fw"></i></span>
                                 <input id="j-src" class="am-form-field">
+                                <span class="am-input-group-btn">
+                                    <a id="j-src-btn" class="am-btn am-btn-default" target="_blank">
+                                        <i class="am-icon-external-link"></i>
+                                    </a>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -105,7 +127,9 @@ if (!defined('MC_CORE')) {
                             </div>
                         </div>
                     </div>
-                    <div id="j-show" class="am-margin-vertical"></div>
+                    <div id="j-show" class="am-margin-vertical">
+                        <div id="j-player" class="aplayer"></div>
+                    </div>
                 </form>
                 <div class="am-u-md-12 am-u-sm-centered am-margin-vertical music-tips">
                     <h4>帮助：</h4>
@@ -150,6 +174,7 @@ if (!defined('MC_CORE')) {
     </footer>
     <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/amazeui/2.3.0/js/amazeui.min.js"></script>
-    <script src="static/music.js?v<?php echo MC_VERSION; ?>"></script>
+    <script src="//cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+    <script src="static/js/music.js?v<?php echo MC_VERSION; ?>"></script>
 </body>
 </html>
