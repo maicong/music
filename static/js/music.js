@@ -4,7 +4,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.3.1
+ * @since   1.5.0
  *
  */
 
@@ -187,7 +187,7 @@ $(function() {
     $('#j-quote').removeClass('music-overflow');
   });
 
-  $('#j-getit').on('click', function() {
+  $('#j-back').on('click', function() {
     if (player) {
       player.pause();
     }
