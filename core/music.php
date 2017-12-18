@@ -724,15 +724,15 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
         case 'kugou':
             foreach ($radio_result as $val) {
                 $radio_data           = json_decode($val, true);
-                if (!$radio_data['url'] && count($radio_result) === 1) {
-                    $radio_songs      = array(
-                        'error' => $radio_data['privilege'] ? '无法播放需要付费的歌曲' : '找不到可用的播放地址',
-                        'code' => 403
-                    );
-                    break;
-                }
                 if (!empty($radio_data)) {
                     if (!$radio_data['url']) {
+                        if (count($radio_result) === 1) {
+                            $radio_songs      = array(
+                                'error' => $radio_data['privilege'] ? '源站反馈此音频需要付费' : '找不到可用的播放地址',
+                                'code' => 403
+                            );
+                            break;
+                        }
                         // 过滤无效的
                         continue;
                     }
@@ -963,6 +963,13 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                 $radio_data        = $radio_json['trackInfo'];
                 $radio_user        = $radio_json['userInfo'];
                 if (!empty($radio_data) && !empty($radio_user)) {
+                    if ($radio_data['isPaid']) {
+                        $radio_songs      = array(
+                            'error' => '源站反馈此音频需要付费',
+                            'code' => 403
+                        );
+                        break;
+                    }
                     $radio_songs[] = array(
                         'type'   => 'ximalaya',
                         'link'   => 'http://www.ximalaya.com/' . $radio_data['uid'] . '/sound/' . $radio_data['trackId'],
