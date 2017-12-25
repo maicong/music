@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.5.2
+ * @since   1.5.3
  *
  */
 
@@ -88,7 +88,7 @@ if (!defined('MC_CORE')) {
                                 <input type="radio" name="music_type" value="<?php echo $key; ?>" data-am-ucheck<?php if ($key === 'netease') echo ' checked'; ?>>
                                 <?php echo $val; ?>
                             </label>
-                            <?php if ($key === 'migu') echo '<br />'; ?>
+                            <?php if (in_array($key, array('1ting', 'kg'))) echo '<br />'; ?>
                         <?php } ?>
                         </div>
                         <button id="j-submit" type="submit" class="am-btn am-btn-primary am-btn-lg am-btn-block am-radius" data-am-loading="{spinner: 'cog', loadingText: '正在搜索相关音乐...', resetText: 'Get &#x221A;'}">Get &#x221A;</button>
@@ -141,7 +141,11 @@ if (!defined('MC_CORE')) {
                 <div class="am-u-md-12 am-u-sm-centered am-margin-vertical music-tips">
                     <h4>帮助：</h4>
                     <p><b>标红</b> 为 <strong>音乐 ID</strong>，<u>下划线</u> 表示 <strong>音乐地址</strong></p>
-                    <p>蜻蜓 FM 的 音乐 ID 需要使用 <code>| (管道符)</code> 组合，例如 <code>158696|5266259</code></p>
+                    <ul>
+                        <li>蜻蜓 FM 的音乐 ID 需要使用 <code>| (管道符)</code> 组合，例如 <code>158696|5266259</code></li>
+                        <li>全民 K 歌的音乐名称请输入 <code>shareuid</code>，这是用户的 uid，搜索结果是该用户的所有公开作品</li>
+                        <li>全民 K 歌的音乐 ID 请输入 <code>shareid</code> 这是单曲分享 id，搜索结果是该单曲信息</li>
+                    </ul>
                     <blockquote id="j-quote" class="music-overflow">
                         <p><span>网易：</span><u>http://music.163.com/#/song?id=<b>25906124</b></u></p>
                         <p><span>ＱＱ：</span><u>http://y.qq.com/n/yqq/song/<b>002B2EAA3brD5b</b>.html</u></p>
@@ -154,8 +158,10 @@ if (!defined('MC_CORE')) {
                         <p><span>荔枝：</span><u>http://www.lizhi.fm/1947925/<b>2498707770886461446</b></u></p>
                         <p><span>蜻蜓：</span><u>http://www.qingting.fm/channels/<b>158696</b>/programs/<b>5266259</b></u></p>
                         <p><span>喜马拉雅：</span><u>http://www.ximalaya.com/51701370/sound/<b>24755731</b></u></p>
-                        <p><span>5sing 原创：</span><u>http://5sing.kugou.com/yc/<b>3082899</b>.html</u></p>
-                        <p><span>5sing 翻唱：</span><u>http://5sing.kugou.com/fc/<b>14369766</b>.html</u></p>
+                        <p><span>全民K歌 (shareuid)：</span><u>http://kg.qq.com/node/personal?uid=<b>619a958c25283e88</b></u></p>
+                        <p><span>全民K歌 (shareid)：</span><u>https://kg.qq.com/node/play?s=<b>FA3h1gFhd6Vk7Ft4</b></u></p>
+                        <p><span>5sing原创：</span><u>http://5sing.kugou.com/yc/<b>3082899</b>.html</u></p>
+                        <p><span>5sing翻唱：</span><u>http://5sing.kugou.com/fc/<b>14369766</b>.html</u></p>
                         <p><span>SoundCloud (ID)：</span><u>soundcloud://sounds:<b>199029905</b></u> (请查看源码)</p>
                         <p><span>SoundCloud (地址)：</span><u>https://soundcloud.com/yonino/zwt063phk16o</u></p>
                     </blockquote>

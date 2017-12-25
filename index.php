@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.5.2
+ * @since   1.5.3
  *
  */
 
@@ -13,7 +13,7 @@
 define('MC_CORE', true);
 
 // 定义版本
-define('MC_VERSION', '1.5.2');
+define('MC_VERSION', '1.5.3');
 
 // 核心文件目录
 define('MC_CORE_DIR', __DIR__ . '/core');
@@ -58,15 +58,17 @@ $music_type_list = array(
     'lizhi'      => '荔枝',
     'qingting'   => '蜻蜓',
     'ximalaya'   => '喜马拉雅',
-    '5singyc'    => '5sing 原创',
-    '5singfc'    => '5sing 翻唱',
+    'kg'         => '全民K歌',
+    '5singyc'    => '5sing原创',
+    '5singfc'    => '5sing翻唱',
     'soundcloud' => 'SoundCloud'
 );
 
 if (server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
-    $music_input          = trim(post('music_input'));
-    $music_filter         = post('music_filter');
-    $music_type           = post('music_type');
+    $music_input          = trim(post('input'));
+    $music_filter         = post('filter');
+    $music_type           = post('type');
+    $music_page           = (int) post('page');
     $music_valid_patterns = array(
         'name' => '/^.+$/i',
         'id' => '/^[\w\/\|]+$/i',
@@ -87,7 +89,10 @@ if (server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
 
     switch ($music_filter) {
         case 'name':
-            $music_response = mc_get_song_by_name($music_input, $music_type);
+            if (!$music_page) {
+                $music_page = 1;
+            }
+            $music_response = mc_get_song_by_name($music_input, $music_type, $music_page);
             break;
         case 'id':
             $music_response = mc_get_song_by_id($music_input, $music_type);

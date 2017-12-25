@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.5.2
+ * @since   1.5.3
  *
  */
 
@@ -73,7 +73,7 @@ function mc_is_error($url) {
 }
 
 // 音频数据接口地址
-function mc_song_urls($value, $type = 'query', $site = 'netease')
+function mc_song_urls($value, $type = 'query', $site = 'netease', $page = 1)
 {
     if (!$value) {
         return;
@@ -91,9 +91,9 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
                 'url'        => 'http://music.163.com/api/cloudsearch/pc',
                 'params'     => array(
                     's'      => $query,
-                    'type'   => '1',
-                    'offset' => '0',
-                    'limit'  => '10'
+                    'type'   => 1,
+                    'offset' => $page * 10 - 10,
+                    'limit'  => 10
                 )
             ))
         ),
@@ -104,20 +104,21 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
             'proxy'          => false,
             'body'           => array(
                 'q'          => $query,
-                'page'       => '1',
-                'size'       => '10'
+                'page'       => $page,
+                'size'       => 10
             )
         ),
         'baidu'              => array(
             'method'         => 'GET',
-            'url'            => 'http://sug.music.baidu.com/info/suggestion',
-            'referer'        => 'http://music.baidu.com/search?key='.urlencode($query),
+            'url'            => 'http://musicapi.qianqian.com/v1/restserver/ting',
+            'referer'        => 'http://music.baidu.com/',
             'proxy'          => false,
             'body'           => array(
-                'word'       => $query,
-                'format'     => 'json',
-                'version'    => '2',
-                'from'       => '0'
+                'method'    => 'baidu.ting.search.common',
+                'query'     => $query,
+                'format'    => 'json',
+                'page_no'   => $page,
+                'page_size' => 10
             )
         ),
         'kugou'              => array(
@@ -128,8 +129,8 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
             'body'           => array(
                 'keyword'    => $query,
                 'format'     => 'json',
-                'page'       => '1',
-                'pagesize'   => '10'
+                'page'       => $page,
+                'pagesize'   => 10
             ),
             'user-agent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
@@ -142,8 +143,8 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
                 'all'        => $query,
                 'ft'         => 'music',
                 'itemset'    => 'web_2013',
-                'pn'         => '0',
-                'rn'         => '10',
+                'pn'         => $page - 1,
+                'rn'         => 10,
                 'rformat'    => 'json',
                 'encoding'   => 'utf8'
             )
@@ -155,8 +156,8 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
             'proxy'          => false,
             'body'           => array(
                 'w'          => $query,
-                'p'          => '1',
-                'n'          => '10',
+                'p'          => $page,
+                'n'          => 10,
                 'format'     => 'json'
             ),
             'user-agent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
@@ -171,8 +172,8 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
                 'v'          => '2.0',
                 'app_key'    => '1',
                 'r'          => 'search/songs',
-                'page'       => '1',
-                'limit'      => '10'
+                'page'       => $page,
+                'limit'      => 10
             ),
             'user-agent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
@@ -186,7 +187,7 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
                 't'          => '0',
                 'filterType' => '1',
                 'ps'         => 10,
-                'pn'         => 1
+                'pn'         => $page
             )
         ),
         '5singfc'            => array(
@@ -210,14 +211,14 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
             'body'           => array(
                 'keyword'    => $query,
                 'type'       => '2',
-                'pgc'        => '1',
-                'rows'       => '10'
+                'pgc'        => $page,
+                'rows'       => 10
             ),
             'user-agent'    => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         ),
         'lizhi'              => array(
             'method'         => 'GET',
-            'url'            => 'http://m.lizhi.fm/api/search_audio/'.urlencode($query).'/1',
+            'url'            => 'http://m.lizhi.fm/api/search_audio/' . urlencode($query) . '/' . $page,
             'referer'        => 'http://m.lizhi.fm',
             'proxy'          => false,
             'body'           => false,
@@ -230,8 +231,8 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
             'proxy'          => false,
             'body'           => array(
                 'k'          => $query,
-                'page'       => '1',
-                'pagesize'   => '10',
+                'page'       => $page,
+                'pagesize'   => 10,
                 'include'    => 'program_ondemand',
                 'groups'     => 'program_ondemand'
             )
@@ -244,9 +245,24 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
             'body'           => array(
                 'kw'         => $query,
                 'core'       => 'all',
-                'page'       => '1',
-                'rows'       => '10',
+                'page'       => $page,
+                'rows'       => 10,
                 'is_paid'    => false
+            )
+        ),
+        'kg'                 => array(
+            'method'         => 'GET',
+            'url'            => 'http://kg.qq.com/cgi/kg_ugc_get_homepage',
+            'referer'        => 'http://kg.qq.com',
+            'proxy'          => false,
+            'body'           => array(
+                'format'     => 'json',
+                'type'       => 'get_ugc',
+                'inCharset'  => 'utf8',
+                'outCharset' => 'utf-8',
+                'share_uid'  => $query,
+                'start'      => $page,
+                'num'        => 10
             )
         ),
         'soundcloud'         => array(
@@ -256,8 +272,8 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
             'proxy'          => false,
             'body'           => array(
                 'q'          => $query,
-                'limit'      => '10',
-                'offset'     => '0',
+                'limit'      => 10,
+                'offset'     => $page * 10 - $page,
                 'facet'      => 'genre',
                 'client_id'  => MC_SC_CLIENT_ID
             )
@@ -387,6 +403,19 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
             'proxy'         => false,
             'body'          => false
         ),
+        'kg'                => array(
+            'method'        => 'GET',
+            'url'           => 'http://kg.qq.com/cgi/kg_ugc_getdetail',
+            'referer'       => 'http://kg.qq.com',
+            'proxy'         => false,
+            'body'          => array(
+                'v'          => 4,
+                'format'     => 'json',
+                'inCharset'  => 'utf8',
+                'outCharset' => 'utf-8',
+                'shareid'    => $songid
+            )
+        ),
         'soundcloud'        => array(
             'method'        => 'GET',
             'url'           => 'https://api.soundcloud.com/tracks/' . $songid . '.json',
@@ -471,6 +500,18 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
             'url'           => $songid,
             'referer'       => 'http://www.xiami.com',
             'proxy'         => false
+        ),
+        'kg'                => array(
+            'method'        => 'GET',
+            'url'           => 'http://kg.qq.com/cgi/fcg_lyric',
+            'referer'       => 'http://kg.qq.com',
+            'proxy'         => false,
+            'body'          => array(
+                'format'     => 'json',
+                'inCharset'  => 'utf8',
+                'outCharset' => 'utf-8',
+                'ksongmid'   => $songid
+            )
         )
     );
     if ('query' === $type) {
@@ -486,12 +527,12 @@ function mc_song_urls($value, $type = 'query', $site = 'netease')
 }
 
 // 获取音频信息 - 关键词搜索
-function mc_get_song_by_name($query, $site = 'netease')
+function mc_get_song_by_name($query, $site = 'netease', $page = 1)
 {
     if (!$query) {
         return;
     }
-    $radio_search_url = mc_song_urls($query, 'query', $site);
+    $radio_search_url = mc_song_urls($query, 'query', $site, $page);
     if (empty($query) || empty($radio_search_url)) {
         return;
     }
@@ -512,11 +553,11 @@ function mc_get_song_by_name($query, $site = 'netease')
             break;
         case 'baidu':
             $radio_data = json_decode($radio_result, true);
-            if (empty($radio_data['data']) || empty($radio_data['data']['song'])) {
+            if (empty($radio_data['song_list'])) {
                 return;
             }
-            foreach ($radio_data['data']['song'] as $val) {
-                $radio_songid[] = $val['songid'];
+            foreach ($radio_data['song_list'] as $val) {
+                $radio_songid[] = $val['song_id'];
             }
             break;
         case 'kugou':
@@ -602,6 +643,15 @@ function mc_get_song_by_name($query, $site = 'netease')
                 if (!$val['is_paid']) { // 过滤付费的
                     $radio_songid[] = $val['id'];
                 }
+            }
+            break;
+        case 'kg':
+            $radio_data = json_decode($radio_result, true);
+            if (empty($radio_data['data']['ugclist'])) {
+                return;
+            }
+            foreach ($radio_data['data']['ugclist'] as $val) {
+                $radio_songid[] = $val['shareid'];
             }
             break;
         case 'soundcloud':
@@ -711,7 +761,10 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                             'author' => $value['artistName'],
                             'lrc'    => $radio_lrc['lrcContent'],
                             'url'    => str_replace(
-                                'yinyueshiting.baidu.com',
+                                [
+                                    'yinyueshiting.baidu.com',
+                                    'zhangmenshiting.baidu.com'
+                                ],
                                 'gss0.bdstatic.com/y0s1hSulBw92lNKgpU_Z2jR7b2w6buu',
                                 $value['songLink']
                             ),
@@ -964,7 +1017,7 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                 $radio_user        = $radio_json['userInfo'];
                 if (!empty($radio_data) && !empty($radio_user)) {
                     if ($radio_data['isPaid']) {
-                        $radio_songs      = array(
+                        $radio_songs = array(
                             'error' => '源站反馈此音频需要付费',
                             'code' => 403
                         );
@@ -983,6 +1036,29 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                 }
             }
             break;
+        case 'kg':
+            foreach ($radio_result as $key => $val) {
+                $radio_json        = json_decode($val, true);
+                $radio_data        = $radio_json['data'];
+                if (!empty($radio_data)) {
+                    $radio_song_id      = is_array($songid) ? $songid[$key] : $songid;
+                    $radio_lrc_urls     = mc_song_urls($radio_data['ksong_mid'], 'lrc', $site);
+                    if ($radio_lrc_urls) {
+                        $radio_lrc_info = json_decode(mc_curl($radio_lrc_urls), true);
+                    }
+                    $radio_songs[] = array(
+                        'type'   => 'kg',
+                        'link'   => 'https://kg.qq.com/node/play?s=' . $radio_song_id . '&shareuid='. $radio_data['uid'],
+                        'songid' => $radio_song_id,
+                        'title'  => $radio_data['song_name'],
+                        'author' => $radio_data['nick'],
+                        'lrc'    => $radio_lrc_info['data']['lyric'],
+                        'url'    => $radio_data['playurl'],
+                        'pic'    => $radio_data['cover']
+                    );
+                }
+            }
+        break;
         case 'soundcloud':
             foreach ($radio_result as $val) {
                 $radio_data                  = json_decode($val, true);
@@ -1090,6 +1166,8 @@ function mc_get_song_by_url($url)
     preg_match('/(www|m)\.lizhi\.fm\/(\d+)\/(\d+)/i', $url, $match_lizhi);
     preg_match('/(www|m)\.qingting\.fm\/channels\/(\d+)\/programs\/(\d+)/i', $url, $match_qingting);
     preg_match('/(www|m)\.ximalaya\.com\/(\d+)\/sound\/(\d+)/i', $url, $match_ximalaya);
+    preg_match('/kg\d?\.qq\.com\/(node\/)?play\?s=([a-zA-Z0-9_-]+)/i', $url, $match_kg_id);
+    preg_match('/kg\d?\.qq\.com\/(node\/)?personal\?uid=([a-z0-9_-]+)/i', $url, $match_kg_uid);
     preg_match('/soundcloud\.com\/[\w\-]+\/[\w\-]+/i', $url, $match_soundcloud);
     if (!empty($match_netease)) {
         $songid   = $match_netease[4];
@@ -1130,6 +1208,11 @@ function mc_get_song_by_url($url)
     } elseif (!empty($match_ximalaya)) {
         $songid   = $match_ximalaya[3];
         $songtype = 'ximalaya';
+    }  elseif (!empty($match_kg_id)) {
+        $songid   = $match_kg_id[2];
+        $songtype = 'kg';
+    }  elseif (!empty($match_kg_uid)) {
+        return mc_get_song_by_name($match_kg_uid[2], 'kg');
     } elseif (!empty($match_soundcloud)) {
         $match_resolve = array(
             'method'        => 'GET',
