@@ -149,6 +149,7 @@ a {
   text-align: center;
   color: #888;
   cursor: pointer;
+  -webkit-transition: color .3s;
   transition: color .3s;
 }
 .aplayer .aplayer-more:hover,
@@ -159,8 +160,8 @@ a {
 .aplayer.aplayer-withlrc .aplayer-pic {
   width: 120px !important;
   height: 120px !important;
-  -webkit-box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.5);
-  box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, .5);
+  box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, .5);
 }
 .aplayer.aplayer-withlrc .aplayer-info {
   margin-left: 120px !important;
