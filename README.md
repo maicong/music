@@ -1,5 +1,7 @@
 # 音乐搜索器 - 麦葱特制多站合一音乐搜索解决方案
 
+[![GitHub release](https://img.shields.io/github/release/maicong/music.svg?style=flat-square)](https://github.com/maicong/music/releases)
+[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/maicong/music.svg?style=flat-square)](https://github.com/maicong/music/pulse)
 [![PHP version](https://img.shields.io/badge/php-%3E%205.4-orange.svg)](https://github.com/php-src/php)
 [![jQuery](https://img.shields.io/badge/jquery-1.11.1-blue.svg)](https://github.com/jquery/jquery)
 [![Amazeui](https://img.shields.io/badge/amazeui-2.3.0-blue.svg)](https://github.com/amazeui/amazeui)
@@ -99,8 +101,8 @@
 方案2：
 
 ```
-在 music.php 里查找 setTimeout，将其后面的数值 20 改为更大。
-在 static/music.js 里查找 data: post_data，将其上面的数值 30000 改为更大。
+在 core/music.php 里查找 setTimeout，将其后面的数值 20 改为更大。
+在 static/js/music.js 里查找 data: post_data，将其上面的数值 30000 改为更大。
 ```
 
 方案3：
