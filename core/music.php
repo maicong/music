@@ -48,7 +48,7 @@ function mc_curl($args = array())
     $curl->setTimeout(15);
     $curl->setHeader('X-Requested-With', 'XMLHttpRequest');
     $curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
-    if ($args['proxy'] && define('MC_PROXY')) {
+    if ($args['proxy'] && MC_PROXY) {
         $curl->setOpt(CURLOPT_HTTPPROXYTUNNEL, 1);
         $curl->setOpt(CURLOPT_PROXY, MC_PROXY);
         $curl->setOpt(CURLOPT_PROXYUSERPWD, MC_PROXYUSERPWD);
