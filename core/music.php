@@ -763,7 +763,8 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                             'url'    => str_replace(
                                 [
                                     'yinyueshiting.baidu.com',
-                                    'zhangmenshiting.baidu.com'
+                                    'zhangmenshiting.baidu.com',
+                                    'zhangmenshiting.qianqian.com'
                                 ],
                                 'gss0.bdstatic.com/y0s1hSulBw92lNKgpU_Z2jR7b2w6buu',
                                 $value['songLink']
