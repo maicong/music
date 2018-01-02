@@ -1,0 +1,8 @@
+node_modules/
+logs/**
+.vscode/
+.git/
+npm-debug.log
+debug.log
+Thumbs.db
+.DS_Store
