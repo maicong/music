@@ -967,6 +967,14 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                 if (!empty($radio_data)) {
                     foreach ($radio_data as $value) {
                         $radio_song_id = $value['audio']['id'];
+                        $radio_streams = array(
+                            'method'  => 'GET',
+                            'url'     => 'http://www.lizhi.fm/media/url/' . $radio_song_id,
+                            'referer' => 'http://www.lizhi.fm',
+                            'proxy'   => false,
+                            'body'    => false
+                        );
+                        $radio_info = json_decode(mc_curl($radio_streams), true);
                         $radio_songs[] = array(
                             'type'   => 'lizhi',
                             'link'   => 'http://www.lizhi.fm/' . $value['radio']['band'] . '/' . $radio_song_id,
@@ -974,7 +982,7 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                             'title'  => $value['audio']['name'],
                             'author' => $value['radio']['name'],
                             'lrc'    => '',
-                            'url'    => $value['audio']['url'],
+                            'url'    => $radio_info ? $radio_info['data']['url'] : null,
                             'pic'    => 'http://m.lizhi.fm/radio_cover/' . $value['radio']['cover']
                         );
                     }
