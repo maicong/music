@@ -1,51 +1,55 @@
-# 音乐搜索器 - 麦葱特制多站合一音乐搜索解决方案
+# 音乐搜索器
 
 [![GitHub release](https://img.shields.io/github/release/maicong/music.svg?style=flat-square)](https://github.com/maicong/music/releases)
-[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/maicong/music.svg?style=flat-square)](https://github.com/maicong/music/pulse)
 [![PHP version](https://img.shields.io/badge/php-%3E%205.4-orange.svg)](https://github.com/php-src/php)
-[![jQuery](https://img.shields.io/badge/jquery-1.11.1-blue.svg)](https://github.com/jquery/jquery)
-[![Amazeui](https://img.shields.io/badge/amazeui-2.3.0-blue.svg)](https://github.com/amazeui/amazeui)
-[![APlayer](https://img.shields.io/badge/aplayer-1.6.0-blue.svg)](https://github.com/MoePlayer/APlayer)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](#LICENSE)
-[![Maicong's Blog](https://img.shields.io/badge/blog-maicong.me-green.svg)](https://maicong.me/)
 
-> **(๑•̀ㅂ•́)و✧ 开源项目，请勿商用 🚫**
+> **⚠️ 项目开源，请勿商用**
 
-目前支持搜索试听以下网站音乐：
+## 说明
 
-- [网易云音乐](http://music.163.com)
-- [ＱＱ音乐](http://y.qq.com)
-- [酷狗音乐](http://www.kugou.com)
-- [酷我音乐](http://www.kuwo.cn)
-- [虾米音乐](http://www.xiami.com)
-- [百度音乐](http://music.baidu.com)
-- [一听音乐](http://www.1ting.com)
-- [咪咕音乐](http://music.migu.cn)
-- [荔枝FM](http://www.lizhi.fm)
-- [蜻蜓FM](http://www.qingting.fm)
-- [喜马拉雅FM](http://www.ximalaya.com)
-- [全民K歌](http://kg.qq.com)
-- [5sing原创](http://5sing.kugou.com/yc)
-- [5sing翻唱](http://5sing.kugou.com/fc)
-- [SoundCloud](https://soundcloud.com)
+麦葱特制多站合一音乐搜索解决方案，支持搜索试听以下网站音乐：
 
-数据调用的是各音频网站 JSON 接口！
+[网易云音乐](http://music.163.com) [QQ音乐](http://y.qq.com) [酷狗音乐](http://www.kugou.com) [酷我音乐](http://www.kuwo.cn) [虾米音乐](http://www.xiami.com) [百度音乐](http://music.baidu.com) [一听音乐](http://www.1ting.com) [咪咕音乐](http://music.migu.cn) [荔枝FM](http://www.lizhi.fm) [蜻蜓FM](http://www.qingting.fm) [喜马拉雅FM](http://www.ximalaya.com) [全民K歌](http://kg.qq.com) [5sing原创](http://5sing.kugou.com/yc) [5sing翻唱](http://5sing.kugou.com/fc) [SoundCloud](https://soundcloud.com)
 
-问我怎么来的？噗，抓包发现的。。。
+数据调用的是各网站的 API 接口，有的接口并不是开放的，随时可能失效，本项目相关代码仅供参考。
 
-有的接口并不是开放的 API 接口，随时可能失效，所以本项目相关代码仅供参考。
+## 演示
 
-[📦 下载当前开发代码](https://github.com/maicong/music/archive/master.zip)
+[http://music.2333.me/](http://music.2333.me/ "音乐搜索器")
 
-[📦 下载发布版本代码](https://github.com/maicong/music/releases)
+如果获取有误或需要改进，欢迎提交 [Issues](https://github.com/maicong/music/issues)
 
-## Demo / 演示
+## 下载
 
-[🔗 http://music.2333.me/](http://music.2333.me/ "音乐搜索器")
+[📦 下载开发版](https://github.com/maicong/music/archive/master.zip) [📦 获取稳定版](https://github.com/maicong/music/releases)
 
-如果获取失败什么的，可以到 [我的博客](https://maicong.me/msg) 留言告诉我。
+## 解决方案
 
-## Changelog / 更新日志
+**1. 提示数据获取失败**
+
+方案1：
+
+```
+修改 index.php 文件里的 MC_PROXY 为您的代理地址
+将 core/music.php 里需要代理的 URL 'proxy' => false 改为 'proxy' => true
+```
+
+方案2：
+
+```
+在 core/music.php 里查找 setTimeout，将其后面的数值 20 改为更大。
+在 static/js/music.js 里查找 `timeout`，将其数值 30000 改为更大。
+```
+
+方案3：
+
+```
+服务器要支持 curl。
+更换服务器，选择延迟更低的服务器。
+```
+
+## 更新日志
 
 - 2017.12.25 `v1.5.3` 增加对 全民K歌 的支持，搜索结果增加 载入更多 功能。
 - 2017.12.09 `v1.5.2` 更新帮助里的音乐地址、修复网易云音乐和百度音乐解析问题
@@ -53,7 +57,7 @@
 - 2017.12.08 `v1.5.0` 更换播放器、增加歌词显示、更新接口
 
 <details>
-<summary>查看更多</summary>
+<summary>更多</summary>
 
 - 2017.12.05 `v1.4.5` 修复网易云音乐音频数据不对应问题
 - 2017.12.05 `v1.4.4` 优化网易云音乐、虾米音乐、百度音乐接口
@@ -91,58 +95,12 @@
 
 </details>
 
-## Help / 数据获取失败解决方案
+## 免责声明
 
-方案1：
+1. 本站音频文件来自各网站接口，本站不会修改任何音频文件
+2. 音频版权来自各网站，本站只提供数据查询服务，不提供任何音频存储和贩卖服务
 
-```
-修改 index.php 文件里的 MC_PROXY 为您的代理地址
-将 core/music.php 里需要代理的 URL 'proxy' => false 改为 'proxy' => true
-```
 
-方案2：
+## 开源协议
 
-```
-在 core/music.php 里查找 setTimeout，将其后面的数值 20 改为更大。
-在 static/js/music.js 里查找 data: post_data，将其上面的数值 30000 改为更大。
-```
-
-方案3：
-
-```
-服务器要支持 curl。
-更换服务器，选择延迟更低的服务器。
-```
-
-## Disclaimer / 免责声明
-
-```
-1、本站音频文件来自各网站接口，本站不会修改任何音频文件
-2、音频版权来自各网站，本站只提供数据查询服务，不提供任何音频存储和贩卖服务
-```
-
-## License / 开源协议
-
-```
 The MIT License (MIT)
-
-Copyright (c) 2017 Maicong
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
