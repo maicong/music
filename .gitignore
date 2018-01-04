@@ -1,7 +1,11 @@
-node_modules/
+node_modules
+coverage
 logs/**
-.vscode/
+*.lcov
+.idea
+.vscode
 .git/
+.nyc_output
 npm-debug.log
 yarn-error.log
 debug.log
