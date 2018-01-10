@@ -88,7 +88,7 @@ if (!defined('MC_CORE')) {
                                 <input type="radio" name="music_type" value="<?php echo $key; ?>" data-am-ucheck<?php if ($key === 'netease') echo ' checked'; ?>>
                                 <?php echo $val; ?>
                             </label>
-                            <?php if (in_array($key, array('1ting', 'kg'))) echo '<br />'; ?>
+                            <?php if ($key === 'migu') echo '<br />'; ?>
                         <?php } ?>
                         </div>
                         <button id="j-submit" type="submit" class="am-btn am-btn-primary am-btn-lg am-btn-block am-radius" data-am-loading="{spinner: 'cog', loadingText: '正在搜索相关音乐...', resetText: 'Get &#x221A;'}">Get &#x221A;</button>
