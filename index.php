@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.5.4
+ * @since   1.5.5
  *
  */
 
@@ -13,7 +13,7 @@
 define('MC_CORE', true);
 
 // 定义版本
-define('MC_VERSION', '1.5.4');
+define('MC_VERSION', '1.5.5');
 
 // 核心文件目录
 define('MC_CORE_DIR', __DIR__ . '/core');
@@ -29,9 +29,6 @@ define('MC_PROXY', false);
 
 // Curl 代理用户名和密码，例如：define('MC_PROXYUSERPWD', 'username:password')
 define('MC_PROXYUSERPWD', false);
-
-// SoundCloud 客户端 ID，如果失效请更改
-define('MC_SC_CLIENT_ID', '2t9loNQH90kzJcsFCODdigxfp325aq4z');
 
 // PHP 版本判断
 if (version_compare(phpversion(), '5.4', '<')) {
@@ -60,8 +57,7 @@ $music_type_list = array(
     'ximalaya'   => '喜马拉雅',
     'kg'         => '全民K歌',
     '5singyc'    => '5sing原创',
-    '5singfc'    => '5sing翻唱',
-    'soundcloud' => 'SoundCloud'
+    '5singfc'    => '5sing翻唱'
 );
 
 if (server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {

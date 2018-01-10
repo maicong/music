@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.5.4
+ * @since   1.5.5
  *
  */
 
@@ -27,7 +27,7 @@ use \Curl\Curl;
 // Curl 内容获取
 function mc_curl($args = array())
 {
-    $default      = array(
+    $default = array(
         'method'     => 'GET',
         'user-agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36',
         'url'        => null,
@@ -42,7 +42,7 @@ function mc_curl($args = array())
     if (null === $args['url'] || !in_array($method, $method_allow, true)) {
         return;
     }
-    $curl         = new Curl();
+    $curl = new Curl();
     $curl->setUserAgent($args['user-agent']);
     $curl->setReferrer($args['referer']);
     $curl->setTimeout(15);
@@ -264,19 +264,6 @@ function mc_song_urls($value, $type = 'query', $site = 'netease', $page = 1)
                 'start'      => $page,
                 'num'        => 10
             )
-        ),
-        'soundcloud'         => array(
-            'method'         => 'GET',
-            'url'            => 'https://api-v2.soundcloud.com/search/tracks',
-            'referer'        => 'https://soundcloud.com/',
-            'proxy'          => false,
-            'body'           => array(
-                'q'          => $query,
-                'limit'      => 10,
-                'offset'     => $page * 10 - $page,
-                'facet'      => 'genre',
-                'client_id'  => MC_SC_CLIENT_ID
-            )
         )
     );
     $radio_song_urls = array(
@@ -414,15 +401,6 @@ function mc_song_urls($value, $type = 'query', $site = 'netease', $page = 1)
                 'inCharset'  => 'utf8',
                 'outCharset' => 'utf-8',
                 'shareid'    => $songid
-            )
-        ),
-        'soundcloud'        => array(
-            'method'        => 'GET',
-            'url'           => 'https://api.soundcloud.com/tracks/' . $songid . '.json',
-            'referer'       => 'https://soundcloud.com/',
-            'proxy'         => false,
-            'body'          => array(
-                'client_id' => MC_SC_CLIENT_ID
             )
         )
     );
@@ -652,15 +630,6 @@ function mc_get_song_by_name($query, $site = 'netease', $page = 1)
             }
             foreach ($radio_data['data']['ugclist'] as $val) {
                 $radio_songid[] = $val['shareid'];
-            }
-            break;
-        case 'soundcloud':
-            $radio_data = json_decode($radio_result, true);
-            if (empty($radio_data['collection'])) {
-                return;
-            }
-            foreach ($radio_data['collection'] as $val) {
-                $radio_songid[] = $val['id'];
             }
             break;
         case 'netease':
@@ -1068,41 +1037,6 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                 }
             }
         break;
-        case 'soundcloud':
-            foreach ($radio_result as $val) {
-                $radio_data                  = json_decode($val, true);
-                if (!empty($radio_data)) {
-                    $radio_streams           = array(
-                        'method'  => 'GET',
-                        'url'     => 'https://api.soundcloud.com/i1/tracks/' . $radio_data['id'] . '/streams',
-                        'referer' => 'https://soundcloud.com/',
-                        'proxy'   => false,
-                        'body'    => array(
-                            'client_id' => MC_SC_CLIENT_ID
-                        )
-                    );
-                    $radio_streams_info      = json_decode(mc_curl($radio_streams), true);
-                    if (!empty($radio_streams_info)) {
-                        $radio_music_http    = $radio_streams_info['http_mp3_128_url'];
-                        $radio_music_preview = $radio_streams_info['preview_mp3_128_url'];
-                        $radio_music         = $radio_music_http ? $radio_music_http : $radio_music_preview;
-                    }
-                    $radio_pic_artwork       = $radio_data['artwork_url'];
-                    $radio_pic_avatar        = $radio_data['user']['avatar_url'];
-                    $radio_pic               = $radio_pic_artwork ? $radio_pic_artwork : $radio_pic_avatar;
-                    $radio_songs[]           = array(
-                        'type'   => 'soundcloud',
-                        'link'   => $radio_data['permalink_url'],
-                        'songid' => $radio_data['id'],
-                        'title'  => $radio_data['title'],
-                        'author' => $radio_data['user']['username'],
-                        'lrc'    => '',
-                        'url'    => $radio_music,
-                        'pic'    => $radio_pic
-                    );
-                }
-            }
-            break;
         case 'netease':
         default:
             $radio_streams                   = array(
@@ -1177,7 +1111,6 @@ function mc_get_song_by_url($url)
     preg_match('/(www|m)\.ximalaya\.com\/(\d+)\/sound\/(\d+)/i', $url, $match_ximalaya);
     preg_match('/kg\d?\.qq\.com\/(node\/)?play\?s=([a-zA-Z0-9_-]+)/i', $url, $match_kg_id);
     preg_match('/kg\d?\.qq\.com\/(node\/)?personal\?uid=([a-z0-9_-]+)/i', $url, $match_kg_uid);
-    preg_match('/soundcloud\.com\/[\w\-]+\/[\w\-]+/i', $url, $match_soundcloud);
     if (!empty($match_netease)) {
         $songid   = $match_netease[4];
         $songtype = 'netease';
@@ -1222,23 +1155,6 @@ function mc_get_song_by_url($url)
         $songtype = 'kg';
     }  elseif (!empty($match_kg_uid)) {
         return mc_get_song_by_name($match_kg_uid[2], 'kg');
-    } elseif (!empty($match_soundcloud)) {
-        $match_resolve = array(
-            'method'        => 'GET',
-            'url'           => 'http://api.soundcloud.com/resolve.json',
-            'referer'       => 'https://soundcloud.com/',
-            'proxy'         => false,
-            'body'          => array(
-                'url'       => $match_soundcloud[0],
-                'client_id' => MC_SC_CLIENT_ID
-            )
-        );
-        $match_request = mc_curl($match_resolve);
-        preg_match('/tracks\/(\d+)\.json/i', $match_request, $match_location);
-        if (!empty($match_location)) {
-            $songid   = $match_location[1];
-            $songtype = 'soundcloud';
-        }
     } else {
         return;
     }
