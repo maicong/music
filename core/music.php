@@ -544,7 +544,7 @@ function mc_get_song_by_name($query, $site = 'netease', $page = 1)
                 return;
             }
             foreach ($radio_data['data']['info'] as $val) {
-                $radio_songid[] = $val['320hash'] ? $val['320hash'] : $val['hash'];
+                $radio_songid[] = $val['320hash'] ?: $val['hash'];
             }
             break;
         case 'kuwo':
@@ -774,7 +774,7 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'author' => $radio_data['singerName'],
                         'lrc'    => $radio_lrc,
                         'url'    => $radio_data['url'],
-                        'pic'    => $radio_song_album ? $radio_song_album : $radio_song_img
+                        'pic'    => $radio_song_album ?: $radio_song_img
                     );
                 }
             }
@@ -924,7 +924,7 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                         'title'  => $radio_data['songName'],
                         'author' => $radio_author,
                         'lrc'    => $radio_data['lyricLrc'],
-                        'url'    => $radio_data['listenUrl'] ? $radio_data['listenUrl'] : $radio_data['sst']['listenUrl'],
+                        'url'    => $radio_data['listenUrl'] ?: $radio_data['sst']['listenUrl'],
                         'pic'    => $radio_data['picL']
                     );
                 }
