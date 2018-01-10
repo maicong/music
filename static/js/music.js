@@ -193,7 +193,7 @@ $(function() {
               if (page === 1) {
                 var err = '(°ー°〃) 出了点小问题，请重试';
                 if (t === 'timeout') {
-                  err = '(°ー°〃) 请求超时了，可能是您的网络慢';
+                  err = '(°ー°〃) 请求超时了，请稍后重试';
                 }
                 $('#j-input')
                   .closest('.am-form-group')
