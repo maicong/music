@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  *
@@ -6,16 +6,75 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.5.4
+ * @since   1.5.5
  *
  */
 
 $(function() {
+  // 获取参数
+  function q(key) {
+    var value = null;
+    var tmp = [];
+    location.search
+      .substr(1)
+      .split('&')
+      .forEach(function(v) {
+        tmp = v.split('=');
+        if (tmp[0] === key) {
+          value = decodeURIComponent(tmp[1]);
+        }
+      });
+    return value;
+  }
+
+  // 加入历史记录
+  function pushState(title, link) {
+    if (window.history && window.history.pushState) {
+      window.history.pushState(null, title, link);
+    }
+  }
+
+  // 获取 url
+  function getUrl(path) {
+    var url = location.href.split('?')[0];
+    return path ? url + path : url;
+  }
+
+  // 申明变量
   var player = null;
   var nopic = 'static/img/nopic.jpg';
+  var qName = q('name');
+  var qId = q('id');
+  var qUrl = q('url');
+  var qType = q('type');
+
+  // 如果参数存在 name/id 和 type
+  if ((qName || qId) && qType) {
+    setTimeout(function() {
+      $('#j-input').val(qName || qId);
+      $('#j-type input[value="' + qType + '"]').prop('checked', true);
+      if (qName) {
+        $('#j-nav [data-filter="name"]').trigger('click');
+      }
+      if (qId) {
+        $('#j-nav [data-filter="id"]').trigger('click');
+      }
+      $('#j-validator').trigger('submit');
+    }, 0);
+  }
+
+  // 如果参数存在 url
+  if (qUrl) {
+    setTimeout(function() {
+      $('#j-type').hide();
+      $('#j-input').val(qUrl);
+      $('#j-nav [data-filter="url"]').trigger('click');
+      $('#j-validator').trigger('submit');
+    }, 0);
+  }
 
   // Tab 切换
-  $('#j-form').on('click', 'li', function() {
+  $('#j-nav').on('click', 'li', function() {
     var holder = {
       name: '例如: 不要说话 陈奕迅',
       id: '例如: 25906124',
@@ -70,7 +129,9 @@ $(function() {
       var msg = msgs[$field.data('filter')] || this.getValidationMessage(v);
 
       if (!$alert.length) {
-        $alert = $('<div class="am-alert am-alert-danger am-animation-shake"></div>')
+        $alert = $(
+          '<div class="am-alert am-alert-danger am-animation-shake"></div>'
+        )
           .hide()
           .appendTo($group);
       }
@@ -81,14 +142,15 @@ $(function() {
       if (this.isFormValid()) {
         var input = $.trim($('#j-input').val());
         var filter = $('#j-input').data('filter');
-        var type = filter === 'url' ? '_' : $('input[name="music_type"]:checked').val();
+        var type =
+          filter === 'url' ? '_' : $('input[name="music_type"]:checked').val();
         var page = 1;
         var $more = $('<div class="aplayer-more">载入更多</div>');
         var isload = false;
-        var ajax = function (input, filter, type, page) {
+        var ajax = function ajax(input, filter, type, page) {
           $.ajax({
             type: 'POST',
-            url: location.href.split('?')[0],
+            url: getUrl(),
             timeout: 30000,
             data: {
               input: input,
@@ -97,8 +159,20 @@ $(function() {
               page: page
             },
             dataType: 'json',
-            beforeSend: function () {
+            beforeSend: function beforeSend() {
               isload = true;
+              var title = document.title;
+              switch (filter) {
+                case 'name':
+                  pushState(title, getUrl('?name=' + input + '&type=' + type));
+                  break;
+                case 'id':
+                  pushState(title, getUrl('?id=' + input + '&type=' + type));
+                  break;
+                case 'url':
+                  pushState(title, getUrl('?url=' + encodeURIComponent(input)));
+                  break;
+              }
               if (page === 1) {
                 $('#j-input').attr('disabled', true);
                 $('#j-submit').button('loading');
@@ -106,7 +180,7 @@ $(function() {
                 $more.text('请稍后...');
               }
             },
-            success: function (result) {
+            success: function success(result) {
               if (result.code === 200 && result.data) {
                 result.data.map(function(v) {
                   if (!v.title) v.title = '暂无';
@@ -165,7 +239,10 @@ $(function() {
                   var img = new Image();
                   img.src = data.pic;
                   img.onerror = function() {
-                    $('.aplayer-pic').css('background-image', 'url(' + nopic + ')');
+                    $('.aplayer-pic').css(
+                      'background-image',
+                      'url(' + nopic + ')'
+                    );
                   };
                   setValue(data);
                 });
@@ -189,7 +266,7 @@ $(function() {
                 }
               }
             },
-            error: function (e, t) {
+            error: function error(e, t) {
               if (page === 1) {
                 var err = '(°ー°〃) 出了点小问题，请重试';
                 if (t === 'timeout') {
@@ -204,7 +281,7 @@ $(function() {
                 $more.text('(°ー°〃) 加载失败了，点击重试');
               }
             },
-            complete: function () {
+            complete: function complete() {
               isload = false;
               if (page === 1) {
                 $('#j-input').attr('disabled', false);
@@ -212,7 +289,7 @@ $(function() {
               }
             }
           });
-        }
+        };
 
         ajax(input, filter, type, page);
       }

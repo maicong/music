@@ -67,7 +67,7 @@ if (!defined('MC_CORE')) {
             <div class="am-u-lg-12 am-padding-vertical">
                 <form id="j-validator" class="am-form am-margin-bottom-lg" method="post">
                     <div class="am-u-md-12 am-u-sm-centered">
-                        <ul id="j-form" class="am-nav am-nav-pills am-nav-justify am-margin-bottom music-tabs">
+                        <ul id="j-nav" class="am-nav am-nav-pills am-nav-justify am-margin-bottom music-tabs">
                             <li class="am-active" data-filter="name">
                                 <a>音乐名称</a>
                             </li>
