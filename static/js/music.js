@@ -47,6 +47,7 @@ $(function() {
   var qId = q('id');
   var qUrl = q('url');
   var qType = q('type');
+  var siteTitle = document.title;
 
   // 如果参数存在 name/id 和 type
   if ((qName || qId) && qType) {
@@ -248,7 +249,11 @@ $(function() {
                       'url(' + nopic + ')'
                     );
                   };
+                  document.title = '正在播放: ' +  data.title + ' - ' + data.author;
                   setValue(data);
+                });
+                player.on('ended', function() {
+                  document.title = siteTitle;
                 });
                 if (result.data.length < 10) {
                   $more.hide();
@@ -316,5 +321,6 @@ $(function() {
     $('#j-validator').slideDown();
     $('#j-main').slideUp();
     $('#j-main input').val('');
+    document.title = siteTitle;
   });
 });
