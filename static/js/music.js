@@ -6,7 +6,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.5.5
+ * @since   1.5.6
  *
  */
 
@@ -196,6 +196,10 @@ $(function() {
                   $('#j-link-btn').attr('href', data.link);
                   $('#j-src').val(data.url);
                   $('#j-src-btn').attr('href', data.url);
+                  if ('download' in $('#j-src-btn')[0]) {
+                    $('#j-src-btn').attr('download', true);
+                    $('#j-src-btn-icon').addClass('am-icon-download').removeClass('am-icon-external-link');
+                  }
                   $('#j-name').val(data.title);
                   $('#j-author').val(data.author);
                 };

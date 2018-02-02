@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.5.5
+ * @since   1.5.6
  *
  */
 
@@ -100,7 +100,7 @@ if (!defined('MC_CORE')) {
                         <div class="am-u-lg-6">
                             <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐地址', trigger: 'hover'}">
                                 <span class="am-input-group-label"><i class="am-icon-link am-icon-fw"></i></span>
-                                <input id="j-link" class="am-form-field">
+                                <input id="j-link" class="am-form-field" readonly>
                                 <span class="am-input-group-btn">
                                     <a id="j-link-btn" class="am-btn am-btn-default" target="_blank">
                                         <i class="am-icon-external-link"></i>
@@ -111,10 +111,10 @@ if (!defined('MC_CORE')) {
                         <div class="am-u-lg-6">
                             <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐链接', trigger: 'hover'}">
                                 <span class="am-input-group-label"><i class="am-icon-music am-icon-fw"></i></span>
-                                <input id="j-src" class="am-form-field">
+                                <input id="j-src" class="am-form-field" readonly>
                                 <span class="am-input-group-btn">
                                     <a id="j-src-btn" class="am-btn am-btn-default" target="_blank">
-                                        <i class="am-icon-external-link"></i>
+                                        <i id="j-src-btn-icon" class="am-icon-external-link"></i>
                                     </a>
                                 </span>
                             </div>
@@ -124,13 +124,13 @@ if (!defined('MC_CORE')) {
                         <div class="am-u-lg-6">
                             <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐名称', trigger: 'hover'}">
                                 <span class="am-input-group-label"><i class="am-icon-tag am-icon-fw"></i></span>
-                                <input id="j-name" class="am-form-field">
+                                <input id="j-name" class="am-form-field" readonly>
                             </div>
                         </div>
                         <div class="am-u-lg-6">
                             <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐作者', trigger: 'hover'}">
                                 <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
-                                <input id="j-author" class="am-form-field">
+                                <input id="j-author" class="am-form-field" readonly>
                             </div>
                         </div>
                     </div>
