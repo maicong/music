@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.5.6
+ * @since   1.5.7
  *
  */
 
@@ -122,6 +122,25 @@ if (!defined('MC_CORE')) {
                     </div>
                     <div class="am-g">
                         <div class="am-u-lg-6">
+                            <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐ID', trigger: 'hover'}">
+                                <span class="am-input-group-label"><i class="am-icon-list-ol am-icon-fw"></i></span>
+                                <input id="j-songid" class="am-form-field" readonly>
+                            </div>
+                        </div>
+                        <div class="am-u-lg-6">
+                            <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐歌词', trigger: 'hover'}">
+                                <span class="am-input-group-label"><i class="am-icon-file-text-o am-icon-fw"></i></span>
+                                <input id="j-lrc" class="am-form-field" readonly>
+                                <span class="am-input-group-btn">
+                                    <a id="j-lrc-btn" class="am-btn am-btn-default" target="_blank">
+                                        <i id="j-lrc-btn-icon" class="am-icon-external-link"></i>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-g">
+                        <div class="am-u-lg-6">
                             <div class="am-input-group am-input-group-sm am-margin-bottom-sm" data-am-popover="{content: '音乐名称', trigger: 'hover'}">
                                 <span class="am-input-group-label"><i class="am-icon-tag am-icon-fw"></i></span>
                                 <input id="j-name" class="am-form-field" readonly>
@@ -186,6 +205,7 @@ if (!defined('MC_CORE')) {
     <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/amazeui/2.3.0/js/amazeui.min.js"></script>
     <script src="//cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
+    <script src="//cdn.bootcss.com/Base64/1.0.1/base64.min.js"></script>
     <script src="static/js/music.js?v<?php echo MC_VERSION; ?>"></script>
 </body>
 </html>

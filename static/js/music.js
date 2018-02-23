@@ -6,7 +6,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.5.6
+ * @since   1.5.7
  *
  */
 
@@ -187,9 +187,13 @@ $(function() {
                   if (!v.title) v.title = '暂无';
                   if (!v.author) v.author = '暂无';
                   if (!v.pic) v.pic = nopic;
-                  if (!v.lrc) v.lrc = '[00:00.00] 暂无歌词';
+                  if (!v.lrc) {
+                    v.lrc = '[00:00.00] 暂无歌词'
+                    v.noLrc = true
+                  };
                   if (!/\[00:(\d{2})\./.test(v.lrc)) {
                     v.lrc = '[00:00.00] 无效歌词';
+                    v.noLrc = true
                   }
                 });
                 var setValue = function setValue(data) {
@@ -197,10 +201,24 @@ $(function() {
                   $('#j-link-btn').attr('href', data.link);
                   $('#j-src').val(data.url);
                   $('#j-src-btn').attr('href', data.url);
+                  $('#j-lrc').val(data.lrc);
+                  $('#j-lrc-btn').attr(
+                    'href',
+                    'data:application/octet-stream;base64,' + btoa(
+                      unescape(
+                        encodeURIComponent(data.lrc)
+                      )
+                    )
+                  );
                   if ('download' in $('#j-src-btn')[0]) {
-                    $('#j-src-btn').attr('download', true);
-                    $('#j-src-btn-icon').addClass('am-icon-download').removeClass('am-icon-external-link');
+                    var name = data.title + '-' + data.author;
+                    $('#j-src-btn').attr('download', name + '.mp3');
+                    $('#j-lrc-btn').attr('download', name + '.lrc');
+                    $('#j-src-btn-icon, #j-lrc-btn-icon')
+                      .addClass('am-icon-download')
+                      .removeClass('am-icon-external-link');
                   }
+                  $('#j-songid').val(data.songid);
                   $('#j-name').val(data.title);
                   $('#j-author').val(data.author);
                 };
