@@ -187,13 +187,9 @@ $(function() {
                   if (!v.title) v.title = '暂无';
                   if (!v.author) v.author = '暂无';
                   if (!v.pic) v.pic = nopic;
-                  if (!v.lrc) {
-                    v.lrc = '[00:00.00] 暂无歌词'
-                    v.noLrc = true
-                  };
+                  if (!v.lrc) v.lrc = '[00:00.00] 暂无歌词'
                   if (!/\[00:(\d{2})\./.test(v.lrc)) {
                     v.lrc = '[00:00.00] 无效歌词';
-                    v.noLrc = true
                   }
                 });
                 var setValue = function setValue(data) {
