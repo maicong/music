@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.5.7
+ * @since   1.5.8
  *
  */
 
@@ -1084,7 +1084,7 @@ function mc_get_song_by_url($url)
     preg_match('/(www|m)\.xiami\.com\/song\/([a-zA-Z0-9]+)/i', $url, $match_xiami);
     preg_match('/5sing\.kugou\.com\/(m\/detail\/|)yc(-|\/)(\d+)/i', $url, $match_5singyc);
     preg_match('/5sing\.kugou\.com\/(m\/detail\/|)fc(-|\/)(\d+)/i', $url, $match_5singfc);
-    preg_match('/music\.migu\.cn\/#\/song\/(\d+)/i', $url, $match_migu);
+    preg_match('/music\.migu\.cn(\/(#|v2\/music))?\/song\/(\d+)/i', $url, $match_migu);
     preg_match('/(www|m)\.lizhi\.fm\/(\d+)\/(\d+)/i', $url, $match_lizhi);
     preg_match('/(www|m)\.qingting\.fm\/channels\/(\d+)\/programs\/(\d+)/i', $url, $match_qingting);
     preg_match('/(www|m)\.ximalaya\.com\/(\d+)\/sound\/(\d+)/i', $url, $match_ximalaya);
@@ -1118,7 +1118,7 @@ function mc_get_song_by_url($url)
         $songid   = $match_5singfc[3];
         $songtype = '5singfc';
     } elseif (!empty($match_migu)) {
-        $songid   = $match_migu[1];
+        $songid   = $match_migu[3];
         $songtype = 'migu';
     } elseif (!empty($match_lizhi)) {
         $songid   = $match_lizhi[3];
