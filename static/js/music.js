@@ -42,6 +42,7 @@ $(function() {
 
   // 申明变量
   var player = null;
+  var playerList = [];
   var nopic = 'static/img/nopic.jpg';
   var qName = q('name');
   var qId = q('id');
@@ -223,7 +224,11 @@ $(function() {
                   if (player) {
                     player.pause();
                   }
-                  setValue(result.data[0]);
+
+                  playerList = result.data;
+
+                  setValue(playerList[0]);
+
                   $('#j-validator').slideUp();
                   $('#j-main').slideDown();
 
@@ -248,13 +253,14 @@ $(function() {
                   });
                 } else {
                   player.addMusic(result.data);
+                  playerList = playerList.concat(result.data)
                 }
 
                 player.on('canplay', function() {
                   player.play();
                 });
                 player.on('play', function() {
-                  var data = result.data[player.playIndex];
+                  var data = playerList[player.playIndex];
                   var img = new Image();
                   img.src = data.pic;
                   img.onerror = function() {
