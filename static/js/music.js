@@ -188,7 +188,7 @@ $(function() {
                   if (!v.title) v.title = '暂无';
                   if (!v.author) v.author = '暂无';
                   if (!v.pic) v.pic = nopic;
-                  if (!v.lrc) v.lrc = '[00:00.00] 暂无歌词'
+                  if (!v.lrc) v.lrc = '[00:00.00] 暂无歌词';
                   if (!/\[00:(\d{2})\./.test(v.lrc)) {
                     v.lrc = '[00:00.00] 无效歌词';
                   }
@@ -201,11 +201,8 @@ $(function() {
                   $('#j-lrc').val(data.lrc);
                   $('#j-lrc-btn').attr(
                     'href',
-                    'data:application/octet-stream;base64,' + btoa(
-                      unescape(
-                        encodeURIComponent(data.lrc)
-                      )
-                    )
+                    'data:application/octet-stream;base64,' +
+                      btoa(unescape(encodeURIComponent(data.lrc)))
                   );
                   if ('download' in $('#j-src-btn')[0]) {
                     var name = data.title + '-' + data.author;
@@ -253,7 +250,7 @@ $(function() {
                   });
                 } else {
                   player.addMusic(result.data);
-                  playerList = playerList.concat(result.data)
+                  playerList = playerList.concat(result.data);
                 }
 
                 player.on('canplay', function() {
@@ -269,7 +266,8 @@ $(function() {
                       'url(' + nopic + ')'
                     );
                   };
-                  document.title = '正在播放: ' +  data.title + ' - ' + data.author;
+                  document.title =
+                    '正在播放: ' + data.title + ' - ' + data.author;
                   setValue(data);
                 });
                 player.on('ended', function() {
