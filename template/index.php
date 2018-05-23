@@ -34,7 +34,7 @@ if (!defined('MC_CORE')) {
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="static/img/apple-touch-icon.png">
     <link rel="canonical" href="http://music.2333.me/">
-    <link rel="stylesheet" href="//cdn.bootcss.com/amazeui/2.3.0/css/amazeui.min.css">
+    <link rel="stylesheet" href="//cdn.staticfile.org/amazeui/2.3.0/css/amazeui.min.css">
     <link rel="stylesheet" href="static/css/style.css?v<?php echo MC_VERSION; ?>">
 </head>
 <body>
@@ -202,10 +202,10 @@ if (!defined('MC_CORE')) {
     <footer class="footer">
         <p class="am-text-sm">v<?php echo MC_VERSION; ?>&nbsp;&copy;&nbsp;<?php echo date('Y'); ?>&nbsp;<a href="https://github.com/maicong/music" target="_blank" rel="author">源码下载</a>&nbsp;<a href="https://maicong.me/msg" target="_blank">意见反馈</a>&nbsp;<a href="javascript:void(0)" data-am-modal="{target: '#copr-info'}">免责声明</a></p>
     </footer>
-    <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-    <script src="//cdn.bootcss.com/amazeui/2.3.0/js/amazeui.min.js"></script>
-    <script src="//cdn.bootcss.com/aplayer/1.6.0/APlayer.min.js"></script>
-    <script src="//cdn.bootcss.com/Base64/1.0.1/base64.min.js"></script>
+    <script src="//cdn.staticfile.org/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//cdn.staticfile.org/amazeui/2.3.0/js/amazeui.min.js"></script>
+    <script src="//cdn.staticfile.org/aplayer/1.6.0/APlayer.min.js"></script>
+    <script src="//cdn.staticfile.org/Base64/1.0.1/base64.min.js"></script>
     <script src="static/js/music.js?v<?php echo MC_VERSION; ?>"></script>
 </body>
 </html>
