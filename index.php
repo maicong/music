@@ -30,6 +30,9 @@ define('MC_PROXY', false);
 // Curl 代理用户名和密码，例如：define('MC_PROXYUSERPWD', 'username:password')
 define('MC_PROXYUSERPWD', false);
 
+// 服务器是否在国内
+define('MC_INTERNAL', 0);
+
 // PHP 版本判断
 if (version_compare(phpversion(), '5.4', '<')) {
     header('Content-type:text/html;charset=utf-8');

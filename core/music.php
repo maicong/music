@@ -358,10 +358,10 @@ function mc_song_urls($value, $type = 'query', $site = 'netease', $page = 1)
         ],
         'migu'              => [
             'method'        => 'GET',
-            'url'           => 'http://music.migu.cn/v2/async/audioplayer/playurl/' . $songid,
+            'url'           => MC_INTERNAL ? 'http://music.migu.cn/v2/async/audioplayer/playurl/' . $songid : 'http://m.10086.cn/migu/remoting/cms_detail_tag',
             'referer'       => 'http://m.10086.cn',
             'proxy'         => false,
-            'body'          => [
+            'body'          => MC_INTERNAL ? false : [
                 'cid'    => $songid
             ],
             'user-agent'    => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
@@ -910,24 +910,43 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
             break;
         case 'migu':
             foreach ($radio_result as $val) {
-                $radio_data = json_decode($val, true);
-                if (!empty($radio_data)) {
-                    $radio_song_id       = $radio_data['musicId'];
-                    $radio_authors       = [];
-                    foreach ($radio_data['artistInfoList'] as $author) {
-                        $radio_authors[] = $author['artistName'];
+                if (MC_INTERNAL) {
+                    $radio_data = json_decode($val, true);
+                    if (!empty($radio_data)) {
+                        $radio_song_id       = $radio_data['musicId'];
+                        $radio_authors       = [];
+                        foreach ($radio_data['artistInfoList'] as $author) {
+                            $radio_authors[] = $author['artistName'];
+                        }
+                        $radio_author        = implode(',', $radio_authors);
+                        $radio_songs[] = [
+                            'type'   => 'migu',
+                            'link'   => 'http://music.migu.cn/v2/music/song/' . $radio_song_id,
+                            'songid' => $radio_song_id,
+                            'title'  => $radio_data['musicName'],
+                            'author' => $radio_author,
+                            'lrc'    => $radio_data['dynamicLyric'],
+                            'url'    => $radio_data['songAuditionUrl'],
+                            'pic'    => $radio_data['smallPic']
+                        ];
                     }
-                    $radio_author        = implode(',', $radio_authors);
-                    $radio_songs[] = [
-                        'type'   => 'migu',
-                        'link'   => 'http://music.migu.cn/v2/music/song/' . $radio_song_id,
-                        'songid' => $radio_song_id,
-                        'title'  => $radio_data['musicName'],
-                        'author' => $radio_author,
-                        'lrc'    => $radio_data['dynamicLyric'],
-                        'url'    => $radio_data['songAuditionUrl'],
-                        'pic'    => $radio_data['smallPic']
-                    ];
+                } else {
+                    $radio_json = json_decode($val, true);
+                    $radio_data = $radio_json['data'];
+                    if (!empty($radio_data)) {
+                        $radio_song_id = $radio_data['songId'];
+                        $radio_author  = implode(',', $radio_data['singerName']);
+                        $radio_songs[] = [
+                            'type'   => 'migu',
+                            'link'   => 'http://music.migu.cn/v2/music/song/' . $radio_song_id,
+                            'songid' => $radio_song_id,
+                            'title'  => $radio_data['songName'],
+                            'author' => $radio_author,
+                            'lrc'    => $radio_data['lyricLrc'],
+                            'url'    => $radio_data['listenUrl'] ?: $radio_data['sst']['listenUrl'],
+                            'pic'    => $radio_data['picL']
+                        ];
+                    }
                 }
             }
             break;
