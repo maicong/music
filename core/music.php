@@ -1059,6 +1059,29 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
         break;
         case 'netease':
         default:
+            if (MC_INTERNAL) {
+                $radio_streams                   = [
+                    'method'      => 'POST',
+                    'url'         => 'http://music.163.com/api/linux/forward',
+                    'referer'     => 'http://music.163.com/',
+                    'proxy'       => false,
+                    'body'        => encode_netease_data([
+                        'method'  => 'POST',
+                        'url'     => 'http://music.163.com/api/song/enhance/player/url',
+                        'params'  => [
+                            'ids' => is_array($songid) ? $songid : [$songid],
+                            'br'  => 320000,
+                        ]
+                    ])
+                ];
+                $radio_info                      = json_decode(mc_curl($radio_streams), true);
+                $radio_urls                      = [];
+                if (!empty($radio_info['data'])) {
+                    foreach ($radio_info['data'] as $val) {
+                        $radio_urls[$val['id']]  = $val['url'];
+                    }
+                }
+            }
             foreach ($radio_result as $val) {
                 $radio_json                  = json_decode($val, true);
                 $radio_data                  = $radio_json['songs'];
@@ -1081,7 +1104,7 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                             'title'  => $value['name'],
                             'author' => $radio_author,
                             'lrc'    => !empty($radio_lrc['lrc']) ? $radio_lrc['lrc']['lyric'] : '',
-                            'url'    => 'http://music.163.com/song/media/outer/url?id=' . $radio_song_id . '.mp3',
+                            'url'    => MC_INTERNAL ? $radio_urls[$radio_song_id] : 'http://music.163.com/song/media/outer/url?id=' . $radio_song_id . '.mp3',
                             'pic'    => $value['album']['picUrl'] . '?param=300x300'
                         ];
                     }
