@@ -65,6 +65,10 @@
 2. 音乐格式浏览器无法正常解析
 ```
 
+**3. 国内接口优化**
+
+如果你的网站在国内，打开 [/index.php](index.php)，将 `define('MC_INTERNAL', 0);` 修改为 `define('MC_INTERNAL', 1);`，这样就可以取到咪咕和网易云音乐的 320k 音频了。
+
 ## 更新日志
 
 请查看 [CHANGELOG.md](CHANGELOG.md)
