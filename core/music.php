@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.6.0
+ * @since   1.6.1
  *
  */
 
@@ -832,10 +832,12 @@ function mc_get_song_by_id($songid, $site = 'netease', $multi = false)
                         if ($radio_lrc_urls) {
                             $radio_lrc       = jsonp2json(mc_curl($radio_lrc_urls));
                         }
+                        $radio_music         = 'http://' . str_replace('ws', 'dl', $radio_url[$value['id']]);
                         if (!empty($radio_vkey['key'])) {
-                            $radio_music     = generate_qqmusic_url($radio_song_id, $radio_vkey['key']);
-                        } else {
-                            $radio_music     = 'http://' . str_replace('ws', 'dl', $radio_url[$value['id']]);
+                            $radio_music     = generate_qqmusic_url(
+                                $radio_song_id,
+                                $radio_vkey['key']
+                            ) ?: $radio_music;
                         }
                         $radio_album_id      = $value['album']['mid'];
                         $radio_songs[]       = [
