@@ -5,7 +5,7 @@
  *
  * @author  MaiCong <i@maicong.me>
  * @link    https://github.com/maicong/music
- * @since   1.6.1
+ * @since   1.6.2
  *
  */
 
@@ -123,16 +123,15 @@ function mc_song_urls($value, $type = 'query', $site = 'netease', $page = 1)
         ],
         'kugou'              => [
             'method'         => 'GET',
-            'url'            => 'http://mobilecdn.kugou.com/api/v3/search/song',
-            'referer'        => 'http://m.kugou.com/v2/static/html/search.html',
+            'url'            => 'http://songsearch.kugou.com/song_search_v2',
+            'referer'        => 'http://www.kugou.com',
             'proxy'          => false,
             'body'           => [
                 'keyword'    => $query,
-                'format'     => 'json',
+                'platform'   => 'WebFilter',
                 'page'       => $page,
                 'pagesize'   => 10
-            ],
-            'user-agent'     => 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
+            ]
         ],
         'kuwo'               => [
             'method'         => 'GET',
@@ -538,11 +537,15 @@ function mc_get_song_by_name($query, $site = 'netease', $page = 1)
             break;
         case 'kugou':
             $radio_data = json_decode($radio_result, true);
-            if (empty($radio_data['data']) || empty($radio_data['data']['info'])) {
+            if (empty($radio_data['data']) || empty($radio_data['data']['lists'])) {
                 return;
             }
-            foreach ($radio_data['data']['info'] as $val) {
-                $radio_songid[] = $val['320hash'] ?: $val['hash'];
+            foreach ($radio_data['data']['lists'] as $val) {
+                $hash = $val['SQFileHash'];
+                if (!str_replace('0', '', $hash)) {
+                    $hash = $val['FileHash'];
+                }
+                $radio_songid[] = $hash;
             }
             break;
         case 'kuwo':
