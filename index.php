@@ -31,7 +31,7 @@ define('MC_PROXY', false);
 define('MC_PROXYUSERPWD', false);
 
 // 服务器是否在国内
-define('MC_INTERNAL', 0);
+define('MC_INTERNAL', 1);
 
 // PHP 版本判断
 if (version_compare(phpversion(), '5.4', '<')) {
