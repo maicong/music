@@ -123,12 +123,15 @@ function mc_song_urls($value, $type = 'query', $site = 'netease', $page = 1)
         ],
         'kugou'              => [
             'method'         => 'GET',
-            'url'            => 'http://songsearch.kugou.com/song_search_v2',
-            'referer'        => 'http://www.kugou.com',
+            'url'            => MC_INTERNAL ?
+                'http://songsearch.kugou.com/song_search_v2' :
+                'http://mobilecdn.kugou.com/api/v3/search/song',
+            'referer'        => MC_INTERNAL ? 'http://www.kugou.com' : 'http://m.kugou.com',
             'proxy'          => false,
             'body'           => [
                 'keyword'    => $query,
                 'platform'   => 'WebFilter',
+                'format'     => 'json',
                 'page'       => $page,
                 'pagesize'   => 10
             ]
@@ -537,13 +540,18 @@ function mc_get_song_by_name($query, $site = 'netease', $page = 1)
             break;
         case 'kugou':
             $radio_data = json_decode($radio_result, true);
-            if (empty($radio_data['data']) || empty($radio_data['data']['lists'])) {
+            $key = MC_INTERNAL ? 'lists' : 'info';
+            if (empty($radio_data['data']) || empty($radio_data['data'][$key])) {
                 return;
             }
-            foreach ($radio_data['data']['lists'] as $val) {
-                $hash = $val['SQFileHash'];
-                if (!str_replace('0', '', $hash)) {
-                    $hash = $val['FileHash'];
+            foreach ($radio_data['data'][$key] as $val) {
+                if (MC_INTERNAL) {
+                    $hash = $val['SQFileHash'];
+                    if (!str_replace('0', '', $hash)) {
+                        $hash = $val['FileHash'];
+                    }
+                } else {
+                    $hash = $val['320hash'] ?: $val['hash'];
                 }
                 $radio_songid[] = $hash;
             }
