@@ -17,7 +17,7 @@ if (!defined('MC_CORE')) {
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>音乐搜索器 - 多站合一音乐搜索,音乐在线试听 - By 麦葱</title>
+    <title>音乐搜索器 - 多站合一音乐搜索,音乐在线试听</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Cache-Control" content="no-transform">
@@ -25,7 +25,7 @@ if (!defined('MC_CORE')) {
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="author" content="maicong.me">
     <meta name="keywords" content="音乐搜索,音乐搜索器,音乐试听,音乐在线听,网易云音乐,QQ音乐,酷狗音乐,酷我音乐,虾米音乐,百度音乐,一听音乐,咪咕音乐,荔枝FM,蜻蜓FM,喜马拉雅FM,全民K歌,5sing原创翻唱音乐">
-    <meta name="description" content="麦葱特制多站合一音乐搜索解决方案，可搜索试听网易云音乐、QQ音乐、酷狗音乐、酷我音乐、虾米音乐、百度音乐、一听音乐、咪咕音乐、荔枝FM、蜻蜓FM、喜马拉雅FM、全民K歌、5sing原创翻唱音乐。">
+    <meta name="description" content="多站合一音乐搜索解决方案，可搜索试听网易云音乐、QQ音乐、酷狗音乐、酷我音乐、虾米音乐、百度音乐、一听音乐、咪咕音乐、荔枝FM、蜻蜓FM、喜马拉雅FM、全民K歌、5sing原创翻唱音乐。">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="音乐搜索器">
@@ -33,7 +33,6 @@ if (!defined('MC_CORE')) {
     <meta name="format-detection" content="telephone=no">
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="static/img/apple-touch-icon.png">
-    <link rel="canonical" href="http://music.2333.me/">
     <link rel="stylesheet" href="//cdn.staticfile.org/amazeui/2.3.0/css/amazeui.min.css">
     <link rel="stylesheet" href="static/css/style.css?v<?php echo MC_VERSION; ?>">
 </head>
@@ -61,7 +60,7 @@ if (!defined('MC_CORE')) {
         <div class="am-container am-margin-vertical-xl">
             <header class="am-padding-vertical">
                 <h2 class="about-title about-color">音乐搜索器</h2>
-                <p class="am-text-center">麦葱特制多站合一音乐搜索解决方案</p>
+                <p class="am-text-center">多站合一音乐搜索解决方案</p>
             </header>
             <hr>
             <div class="am-u-lg-12 am-padding-vertical">
@@ -200,7 +199,7 @@ if (!defined('MC_CORE')) {
         </div>
     </section>
     <footer class="footer">
-        <p class="am-text-sm">v<?php echo MC_VERSION; ?>&nbsp;&copy;&nbsp;<?php echo date('Y'); ?>&nbsp;<a href="https://github.com/maicong/music" target="_blank" rel="author">源码下载</a>&nbsp;<a href="https://maicong.me/msg" target="_blank">意见反馈</a>&nbsp;<a href="javascript:void(0)" data-am-modal="{target: '#copr-info'}">免责声明</a></p>
+        <p class="am-text-sm">v<?php echo MC_VERSION; ?>&nbsp;&copy;&nbsp;<?php echo date('Y'); ?>&nbsp;<a href="https://github.com/maicong/music/releases" target="_blank" rel="author">源码下载</a>&nbsp;<a href="https://github.com/maicong/music/issues" target="_blank">意见反馈</a>&nbsp;<a href="javascript:void(0)" data-am-modal="{target: '#copr-info'}">免责声明</a></p>
     </footer>
     <script src="//cdn.staticfile.org/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdn.staticfile.org/amazeui/2.3.0/js/amazeui.min.js"></script>
