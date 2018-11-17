@@ -1,8 +1,8 @@
 {
-  "name": "IPinfo",
-  "description": "IPinfo[Written in PHP]",
-  "website": "https://github.com/helloxz/IPinfo",
-  "repository": "https://github.com/helloxz/IPinfo",
+  "name": "music",
+  "description": "music[Written in PHP]",
+  "website": "https://github.com/maicong/music",
+  "repository": "https://github.com/maicong/music",
   "success_url": "index.php",
   "env":{
   }
