@@ -1,0 +1,9 @@
+{
+  "name": "IPinfo",
+  "description": "IPinfo[Written in PHP]",
+  "website": "https://github.com/helloxz/IPinfo",
+  "repository": "https://github.com/helloxz/IPinfo",
+  "success_url": "index.php",
+  "env":{
+  }
+}
