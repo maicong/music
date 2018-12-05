@@ -43,6 +43,14 @@ if (version_compare(phpversion(), '5.4', '<')) {
     exit;
 }
 
+// 判断是否启用 Curl
+if (!extension_loaded('curl')) {
+    header('Content-type:text/html;charset=utf-8');
+    echo '<h3>程序运行失败：</h3><blockquote>请启用 Curl 模块</blockquote>';
+    exit;
+}
+
+
 include_once MC_CORE_DIR . '/music.php';
 
 // 支持的网站
