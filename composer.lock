@@ -13,7 +13,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "7.2.10",
+        "php": "7.2.12",
         "ext-gd": "*",
         "ext-mbstring": "*",
         "ext-sqlite3": "*",
