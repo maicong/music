@@ -1,0 +1,9 @@
+{
+  "name": "music",
+  "description": "music[Written in PHP]",
+  "website": "https://github.com/maicong/music",
+  "repository": "https://github.com/maicong/music",
+  "success_url": "index.php",
+  "env":{
+  }
+}
